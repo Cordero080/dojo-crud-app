@@ -1,0 +1,12 @@
+<% if (error || (errors && Object.keys(errors).length)) { %>
+  <div class="alert">
+    <% if (error) { %><p><%= error %></p><% } %>
+    <% if (errors && Object.keys(errors).length) { %>
+      <ul>
+        <% Object.values(errors).forEach(msg => { %>
+          <li><%= msg %></li>
+        <% }) %>
+      </ul>
+    <% } %>
+  </div>
+<% } %>

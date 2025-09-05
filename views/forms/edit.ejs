@@ -1,0 +1,86 @@
+<!-- views/forms/edit.ejs -->
+<!-- Purpose: Edit an existing form; submits PUT via method-override -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <%- include('../partials/head') %>
+  </head>
+  <body class="page-edit">
+
+    <%- include('../partials/nav') %>
+
+    <h1><%= title %></h1>
+    <% if (typeof error !== 'undefined') { %>
+      <p class="error"><%= error %></p>
+    <% } %>
+
+<p>
+  
+  <a href="/forms/<%= form._id %>">👁 View Form</a>
+</p>
+   
+
+    
+
+    <!-- Edit form: action targets the same id, with ?_method=PUT -->
+    <form action="/forms/<%= form._id %>?_method=PUT" method="POST">
+      <label for="name">Form Name:</label>
+      <input type="text" id="name" name="name" value="<%= form.name %>" required />
+      <% if (errors && errors.name) { %>
+  <small class="error"><%= errors.name %></small>
+<% } %>
+
+      <label for="rankType">Rank Type:</label>
+      <select id="rankType" name="rankType" required>
+        <option value="Kyu" <%= form.rankType === 'Kyu' ? 'selected' : '' %>>Kyu/Level</option>
+        <option value="Dan" <%= form.rankType === 'Dan' ? 'selected' : '' %>>Dan/Degree</option>
+      </select>
+      <% if (errors && errors.rankType) { %>
+  <small class="error"><%= errors.rankType %></small>
+<% } %>
+
+
+      <label for="rankNumber">Rank Number:</label>
+      <input type="number" id="rankNumber" name="rankNumber" min="1" value="<%= form.rankNumber %>" required />
+      <% if (errors && errors.rankNumber) { %>
+  <small class="error"><%= errors.rankNumber %></small>
+<% } %>
+
+
+      <label for="beltColor">Belt Color:</label>
+      <input type="text" id="beltColor" name="beltColor" value="<%= form.beltColor || '' %>" />
+
+      <label for="category">Category:</label>
+      <select id="category" name="category">
+        <option value="Kata"   <%= form.category === 'Kata'   ? 'selected' : '' %>>Kata</option>
+        <option value="Bunkai" <%= form.category === 'Bunkai' ? 'selected' : '' %>>Bunkai</option>
+        <option value="Kumite" <%= form.category === 'Kumite' ? 'selected' : '' %>>Kumite</option>
+        <option value="Weapon" <%= form.category === 'Weapon' ? 'selected' : '' %>>Weapon</option>
+        <option value="Other"  <%= form.category === 'Other'  ? 'selected' : '' %>>Other</option>
+      </select>
+      <% if (errors && errors.category) { %>
+  <small class="error"><%= errors.category %></small>
+<% } %>
+
+
+      <label for="description">Description:</label>
+      <textarea id="description" name="description"><%= form.description || '' %></textarea>
+
+      <label for="referenceUrl">Reference URL:</label>
+      <input type="url" id="referenceUrl" name="referenceUrl" value="<%= form.referenceUrl || '' %>" />
+      <% if (errors && errors.referenceUrl) { %>
+  <small class="error"><%= errors.referenceUrl %></small>
+<% } %>
+
+
+      <label>
+        <input type="checkbox" name="learned" <%= form.learned ? 'checked' : '' %> />
+        Learned
+      </label>
+
+      <button type="submit">Save Changes</button>
+    </form>
+
+  <%- include('../partials/footer') %>
+  </body>
+</html>

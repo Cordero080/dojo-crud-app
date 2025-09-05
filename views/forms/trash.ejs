@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../partials/head') %>
+  </head>
+  <body class="page-index-2">
+    <%- include('../partials/nav') %>
+    <h1><%= title %></h1>
+
+    <% if (!forms || forms.length === 0) { %>
+    <p>Trash is empty.</p>
+    <% } else { %>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Rank</th>
+          <th>Belt</th>
+          <th>Category</th>
+          <th>Deleted</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% forms.forEach(f => { %>
+        <tr>
+          <td><%= f.name %></td>
+          <td><%= f.rankType %> <%= f.rankNumber %></td>
+          <td><%= f.beltColor || '-' %></td>
+          <td><%= f.category %></td>
+          <td><%= new Date(f.deletedAt).toLocaleString() %></td>
+          <td>
+            <span class="trash-actions">
+              <a
+                href="#"
+                onclick="event.preventDefault(); document.getElementById('restore-<%= f._id %>').submit();"
+              >
+                Restore
+              </a>
+              <a
+                href="#"
+                onclick="event.preventDefault(); if (confirm('Permanently delete this form?')) document.getElementById('hard-<%= f._id %>').submit();"
+              >
+                Hard Delete
+              </a>
+            </span>
+
+            <!-- Hidden forms (keep them invisible so your table styling stays the same) -->
+            <form
+              id="restore-<%= f._id %>"
+              action="/forms/<%= f._id %>/restore"
+              method="POST"
+              style="display: none"
+            ></form>
+            <form
+              id="hard-<%= f._id %>"
+              action="/forms/<%= f._id %>?_method=DELETE&hard=1"
+              method="POST"
+              style="display: none"
+            ></form>
+          </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+    <% } %> <%- include('../partials/footer') %>
+  </body>
+</html>

@@ -1,0 +1,194 @@
+<!-- views/new.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('partials/head') %>
+    <link rel="stylesheet" href="/css/chart.css">
+    <link rel="stylesheet" href="/css/scroll.css"><!-- combobox + chart scroll styles -->
+  </head>
+
+  <body class="page-new">
+    <%- include('partials/nav') %>
+
+    <h1 class="h1-new"><%= title %></h1>
+
+    <% if (typeof error !== 'undefined' && error) { %>
+      <p class="error"><%= error %></p>
+    <% } %>
+
+    <div class="new-layout">
+      <!-- LEFT: Create Form -->
+      <section class="new-left">
+        <form action="/forms" method="POST" autocomplete="off">
+          <!-- Name (custom combobox: type-to-filter + click arrow to open list) -->
+          <label class="input" for="name">Choose form name:</label>
+          <div
+            class="combo"
+            data-source='<%- JSON.stringify(availableNames || []) %>'>
+            <input
+              id="name"
+              name="name"
+              required
+              placeholder="Start typing…"
+              value="<%= (formData && formData.name) ? formData.name : '' %>"
+              aria-autocomplete="list"
+              aria-controls="name-list"
+              aria-expanded="false"
+              role="combobox"
+              autocomplete="off"
+              autocapitalize="off"
+              autocorrect="off"
+              spellcheck="false"
+            />
+            <button
+              type="button"
+              class="combo-toggle"
+              aria-label="Show options"
+              aria-controls="name-list"
+              aria-expanded="false">▾</button>
+            <ul id="name-list" class="combo-list" role="listbox" hidden></ul>
+          </div>
+          <% if (errors && errors.name) { %>
+            <small class="error"><%= errors.name %></small>
+          <% } %>
+
+          <!-- Rank Type -->
+          <label for="rankType">Rank Type:</label>
+          <select id="rankType" name="rankType" required>
+            <option value="Kyu" <%= (formData && formData.rankType === 'Kyu') ? 'selected' : '' %>>Kyu</option>
+            <option value="Dan" <%= (formData && formData.rankType === 'Dan') ? 'selected' : '' %>>Dan</option>
+          </select>
+          <% if (errors && errors.rankType) { %><small class="error"><%= errors.rankType %></small><% } %>
+
+          <!-- Rank Number -->
+          <label for="rankNumber">Rank Number:</label>
+          <input
+            type="number"
+            id="rankNumber"
+            name="rankNumber"
+            min="1"
+            required
+            value="<%= (formData && formData.rankNumber) ? formData.rankNumber : '' %>"
+          />
+          <% if (errors && errors.rankNumber) { %><small class="error"><%= errors.rankNumber %></small><% } %>
+
+          <!-- Belt Color -->
+          <label for="beltColor" id="beltLabel">Belt Color</label>
+          <select id="beltColor" name="beltColor">
+            <option value="white"  <%= (formData && formData.beltColor==='white')  ? 'selected' : '' %>>White</option>
+            <option value="orange" <%= (formData && formData.beltColor==='orange') ? 'selected' : '' %>>Orange</option>
+            <option value="green"  <%= (formData && formData.beltColor==='green')  ? 'selected' : '' %>>Green</option>
+            <option value="purple" <%= (formData && formData.beltColor==='purple') ? 'selected' : '' %>>Purple</option>
+            <option value="brown"  <%= (formData && formData.beltColor==='brown')  ? 'selected' : '' %>>Brown</option>
+            <option value="black"  <%= (formData && formData.beltColor==='black')  ? 'selected' : '' %>>Black</option>
+          </select>
+
+          <!-- Category -->
+          <label for="category">Category:</label>
+          <select id="category" name="category">
+            <option value="Kata"         <%= (formData && formData.category==='Kata')         ? 'selected' : '' %>>Kata</option>
+            <option value="Bunkai"       <%= (formData && formData.category==='Bunkai')       ? 'selected' : '' %>>Bunkai</option>
+            <option value="Kiso Kumite"  <%= (formData && formData.category==='Kiso Kumite')  ? 'selected' : '' %>>Kiso Kumite</option>
+            <option value="Weapon"       <%= (formData && formData.category==='Weapon')       ? 'selected' : '' %>>Weapon</option>
+            <option value="Other"        <%= (formData && formData.category==='Other')        ? 'selected' : '' %>>Other</option>
+          </select>
+          <% if (errors && errors.category) { %><small class="error"><%= errors.category %></small><% } %>
+
+          <!-- Description -->
+          <label for="description">Description:</label>
+          <textarea id="description" name="description"><%= (formData && formData.description) ? formData.description : '' %></textarea>
+
+          <!-- Reference URL -->
+          <label for="referenceUrl">Reference URL:</label>
+          <input
+            type="url"
+            id="referenceUrl"
+            name="referenceUrl"
+            value="<%= (formData && formData.referenceUrl) ? formData.referenceUrl : '' %>"
+          />
+          <% if (errors && errors.referenceUrl) { %><small class="error"><%= errors.referenceUrl %></small><% } %>
+
+          <button type="submit">Create Form</button>
+        </form>
+      </section>
+
+      <!-- RIGHT: Reference (chart + requirements) -->
+      <section class="new-right">
+        <h2>Rank Progression Reference</h2>
+        <div id="ref-scroll" class="ref-scroll">
+          <div class="chart-wrap">
+            <!-- Keep bar widths; allow sideways scroll on narrow screens -->
+            <div class="chart-scroll">
+              <div class="chart-scroll-inner">
+                <canvas
+                  id="rankChart"
+                  width="640"
+                  height="200"
+                  data-labels='<%- JSON.stringify(chartLabels || []) %>'
+                  data-counts='<%- JSON.stringify(chartCounts || []) %>'>
+                </canvas>
+              </div>
+            </div>
+          </div>
+
+          <div class="req-grid">
+            <div>
+              <h3>Kyu Requirements (Forms)</h3>
+              <table class="req-table">
+                <thead>
+                  <tr><th>Rank</th><th>Belt</th><th>Forms</th></tr>
+                </thead>
+                <tbody>
+                  <% Object.keys(kyuRequirements || {})
+                       .sort((a,b)=>Number(b)-Number(a))
+                       .forEach(n => { %>
+                    <tr>
+                      <td><strong>KYU <%= n %></strong></td>
+                      <td><span class="belt-chip <%= (kyuChipMap || {})[n] || '' %>"></span></td>
+                      <td>
+                        <ul class="req-list">
+                          <% (kyuRequirements[n] || []).forEach(item => { %>
+                            <li><%= item %></li>
+                          <% }) %>
+                        </ul>
+                      </td>
+                    </tr>
+                  <% }) %>
+                </tbody>
+              </table>
+            </div>
+
+            <div>
+              <h3>Dan Requirements (Forms)</h3>
+              <table class="req-table">
+                <thead><tr><th>Degree</th><th>Forms</th></tr></thead>
+                <tbody>
+                  <% Object.keys(danRequirements || {})
+                       .sort((a,b)=>Number(a)-Number(b))
+                       .forEach(n => { %>
+                    <tr>
+                      <td><strong>DAN <%= n %></strong></td>
+                      <td>
+                        <ul class="req-list">
+                          <% (danRequirements[n] || []).forEach(item => { %>
+                            <li><%= item %></li>
+                          <% }) %>
+                        </ul>
+                      </td>
+                    </tr>
+                  <% }) %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <%- include('partials/footer') %>
+
+    <!-- Scripts (load once, at the end) -->
+    <script src="/js/main.js"></script>
+    <script src="/js/scroll-combo.js"></script>
+  </body>
+</html>
