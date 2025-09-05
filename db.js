@@ -1,21 +1,17 @@
 // db.js
-require("dotenv").config(); // Load environment variables from .env
-const mongoose = require("mongoose"); // Import Mongoose
+require('dotenv').config();
+const mongoose = require('mongoose');
 
-// Use value from .env or fallback to local DB
-const MONGODB_URI =
-  process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/forms_db";
+// Standard local MongoDB URI format: protocol, host, port, and database name.
+// Fallback to this if MONGODB_URI is not set in .env.
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/forms_db';
 
-// Async function to connect to MongoDB
-async function connectDB() {
+module.exports = async function connectDB() {
   try {
-    await mongoose.connect(MONGODB_URI); // Connect using Mongoose
-    console.log("✅ MongoDB connected");
+    await mongoose.connect(MONGODB_URI);
+    console.log('✅ MongoDB connected');
   } catch (err) {
-    console.error("❌ MongoDB connection error:", err.message);
-    process.exit(1); // Exit if connection fails
+    console.error('❌ MongoDB connection error:', err.message);
+    process.exit(1);
   }
-}
-
-// Export the connection function so server.js can use it
-module.exports = connectDB;
+};

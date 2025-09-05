@@ -1,9 +1,627 @@
+.goju-ryu-logo {
+  background: linear-gradient(90deg, #e5e4e2 0%, #bfc1c2 50%, #e5e4e2 100%);
+  background-size: 200% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: platinum-move 3.5s cubic-bezier(.68,-0.55,.27,1.55) 2.5s forwards;
+}
+
+@keyframes platinum-move {
+  0% {
+    background-position: 100% 0;
+    filter: brightness(1.2);
+  }
+  30% {
+    background-position: 0% 0;
+    filter: brightness(1.4);
+  }
+  60% {
+    background-position: 100% 0;
+    filter: brightness(1.4);
+  }
+  80% {
+    background-position: 50% 0;
+    filter: brightness(1.2);
+  }
+  100% {
+    background-position: 50% 0;
+    filter: brightness(1);
+  }
+}
+@supports (clip-path: polygon(0 0)) {
+  .signup-container {
+    --cut: 14px;
+    clip-path: polygon(
+      var(--cut) 0,
+      100% 0,
+      100% calc(100% - var(--cut)),
+      calc(100% - var(--cut)) 100%,
+      0 100%,
+      0 var(--cut)
+    );
+    border-radius: 0 !important;
+  }
+  .signup-container .form {
+    --cut: 14px;
+    clip-path: polygon(
+      var(--cut) 0,
+      100% 0,
+      100% calc(100% - var(--cut)),
+      calc(100% - var(--cut)) 100%,
+      0 100%,
+      0 var(--cut)
+    );
+    border-radius: 0 !important;
+  }
+  .signup-container input[type="email"],
+  .signup-container input[type="password"] {
+    --cut: 14px;
+    clip-path: polygon(
+      var(--cut) 0,
+      100% 0,
+      100% calc(100% - var(--cut)),
+      calc(100% - var(--cut)) 100%,
+      0 100%,
+      0 var(--cut)
+    );
+    border-radius: 0 !important;
+  }
+}
+@supports (clip-path: polygon(0 0)) {
+  .signup-container {
+    --cut: 14px;
+    clip-path: polygon(
+      var(--cut) 0,
+      100% 0,
+      100% calc(100% - var(--cut)),
+      calc(100% - var(--cut)) 100%,
+      0 100%,
+      0 var(--cut)
+    );
+    border-radius: 0 !important;
+  }
+  .signup-container .form {
+    --cut: 14px;
+    clip-path: polygon(
+      var(--cut) 0,
+      100% 0,
+      100% calc(100% - var(--cut)),
+      calc(100% - var(--cut)) 100%,
+      0 100%,
+      0 var(--cut)
+    );
+    border-radius: 0 !important;
+  }
+}
+@supports (clip-path: polygon(0 0)) {
+  .signup-container {
+    --cut: 14px;
+    clip-path: polygon(
+      var(--cut) 0,
+      100% 0,
+      100% calc(100% - var(--cut)),
+      calc(100% - var(--cut)) 100%,
+      0 100%,
+      0 var(--cut)
+    );
+    border-radius: 0 !important;
+  }
+}
+/* =====================
+   FONT & RESET
+====================== */
+@font-face {
+  font-family: 'Formation Sans Regular';
+  src: url('./Fonts/Formation Sans Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html, body {
+  overflow-x: hidden;
+}
+
+/* =====================
+   LAYOUT & PAGE CONTAINERS
+====================== */
+.home, .page-show, .page-new, .page-edit, .page-index-2 {
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+  background:
+    radial-gradient(ellipse at 120% 90%, rgba(6, 159, 236, 0.18) 80%, transparent 70%),
+    radial-gradient(ellipse at 80% 70%, rgba(3, 196, 255, 0.532) 0%, transparent 70%),
+    linear-gradient(135deg, #030b11 0%, #3a3d40 30%, #1c0432 60%, #0a3c5e 80%, #083f34cb 10%);
+  background-blend-mode: lighten, lighten, normal;
+}
+.home {
+  margin: 180px auto;
+  padding: 36px 28px 44px 28px;
+  max-width: 700px;
+  min-height: 840px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
+  scrollbar-width: none;
+}
+.home::-webkit-scrollbar { display: none; }
+.page-show {
+  margin: 36px auto;
+  padding: 32px 24px 40px 24px;
+  max-width: 900px;
+  overflow-y: auto;
+  min-height: 100vh;
+}
+.page-new { margin: 70px; }
+.page-edit { margin: 40px; }
+.page-index-2 {
+  margin: 32px auto;
+  padding: 32px 24px 40px 24px;
+  max-width: 1000px;
+  line-height: 1.7;
+}
+
+/* =====================
+   TYPOGRAPHY
+====================== */
+h1, .h1-new, .goju-ryu-logo {
+  font-family: 'Formation Sans Regular', Arial, sans-serif;
+}
+h1 {
+  font-size: 2.13rem;
+  margin-bottom: 15px;
+  letter-spacing: 0.12em;
+}
+.h1-new {
+  padding-top: 40px;
+  font-size: 1.9rem;
+  padding-left: 8px;
+}
+a,
+a:visited,
+a:active,
+a:focus {
+  padding-left: 6px;
+  color: #0cb6e5;
+  text-decoration: none !important;
+  transition: filter 0.2s, transform 0.2s, color 0.2s;
+  display: inline;
+}
+a:hover {
+  filter: brightness(1.5);
+  transform: scale(1.08);
+  color: #00eaff;
+  text-decoration: none !important;
+}
+.error { color: red; margin-bottom: 10px; }
+
+/* =====================
+   FORMS & INPUTS
+====================== */
+form {
+  max-width: 620px;
+  padding: 15px;
+  border-radius: 6px;
+  font-size: 1.50rem;
+  background-color: #fff;
+  color: #fefeffaa;
+  letter-spacing: 1.5px;
+}
+label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+form label:hover {
+  filter: brightness(1.7);
+  cursor: pointer;
+  color: #fff !important;
+}
+input,
+select,
+textarea,
+button {
+  width: 100%;
+  padding: 6px;
+  margin-top: 5px;
+  font-size: 1rem;
+  font-family: 'Formation Sans Regular', Arial, sans-serif;
+  color: rgba(246, 241, 241, 0.808);
+  background-color: rgba(0, 0, 0, 0.578);
+  letter-spacing: 2px;
+  border: 1px solid #53bafab9;
+  border-radius: 4px;
+}
+textarea {
+  min-height: 160px;
+  resize: vertical;
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+
+/* =====================
+   BUTTONS
+====================== */
+button,
+.signup-link,
+.signin-link {
+  margin-top: 4px;
+  padding-top: .5px;
+  padding-bottom: 8px;
+  background-color: #007acc4f;
+  color: #ffffffb3;
+  font-family: 'Formation Sans Regular', Arial, sans-serif;
+  border: none;
+  display: flex;
+  font-size: 1.5rem;
+  line-height: normal;
+  align-items: center;
+  height: auto;
+  justify-content: center;
+  cursor: pointer;
+}
+button:hover { background-color: #005f99; }
+@supports (clip-path: polygon(0 0)) {
+  button,
+  .signup-link,
+  .signin-link {
+    display: inline-block;
+    box-sizing: border-box;
+    border-radius: 0 !important;
+    --cut: 14px;
+    clip-path: polygon(
+      var(--cut) 0,
+      100% 0,
+      100% calc(100% - var(--cut)),
+      calc(100% - var(--cut)) 100%,
+      0 100%,
+      0 var(--cut)
+    );
+  }
+}
+.logout-btn {
+  background: #2d7ef7a9;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.4rem 1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.logout-btn:hover { background: #1a5ec8; }
+.signup-container button[type="submit"] {
+  padding: 0.7rem;
+  border-radius: 6px;
+  background: #2d7ef7;
+  color: #fff;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: background 0.2s;
+}
+.signup-container button[type="submit"]:hover {
+  background: #1a5ec8;
+}
+
+/* =====================
+   NAVIGATION & LOGOUT
+====================== */
+.nav {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+}
+.nav form { display: inline; margin: 0; }
+.nav form button {
+  all: unset;
+  padding-left: 6px;
+  color: #0cb6e5;
+  cursor: pointer;
+}
+.nav form button:hover {
+  filter: brightness(1.5);
+  color: #00eaff;
+  transform: none !important;
+}
+.logout-corner {
+  position: absolute;
+  top: 18px;
+  right: 32px;
+  z-index: 1000;
+}
+.logout-bottom {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  text-align: center;
+}
+form:has(> button.linklike),
+form:has(> button.logout-btn) {
+  background: none !important;
+  padding: 0 !important;
+  max-width: none !important;
+  box-shadow: none !important;
+}
+.linklike { all: unset; color: #0cb6e5; cursor: pointer; padding: 0 6px; }
+.linklike:hover { filter: brightness(1.5); color: #00eaff; transform: none !important; }
+
+/* =====================
+   SIGNUP/SIGNIN PAGE
+====================== */
+.page-auth .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+}
+.signup-title {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.signup-container .form {
+  width: 110%;
+  display: flex;
+  border-radius:40px;
+  flex-direction: column;
+  gap: 2.2rem;
+}
+.signup-container label {
+  font-weight: 500;
+  margin-bottom: 0.2rem;
+}
+.signup-container input[type="email"],
+.signup-container input[type="password"] {
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  width: 100%;
+}
+.signup-below {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+/* =====================
+   UTILITY & ANIMATION
+====================== */
+.logo {
+  display: block;
+  max-width: 200px;
+  height: auto;
+  transition: transform 3s cubic-bezier(.25,1.5,.5,1), filter 0.3s;
+  animation: logo-outline-glow 3s infinite alternate;
+}
+.logo:hover { transform: rotateZ(-180deg) scale(1.14); }
+@keyframes logo-outline-glow {
+  0% { filter: drop-shadow(0 0 0px #0004ff) drop-shadow(0 0 0px #00c3ff); }
+  0% { filter: drop-shadow(0 0 8px #0088ffe2) drop-shadow(0 0 1px #00b3ffcf); }
+  100% { filter: drop-shadow(0 0 0px #00fff7) drop-shadow(0 0 0px #ff00ea); }
+}
+.option { color: black; }
+
+/* =====================
+   PAGE-SPECIFIC STYLES
+====================== */
+.description-block {
+  white-space: pre-line;
+  word-break: break-word;
+  width: calc(100% + 280px);
+  max-width: none;
+  padding: 8px 0;
+  margin-right: -140px;
+  margin-left: -140px;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: 1.1em;
+  max-height: 480px;
+  overflow: auto;
+}
+.description-block::-webkit-scrollbar {
+  width: 6px;
+}
+.description-block::-webkit-scrollbar-thumb {
+  background: #e69f069c;
+  border-radius: 4px;
+}
+.description-block::-webkit-scrollbar-track {
+  background: #1311116c;
+}
+.page-show .delete-center button {
+  width: 220px;
+  text-align: center;
+  align-items: center;
+  display: block;
+  margin: 0 auto;
+}
+.page-show .delete-center {
+  display: flex;
+  justify-content: center;
+  margin-top: 18px;
+}
+.page-show .delete-center form { margin: 0; }
+
+/* =====================
+   OVERLAYS & DIALOGS
+====================== */
+.delete-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(10, 20, 40, 0.72);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.delete-dialog {
+  background: linear-gradient(135deg, #23223a 60%, #ffb300 100%);
+  color: #fff;
+  padding: 2em 2.5em;
+  border-radius: 16px;
+  box-shadow: 0 4px 32px #000a;
+  min-width: 280px;
+  text-align: center;
+  border: 2px solid #00c3ff;
+}
+.delete-dialog-title {
+  font-size: 1.25em;
+  margin-bottom: 1.2em;
+  color: #ffb300;
+  letter-spacing: 1px;
+}
+.delete-btn {
+  background: linear-gradient(90deg, #ffb300 0%, #d7263d 100%);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5em 1.5em;
+  margin-right: 1em;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px #0002;
+}
+.delete-btn:hover {
+  background: linear-gradient(90deg, #d7263d 0%, #ffb300 100%);
+  box-shadow: 0 4px 16px #d7263d44;
+}
+.cancel-btn {
+  background: #23223a;
+  color: #00c3ff;
+  border: 1.5px solid #00c3ff;
+  border-radius: 6px;
+  padding: 0.5em 1.5em;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+}
+.cancel-btn:hover {
+  background: #00c3ff;
+  color: #23223a;
+  border: 1.5px solid #ffb300;
+}
+
+/* =====================
+   MEDIA QUERIES
+====================== */
+#name { max-height: 240px; overflow-y: auto; }
+@media (max-width: 600px) {
+  #name { max-height: 180px; }
+}
+@supports (clip-path: polygon(0 0)) {
+  button,
+  .signup-link,
+  .signin-link {
+    display: inline-block;
+    box-sizing: border-box;
+    border-radius: 0 !important;
+    --cut: 14px;
+    clip-path: polygon(
+      var(--cut) 0,
+      100% 0,
+      100% calc(100% - var(--cut)),
+      calc(100% - var(--cut)) 100%,
+      0 100%,
+      0 var(--cut)
+    );
+  }
+}
+/* Position logout button in upper right corner */
+.logout-corner {
+  position: absolute;
+  top: 18px;
+  right: 32px;
+  z-index: 1000;
+}
+/* Center sign-up page elements */
+.page-auth .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+}
+
+.signup-title {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.signup-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 400px;
+  background: #0a010150;
+  padding: .7rem 1.5rem;
+  border-radius: 50px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+  color: #222;
+}
+
+.signup-container .form {
+  width: 110%;
+  display: flex;
+  border-radius:40px;
+  flex-direction: column;
+  gap: 2.2rem;
+}
+
+.signup-container label {
+  font-weight: 500;
+  margin-bottom: 0.2rem;
+}
+
+.signup-container input[type="email"],
+.signup-container input[type="password"] {
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  width: 100%;
+}
+
+.signup-container button[type="submit"] {
+  padding: 0.7rem;
+  border-radius: 6px;
+  background: #2d7ef799;
+  color: #fff;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: background 0.2s;
+}
+
+.signup-container button[type="submit"]:hover {
+  background: #1a5ec8;
+}
+
+.signup-below {
+  text-align: center;
+  margin-top: 1.5rem;
+}
 
 @font-face {
   font-family: 'Formation Sans Regular';
   src: url('./Fonts/Formation Sans Regular.ttf') format('truetype');
   font-weight: normal;
-font-style: normal;
+  font-style: normal;
 }
 
 /* Two-toned gradient for all browser scrollbars */
@@ -51,20 +669,23 @@ body {
     radial-gradient(ellipse at 80% 70%, rgba(3, 196, 255, 0.532) 0%, transparent 70%),
     linear-gradient(135deg, #030b11 0%, #3a3d40 30%, #1c0432 60%, #0a3c5e 80%, #083f34cb 10%);
   background-blend-mode: lighten, lighten, normal;
-  
 }
+
+
 
 /* Headings */
 h1 {
   font-size: 2.13rem;
   margin-bottom: 15px;
-}
- .h1-new {
+  letter-spacing: 0.12em;
 
+}
+.h1-new {
   padding-top: 40px;
   font-size: 1.9rem;
   padding-left: 8px;
 }
+
 a,
 a:visited,
 a:active,
@@ -73,7 +694,7 @@ a:focus {
   color: #0cb6e5; /* Choose your preferred link color */
   text-decoration: none !important;
   transition: filter 0.2s, transform 0.2s, color 0.2s;
-  display: inline-block; /* <-- Add this line */
+  display: inline; /* FIX: was inline-block; prevents tiny black bars */
 }
 
 a:hover {
@@ -96,7 +717,7 @@ a:hover {
   font-family: inherit;
   font-size: 1.1em;
   max-height: 480px;      /* or any height you prefer */
-  overflow:auto
+  overflow: auto;         /* FIX: missing semicolon */
   /* ...existing styles... */
 }
 
@@ -138,21 +759,19 @@ a:hover {
   display: none;
 }
 
-.home h1 {
-  margin-bottom: 22px;
-  
-}
+.home h1 { margin-bottom: 22px; }
 
 .home p {
   margin-bottom: 8px;
   font-size:1.18rem;
 }
+
 /* Forms */
 form {
   max-width: 620px;
   padding: 15px;
   background-color: #fff;
-    background:
+  background:
     radial-gradient(ellipse at 120% 90%, rgba(6, 159, 236, 0.18) 80%, transparent 70%),
     radial-gradient(ellipse at 80% 70%, rgba(3, 196, 255, 0.532) 0%, transparent 70%),
     linear-gradient(135deg, #030b11 0%, #3a3d40 30%, #1c0432 60%, #0a3c5e 80%, #083f34cb 10%);
@@ -177,7 +796,6 @@ form label:hover {
   color: #fff !important;
 }
 
-
 input,
 select,
 textarea,
@@ -187,7 +805,7 @@ button {
   margin-top: 5px;
   font-size: 1rem;
   font-family: 'Formation Sans Regular', Arial, sans-serif;
-   color: rgba(246, 241, 241, 0.808);
+  color: rgba(246, 241, 241, 0.808);
   background-color: rgba(0, 0, 0, 0.578);
   letter-spacing: 2px;
   border: 1px solid #53bafab9;
@@ -199,6 +817,7 @@ textarea {
   font-size: 1.1rem;
   line-height: 1.5;
 }
+
 /* Buttons */
 button {
   margin-top: 4px;
@@ -217,44 +836,33 @@ button {
   cursor: pointer;
 }
 
-button:hover {
-  background-color: #005f99;
-}
+button:hover { background-color: #005f99; }
 
 /* Error messages */
-.error {
-  color: red;
-  margin-bottom: 10px;
-}
+.error { color: red; margin-bottom: 10px; }
 
 /* index page spacing */
-
 .page-index-2 {
   margin: 32px auto;
   padding: 32px 24px 40px 24px;
   max-width: 1000px;
-  
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0,0,0,0.07);
   line-height: 1.7;
 }
 
 .page-index-2 h1,
-.page-index-2 h2 {
-  margin-bottom: 18px;
-}
+.page-index-2 h2 { margin-bottom: 18px; }
 
 .page-index-2 table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0 8px;
   margin-bottom: 24px;
-  
 }
 
 .page-index-2 th, .page-index-2 td {
   padding: 10px 14px;
-  
   text-align: left;
 }
 
@@ -264,19 +872,15 @@ button:hover {
     linear-gradient(120deg, #0062ff 0%, #ffb300 40%, #8c00ff 70%, #00c3ff 100%);
   background-blend-mode: multiply;
   color: #fefeffaa;
-  
   border-radius: 6px;
 }
 
-.page-index-2 tr:not(:last-child) {
-  border-bottom: 1px solid #e0e0e0;
-}
+.page-index-2 tr:not(:last-child) { border-bottom: 1px solid #e0e0e0; }
 
 /* new form page spacing */
 .page-new {
-  
   margin: 70px;
-    background:
+  background:
     radial-gradient(ellipse at 120% 90%, rgba(6, 159, 236, 0.18) 80%, transparent 70%),
     radial-gradient(ellipse at 80% 70%, rgba(3, 196, 255, 0.532) 0%, transparent 70%),
     linear-gradient(135deg, #030b11 0%, #3a3d40 30%, #1c0432 60%, #0a3c5e 80%, #083f34cb 10%);
@@ -292,7 +896,7 @@ button:hover {
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0,0,0,0.09);
   line-height: 1.7;
-    background:
+  background:
     radial-gradient(ellipse at 120% 90%, rgba(6, 159, 236, 0.18) 80%, transparent 70%),
     radial-gradient(ellipse at 80% 70%, rgba(3, 196, 255, 0.532) 0%, transparent 70%),
     linear-gradient(135deg, #030b11 0%, #3a3d40 30%, #1c0432 60%, #0a3c5e 80%, #083f34cb 10%);
@@ -300,13 +904,10 @@ button:hover {
   overflow-y: auto;
   min-height: 100vh;
 }
-.page-show h1{
-  margin-bottom: 20px;
-  
-}
+.page-show h1{ margin-bottom: 20px; }
 .page-show table {
   width: 100%;
-  border-collapse: seperate;
+  border-collapse: separate;  /* FIX: was "seperate" */
   border-spacing: 0 10px;
   margin-bottom: 28px;
 }
@@ -319,7 +920,7 @@ button:hover {
 .page-show tr {
   background:  #f8f8f8;
   border-radius: 6px;
-    background:
+  background:
     radial-gradient(ellipse at 120% 90%, rgba(6, 159, 236, 0.18) 80%, transparent 70%),
     radial-gradient(ellipse at 80% 70%, rgba(3, 196, 255, 0.532) 0%, transparent 70%),
     linear-gradient(135deg, #030b11 0%, #3a3d40 30%, #1c0432 60%, #0a3c5e 80%, #083f34cb 10%);
@@ -332,10 +933,7 @@ button:hover {
   margin-top: 18px;
 }
 
-.page-show::-webkit-scrollbar {
-  width: 14px;
-  background: #181a1b;
-}
+.page-show::-webkit-scrollbar { width: 14px; background: #181a1b; }
 
 .page-show::-webkit-scrollbar-thumb {
   background: linear-gradient(135deg, #007bff 0%, #ffb300 100%);
@@ -343,16 +941,10 @@ button:hover {
   border: 3px solid #23272a;
 }
 
-.page-show::-webkit-scrollbar-track {
-  background: #23272a;
-  border-radius: 8px;
-}
+.page-show::-webkit-scrollbar-track { background: #23272a; border-radius: 8px; }
+
 /* edit page spacing */
-.page-edit {
-  
-  margin: 40px;
-  
-}
+.page-edit { margin: 40px; }
 .page-edit body {
   background:
     radial-gradient(ellipse at 20% 30%, rgba(19, 2, 33, 0.18) 0%, transparent 70%),
@@ -360,8 +952,6 @@ button:hover {
     linear-gradient(135deg, #23272a 0%, #3a3d40 30%, #3e1c5e 60%, #0a3c5e 80%, #ffb300 100%);
   background-blend-mode: lighten, lighten, normal;
 }
-
-
 
 .page-show .delete-center button {
   width: 220px;
@@ -376,38 +966,25 @@ button:hover {
   justify-content: center;
   margin-top: 18px;
 }
-.page-show .delete-center form {
-  margin: 0;
-}
+.page-show .delete-center form { margin: 0; }
 
 .logo {
   display: block;
-  
-  
   max-width: 200px;    /* shrink if too big */
   height: auto;        /* keep proportions */
   transition: transform 3s cubic-bezier(.25,1.5,.5,1), filter 0.3s;
   animation: logo-outline-glow 3s infinite alternate;
 }
 
-.logo:hover {
-  transform: rotateZ(-180deg) scale(1.14);
-}
+.logo:hover { transform: rotateZ(-180deg) scale(1.14); }
 
- @keyframes logo-outline-glow {
-  0% {
-    filter: drop-shadow(0 0 0px #0004ff) drop-shadow(0 0 0px #00c3ff);
-  }
-  0% {
-    filter: drop-shadow(0 0 8px #0088ffe2) drop-shadow(0 0 1px #00b3ffcf);
-  }
-  100% {
-    filter: drop-shadow(0 0 0px #00fff7) drop-shadow(0 0 0px #ff00ea);
-  }
-} 
-.option {
-  color: black;
+@keyframes logo-outline-glow {
+  0% { filter: drop-shadow(0 0 0px #0004ff) drop-shadow(0 0 0px #00c3ff); }
+  0% { filter: drop-shadow(0 0 8px #0088ffe2) drop-shadow(0 0 1px #00b3ffcf); }
+  100% { filter: drop-shadow(0 0 0px #00fff7) drop-shadow(0 0 0px #ff00ea); }
 }
+.option { color: black; }
+
 .goju-ryu-logo {
   display: flex;
   justify-content: center;
@@ -416,13 +993,21 @@ button:hover {
   margin-top: 1.7em;
   position: relative;
   perspective: 1800px; /* More perspective for stronger foreshortening */
+  /* Remove gradient and color from parent, move to span */
 }
 
 .goju-ryu-logo span {
+  background: linear-gradient(90deg, #e2e5e5 0%, #bfc1c2 50%, #e5e4e29b 100%);
+  background-size: 200% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent;
+  animation: platinum-move 5.5s cubic-bezier(.68,-.55,.27,1.55) 3.5s forwards;
   display: inline-block;
   opacity: 0;
   transform: translate3d(0,0,0) rotate3d(0,1,0,0deg) scale3d(1,1,1);
-  animation: goju-ryu-orbit 2.5s cubic-bezier(.68,-0.55,.27,1.55) forwards;
+  animation: goju-ryu-orbit 3.5s cubic-bezier(.68,-0.55,.27,1.55) forwards;
 }
 
 .goju-ryu-logo span:nth-child(1) {
@@ -497,14 +1082,14 @@ button:hover {
   justify-content: center;
 }
 .delete-dialog {
-  background: linear-gradient(135deg, #23223a 60%, #ffb300 100%); /* dark blue to gold */
+  background: linear-gradient(135deg, #23223a 60%, #ffb300 100%);
   color: #fff;
   padding: 2em 2.5em;
   border-radius: 16px;
   box-shadow: 0 4px 32px #000a;
   min-width: 280px;
   text-align: center;
-  border: 2px solid #00c3ff; /* accent cyan border */
+  border: 2px solid #00c3ff;
 }
 .delete-dialog-title {
   font-size: 1.25em;
@@ -545,20 +1130,74 @@ button:hover {
 }
 
 /* Only style the name select, not all selects */
-#name {
-  max-height: 240px;   /* desktop height */
-  overflow-y: auto;    /* scroll inside the box */
-}
+#name { max-height: 240px; overflow-y: auto; }
 
-/* Mobile: let the OS handle the picker, but if shown as a box, make it shorter */
 @media (max-width: 600px) {
-  #name {
-    max-height: 180px;
-  }
+  #name { max-height: 180px; }
 }
 
-#name {
-  max-height: 240px;
-  overflow-y: auto;
+/* ---- NAV FIXES FOR LOGGED-IN STATE (remove black lines, small logout) ---- */
+.nav { display: flex; gap: 12px; justify-content: center; align-items: center; }
+.nav form { display: inline; margin: 0; }
+.nav form button {
+  all: unset;                 /* reset global button styles */
+  padding-left: 6px;
+  color: #0cb6e5;
+  cursor: pointer;
+}
+.nav form button:hover {
+  filter: brightness(1.5);
+  color: #00eaff;
+  transform: none !important;
 }
 
+/* Also support a "linklike" button class and bottom-logout on home */
+.linklike { all: unset; color: #0cb6e5; cursor: pointer; padding: 0 6px; }
+.linklike:hover { filter: brightness(1.5); color: #00eaff; transform: none !important; }
+.logout-bottom { display: flex; justify-content: center; margin-top: 20px; }
+
+.logout-bottom {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.logout-btn {
+  background: #2d7ef7;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.4rem 1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background: #1a5ec8;
+}
+/* Remove dark background from small button forms (like logout) */
+form:has(> button.linklike),
+form:has(> button.logout-btn) {
+  background: none !important;
+  padding: 0 !important;
+  max-width: none !important;
+  box-shadow: none !important;
+}
+
+.logout-btn {
+  background: #2d7ef7;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.4rem 1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.logout-btn:hover { background: #1a5ec8; }
+
+/* Avoid the big form background on tiny auth forms */
+.nav form, .logout-bottom form {
+  background: none !important;
+  padding: 0 !important;
+  max-width: none !important;
+  box-shadow: none !important;
+}

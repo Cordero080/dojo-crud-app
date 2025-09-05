@@ -1,5 +1,4 @@
 <!-- views/forms/show.ejs -->
-<!-- Purpose: Display one form's details, with links to Edit and Delete. -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -8,37 +7,18 @@
   <body class="page-show">
     <%- include('../partials/nav') %>
     <h1><%= title %></h1>
-    <p>
-      
-      <a href="/forms/<%= form._id %>/edit">✏️ Edit</a>
-    </p>
+    <p><a href="/forms/<%= form._id %>/edit">✏️ Edit</a></p>
 
-    <!-- Details -->
     <table class="table">
       <tbody>
-        <tr>
-          <th>Name</th>
-          <td><%= form.name %></td>
-        </tr>
-        <tr>
-          <th>Rank</th>
-          <td><%= form.rankType %> <%= form.rankNumber %></td>
-        </tr>
-        <tr>
-          <th>Belt</th>
-          <td><%= form.beltColor || "-" %></td>
-        </tr>
-        <tr>
-          <th>Category</th>
-          <td><%= form.category %></td>
-        </tr>
-        <tr>
-          <th>Learned</th>
-          <td><%= form.learned ? "Yes" : "No" %></td>
-        </tr>
+        <tr><th>Name</th><td><%= form.name %></td></tr>
+        <tr><th>Rank</th><td><%= form.rankType %> <%= form.rankNumber %></td></tr>
+        <tr><th>Belt</th><td><%= form.beltColor || "-" %></td></tr>
+        <tr><th>Category</th><td><%= form.category %></td></tr>
+        <tr><th>Learned</th><td><%= form.learned ? "Yes" : "No" %></td></tr>
         <tr>
           <td colspan="2">
-            <div style="font-weight: bold; margin-bottom: 4px">Description</div>
+            <div style="font-weight:bold;margin-bottom:4px">Description</div>
             <div class="description-block"><%= form.description || "-" %></div>
           </td>
         </tr>
@@ -46,37 +26,20 @@
           <th>Reference</th>
           <td>
             <% if (form.referenceUrl) { %>
-            <a href="<%= form.referenceUrl %>" target="_blank" rel="noopener"
-              >Open link</a
-            >
+              <a href="<%= form.referenceUrl %>" target="_blank" rel="noopener">Open link</a>
             <% } else { %> - <% } %>
           </td>
         </tr>
-        <tr>
-          <th>Created</th>
-          <td><%= new Date(form.createdAt).toLocaleString() %></td>
-        </tr>
-        <tr>
-          <th>Updated</th>
-          <td><%= new Date(form.updatedAt).toLocaleString() %></td>
-          <p></p>
-        </tr>
+        <tr><th>Created</th><td><%= new Date(form.createdAt).toLocaleString() %></td></tr>
+        <tr><th>Updated</th><td><%= new Date(form.updatedAt).toLocaleString() %></td></tr>
       </tbody>
     </table>
 
-    <p style="margin-top: 12px">
-      <a href="/forms/<%= form._id %>/edit">Edit</a>
-    </p>
+    <p style="margin-top:12px"><a href="/forms/<%= form._id %>/edit">Edit</a></p>
 
-    <!-- Soft Delete (uses method-override) -->
     <div class="delete-center">
       <form action="/forms/<%= form._id %>?_method=DELETE" method="POST">
-        <button
-          type="submit"
-          onclick="return confirm('Soft delete this form?')"
-        >
-          Delete
-        </button>
+        <button type="submit" onclick="return confirm('Soft delete this form?')">Delete</button>
       </form>
     </div>
 

@@ -1,8 +1,19 @@
 // models/Form.js
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
-const formSchema = new mongoose.Schema(
+const formSchema = new Schema(
   {
+    // === CHANGED FOR AUTH ===
+    // Link each Form to the User who created it.
+    // You'll set this in routes using: req.session.user._id
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: [true, "Owner is required"], // ensures every Form belongs to a user
+      index: true,
+    },
+
     name: {
       type: String,
       required: [true, "Name is required"],
@@ -40,19 +51,24 @@ const formSchema = new mongoose.Schema(
     },
     learned: { type: Boolean, default: false },
 
-    // 👇 soft delete flag
+    // Soft delete flag
     deletedAt: { type: Date, default: null },
   },
   { timestamps: true }
 );
 
-// Unique only for alive docs (deletedAt: null)
+/* 
+ * === CHANGED FOR AUTH ===
+ * Make "alive" Forms unique PER USER instead of globally.
+ * Old (pre-auth) index was: { name, rankType, rankNumber } unique (alive only).
+ * New compound index adds { owner }, so two different users can store the same form.
+ */
 formSchema.index(
-  { name: 1, rankType: 1, rankNumber: 1 },
+  { owner: 1, name: 1, rankType: 1, rankNumber: 1 },
   { unique: true, partialFilterExpression: { deletedAt: null } }
 );
 
-// (optional) query helpers for cleaner code
+// (optional) query helpers for cleaner code — unchanged
 formSchema.query.alive = function () {
   return this.where({ deletedAt: null });
 };

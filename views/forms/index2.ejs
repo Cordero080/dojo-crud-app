@@ -1,5 +1,4 @@
-<!-- views/forms/index.ejs -->
-<!-- Purpose: Index page that lists all active forms from MongoDB. -->
+<!-- views/forms/index2.ejs -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -10,73 +9,38 @@
     <h1><%= title %></h1>
 
     <% if (!forms || forms.length === 0) { %>
-    <p>No forms yet. Create one to get started.</p>
+      <p>No forms yet. Create one to get started.</p>
     <% } else { %>
-
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Rank</th>
-          <th>Belt</th>
-          <th>Category</th>
-          <th>Created</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% forms.forEach(f => { %>
-        <tr>
-          <td><%= f.name %></td>
-          <td><%= f.rankType %> <%= f.rankNumber %></td>
-          <td><%= f.beltColor || '-' %></td>
-          <td><%= f.category %></td>
-          <td><%= new Date(f.createdAt).toLocaleDateString() %></td>
-          <td>
-            <a href="/forms/<%= f._id %>">Show</a> |
-            <a href="/forms/<%= f._id %>/edit">Edit</a> |
-            <a href="#" class="delete-link" data-id="<%= f._id %>">Delete</a>
-            <form
-              id="del-<%= f._id %>"
-              action="/forms/<%= f._id %>?_method=DELETE"
-              method="POST"
-              style="display: none"
-            ></form>
-          </td>
-        </tr>
-        <% }) %>
-      </tbody>
-    </table>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Rank</th>
+            <th>Belt</th>
+            <th>Category</th>
+            <th>Created</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% forms.forEach(f => { %>
+            <tr>
+              <td><%= f.name %></td>
+              <td><%= f.rankType %> <%= f.rankNumber %></td>
+              <td><%= f.beltColor || '-' %></td>
+              <td><%= f.category %></td>
+              <td><%= new Date(f.createdAt).toLocaleDateString() %></td>
+              <td>
+                <a href="/forms/<%= f._id %>">Show</a> |
+                <a href="/forms/<%= f._id %>/edit">Edit</a> |
+                <a href="#" class="delete-link" data-id="<%= f._id %>">Delete</a>
+                <form id="del-<%= f._id %>" action="/forms/<%= f._id %>?_method=DELETE" method="POST" style="display:none"></form>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
     <% } %>
-
-    <!-- Delete confirmation overlay -->
-    <div id="delete-overlay" class="delete-overlay" style="display: none">
-      <div class="delete-dialog">
-        <div class="delete-dialog-title">Delete this form?</div>
-        <button id="confirm-delete-btn" class="delete-btn">Delete</button>
-        <button id="cancel-delete-btn" class="cancel-btn">Cancel</button>
-      </div>
-    </div>
-
-    <script>
-      let deleteFormId = null;
-      document.querySelectorAll(".delete-link").forEach((link) => {
-        link.addEventListener("click", function (e) {
-          e.preventDefault();
-          deleteFormId = this.getAttribute("data-id");
-          document.getElementById("delete-overlay").style.display = "flex";
-        });
-      });
-      document.getElementById("cancel-delete-btn").onclick = function () {
-        document.getElementById("delete-overlay").style.display = "none";
-        deleteFormId = null;
-      };
-      document.getElementById("confirm-delete-btn").onclick = function () {
-        if (deleteFormId) {
-          document.getElementById("del-" + deleteFormId).submit();
-        }
-      };
-    </script>
 
     <%- include('../partials/footer') %>
   </body>

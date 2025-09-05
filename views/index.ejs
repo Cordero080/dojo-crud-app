@@ -1,31 +1,27 @@
 <!-- views/index.ejs -->
-<!-- Purpose: Simple landing page; uses shared head/footer partials for CSS/JS. -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <%- include('partials/head') %>
   </head>
   <body class="home">
-    
-    
     <h1 class="goju-ryu-logo">
       <span>G</span><span>O</span><span>J</span><span>U</span><span>-</span
       ><span>R</span><span>Y</span><span>U</span>
     </h1>
+
     <p>剛柔流</p>
-    <p></p>
     <h1><%= title %></h1>
     <p>Welcome to the Martial Arts Forms App.</p>
-    <%- include('partials/nav') %>
 
-    
+    <!-- Home page: nav will show ONLY login/signup when logged out; app links when logged in -->
+    <%- include('partials/nav', { hideLogout: true }) %>
 
     <div
       style="
         width: 100%;
         display: flex;
         justify-content: center;
-        align-items: flex-end;
         margin-top: 32px;
       "
     >
@@ -37,6 +33,13 @@
       />
     </div>
 
-    <%- include('partials/footer') %>
+    <!-- Optional: tiny bottom logout only when logged in -->
+    <% if (currentUser) { %>
+    <div class="logout-corner">
+      <form action="/auth/logout" method="POST">
+        <button type="submit" class="logout-btn">Logout</button>
+      </form>
+    </div>
+    <% } %> <%- include('partials/footer') %>
   </body>
 </html>

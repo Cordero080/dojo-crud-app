@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('../partials/head') %>
+    <title><%= title || 'Sign Up' %></title>
+  </head>
+  <body class="page-auth">
+    <%- include('../partials/nav') %>
+
+    <main class="container">
+      <h1 class="signup-title">Sign Up</h1>
+      <div class="signup-container">
+        <% if (typeof error !== 'undefined' && error) { %>
+        <p class="error"><%= error %></p>
+        <% } %>
+        <form method="POST" action="/auth/signup" class="form">
+          <label>Email <input type="email" name="email" required /></label>
+          <label
+            >Password
+            <input type="password" name="password" minlength="6" required
+          /></label>
+          <button type="submit" class="btn">Create Account</button>
+        </form>
+      </div>
+      <p class="signup-below">
+        Already have an account? <a href="/auth/login">Log in</a>
+      </p>
+    </main>
+
+    <%- include('../partials/footer') %>
+  </body>
+</html>
