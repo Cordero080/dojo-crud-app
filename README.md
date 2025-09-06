@@ -1,5 +1,8 @@
 # Dojo App 🥋
 
+![Dojo App Screenshot](home-page-logged-in.png)
+_Dojo App home page interface_
+
 A comprehensive full-stack martial arts forms management system built with the MEN stack (MongoDB, Express.js, Node.js). Designed specifically for Goju-Ryu practitioners to track their kata, bunkai, kumite, and weapon forms progression through the traditional kyu and dan ranking system.
 
 ---
@@ -50,9 +53,11 @@ A comprehensive full-stack martial arts forms management system built with the M
 
 ### Frontend & Templating
 - **EJS** - Embedded JavaScript templating
+- **Partial Components** - Reusable nav, head, footer, and error templates
 - **Custom CSS** - Responsive design with page-specific styling
 - **Method Override** - Support for PUT/DELETE in forms
 - **Interactive Charts** - Canvas-based progress visualization
+- **Chart.js** - Vendor library for data visualization
 
 ---
 
@@ -74,12 +79,19 @@ dojo-app/
 ├── views/
 │   ├── index.ejs            # Home page with animated Goju-Ryu logo
 │   ├── new.ejs              # Create form with progress charts & requirements
+│   ├── auth/
+│   │   ├── login.ejs        # User login page
+│   │   └── signup.ejs       # User registration page
 │   ├── forms/
 │   │   ├── index2.ejs       # Forms listing with delete confirmation
 │   │   ├── show.ejs         # Individual form details
 │   │   ├── edit.ejs         # Form editing interface
 │   │   └── trash.ejs        # Deleted forms management
 │   └── partials/            # Reusable view components
+│       ├── head.ejs         # Shared HTML head with meta tags
+│       ├── nav.ejs          # Dynamic navigation (auth-aware)
+│       ├── footer.ejs       # Shared scripts and footer
+│       └── errors.ejs       # Error message display component
 ├── public/css/
 │   ├── main.css             # Primary styling with custom fonts & animations
 │   ├── chart.css            # Chart layout & belt progression styling
@@ -90,13 +102,21 @@ dojo-app/
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Getting Started
 
-### Prerequisites
+### Live Application
+**Deployed App**: [Coming Soon - Deployment in Progress]
+
+### Planning Materials
+**Project Planning**: [Trello Board Link - To be added]
+
+### Local Development
+
+#### Prerequisites
 - Node.js (v14 or higher)
 - MongoDB (local or MongoDB Atlas)
 
-### Installation
+#### Installation
 
 1. **Clone the repository**
    ```bash
@@ -170,8 +190,6 @@ dojo-app/
 ---
 
 ## 🎨 User Interface Features
-
-### User Interface Features
 
 ### Responsive Design
 - **Mobile-first** CSS architecture with Formation Sans font
@@ -299,35 +317,27 @@ Specialized training forms and modern adaptations
 
 ---
 
-## 🛠️ Development Workflow
+## 📋 Technologies Used
 
-### Database Operations
-```bash
-# Reset and reseed database
-node scripts/seed.js
+### Core Stack
+- **Node.js** - Runtime environment
+- **Express.js** - Web application framework
+- **MongoDB** - NoSQL database with Mongoose ODM
+- **EJS** - Embedded JavaScript templating
 
-# Update database indexes
-node scripts/sync-indexes.js
+### Authentication & Security
+- **bcryptjs** - Password hashing
+- **express-session** - Session management with MongoDB store
+- **connect-mongo** - Session storage
 
-# Connect to MongoDB shell
-mongosh $MONGODB_URI
-```
-
-### Development Commands
-```bash
-# Development with auto-reload
-npm run dev
-
-# Production start
-npm start
-
-# Database inspection
-mongosh $MONGODB_URI
-```
+### Frontend & UI
+- **Custom CSS** - Responsive design with Formation Sans font
+- **Chart.js** - Data visualization library
+- **Method Override** - RESTful form operations
 
 ---
 
-## 📈 Roadmap
+## 🎯 Next Steps
 
 ### Phase 1: Enhanced User Experience
 - [ ] Video integration for form demonstrations
@@ -346,6 +356,15 @@ mongosh $MONGODB_URI
 - [ ] Progress prediction algorithms
 - [ ] Integration with wearable devices
 - [ ] Comparative progress reports
+
+---
+
+## 🙏 Attributions
+
+- **Chart.js** - Data visualization library (https://www.chartjs.org/)
+- **Formation Sans** - Custom font family for typography
+- **Chi-i-do Organization** - Traditional Goju-Ryu syllabus and curriculum structure
+- **ChatGPT** - Development assistance for soft delete implementation and database seeding concepts
 
 ---
 
