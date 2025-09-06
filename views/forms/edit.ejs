@@ -22,13 +22,14 @@
 
     
 
-    <!-- Edit form: action targets the same id, with ?_method=PUT -->
-    <form action="/forms/<%= form._id %>?_method=PUT" method="POST">
+    <!-- Centered edit form -->
+    <div class="edit-form-center">
+      <form action="/forms/<%= form._id %>?_method=PUT" method="POST">
       <label for="name">Form Name:</label>
       <input type="text" id="name" name="name" value="<%= form.name %>" required />
       <% if (errors && errors.name) { %>
-  <small class="error"><%= errors.name %></small>
-<% } %>
+        <small class="error"><%= errors.name %></small>
+      <% } %>
 
       <label for="rankType">Rank Type:</label>
       <select id="rankType" name="rankType" required>
@@ -36,8 +37,8 @@
         <option value="Dan" <%= form.rankType === 'Dan' ? 'selected' : '' %>>Dan/Degree</option>
       </select>
       <% if (errors && errors.rankType) { %>
-  <small class="error"><%= errors.rankType %></small>
-<% } %>
+        <small class="error"><%= errors.rankType %></small>
+      <% } %>
 
 
       <label for="rankNumber">Rank Number:</label>
@@ -79,7 +80,9 @@
       </label>
 
       <button type="submit">Save Changes</button>
+      <!-- ...existing form fields... -->
     </form>
+    </div>
 
   <%- include('../partials/footer') %>
   </body>
