@@ -137,7 +137,7 @@ dojo-app/
 
 ### Planning Materials
 
-**Project Planning**: [Dojo App Project Planning](https://trello.com/invite/b/68bcce748a9555d80ec7d363/ATTI277aedbbe8755d2dfc24da7fa0eac7d6BC92B9B2/dojo-app-plans)
+**Project Planning**: [Dojo App Project Planning](https://trello.com/invite/b/68bcd7a74cee7fffb574acdc/ATTI1791e513c27783e74637a75085e5b30a951327AD/dojo-app-plan)
 
 ### Local Development
 
