@@ -259,7 +259,11 @@ textarea {
   font-size: 1.1rem;
   line-height: 1.5;
 }
-
+.nav a[href="/auth/login"],
+.nav a[href="/auth/signup"] {
+  font-size: 1.3rem;
+  /* other styles */
+}
 /* =====================
    BUTTONS
 ====================== */
@@ -281,6 +285,7 @@ button,
   justify-content: center;
   cursor: pointer;
 }
+
 button:hover { background-color: #005f99; }
 @supports (clip-path: polygon(0 0)) {
   button,
@@ -713,7 +718,7 @@ a:focus {
 
 a:hover {
   filter: brightness(1.5);
-  transform: scale(1.08);
+  transform: scale(1.15);
   color: #00eaff; /* Brighter or different color on hover if you want */
   text-decoration: none !important;
 }
