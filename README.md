@@ -137,7 +137,7 @@ dojo-app/
 
 ### Planning Materials
 
-**Project Planning**: [Trello Board Link - To be added]
+**Project Planning**: [Dojo App Project Planning](https://trello.com/invite/b/68bcce748a9555d80ec7d363/ATTI277aedbbe8755d2dfc24da7fa0eac7d6BC92B9B2/dojo-app-plans)
 
 ### Local Development
 
@@ -450,10 +450,10 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## 🙏 Acknowledgments
 
 - **Traditional Goju-Ryu syllabus** from Okinawan martial arts lineage
-- **IOGKF** (International Okinawan Goju-Ryu Karate-Do Federation) for form standardization
+- **CHI-I-DO** (International Organization) for form standardization
 - **Open source community** for the excellent MEN stack ecosystem
 - **Formation Sans** font family for authentic martial arts presentation
 
 ---
 
-**Built with ❤️ for the martial arts community**
+**Built with 🧿💙🧿 for the martial arts community**
