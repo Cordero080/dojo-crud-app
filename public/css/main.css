@@ -1,3 +1,74 @@
+.home h1 {
+  font-size: 3rem;
+}
+/* Add depth to home page logout button */
+.home .logout-btn {
+  font-size: 1.3rem;
+  padding: 0.7rem 1.6rem;
+  background: linear-gradient(90deg, #0cb6e5 0%, #1c0432 100%);
+  color: #ffffffca;
+  border: 1.5px solid #0cb6e538;
+  
+  border-radius: 8px;
+  box-shadow:
+    0 2px 8px rgba(12,182,229,0.18),
+    0 6px 24px rgba(28,4,50,0.18),
+    0 1.5px 0 #1c0432 inset;
+  transition: background 0.2s, box-shadow 0.2s, border 0.2s;
+}
+.home .logout-btn:hover {
+  background: linear-gradient(90deg, #1c0432 0%, #0cb6e5 100%);
+  box-shadow:
+    0 4px 16px #0cb6e544,
+    0 10px 32px #1c043244,
+    0 2px 0 #0cb6e5 inset;
+  border-bottom: 3px solid #0cb6e5;
+}
+.home .logout-btn {
+  font-size: 1.3rem;
+  padding: 0.7rem 1.6rem;
+}
+/* Increase size of edit link in show page */
+.page-show a[href$="/edit"] {
+  font-size: 1.35rem;
+  font-weight: 600;
+}
+/* Center the 'view-form' class on the edit page */
+.page-edit .view-form {
+  display: block;
+  text-align: center;
+  margin: 0 auto 18px auto;
+}
+/* Center the form ID on the edit page */
+.page-edit .form-id {
+  display: block;
+  text-align: center;
+  margin: 0 auto 12px auto;
+  font-weight: 500;
+/* Center the 'View Form' link on the edit page */
+.page-edit a[href^="/forms/"][href$=""] {
+  display: block;
+    text-align: left; /* Change to left to allow centering of parent */
+  margin: 0 auto 18px auto;
+}
+.page-edit p {
+  text-align: center; /* Center the parent <p> */
+}
+.page-edit p a[href^="/forms/"] {
+  display: inline-block; /* Ensure the link is inline-block */
+  margin: 0 auto 18px auto; /* Center the link */
+}
+}
+/* Center the title on the edit page */
+/* Center the title on the edit page */
+.page-edit h1 {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  color: #ffffffd2;
+  
+  filter: brightness(1.2) drop-shadow(0 0 8px #0cb6e56a);
+}
 /* Center the edit form on the edit page */
 .edit-form-center {
   display: flex;
@@ -11,9 +82,9 @@
   max-width: 700px;
   width: 100%;
 }
-}
+
 .goju-ryu-logo {
-  background: linear-gradient(90deg, #e5e4e2 0%, #bfc1c2 50%, #e5e4e2 100%);
+  background: linear-gradient(90deg, #e5e4e234 0%, #bfc1c24f 50%, #e2e5e52c 100%);
   background-size: 200% 100%;
   background-clip: text;
   -webkit-background-clip: text;
@@ -191,12 +262,17 @@ h1, .h1-new, .goju-ryu-logo {
 h1 {
   font-size: 2.13rem;
   margin-bottom: 15px;
+  margin-right: 20px;
   letter-spacing: 0.12em;
 }
 .h1-new {
   padding-top: 40px;
   font-size: 1.9rem;
-  padding-left: 8px;
+  padding-left: 0;
+  margin-left: 5px;
+  color: #ffffffd0;
+  
+  filter: brightness(1.3) drop-shadow(0 0 8px #0cb6e53b);
 }
 a,
 a:visited,
@@ -305,29 +381,25 @@ button:hover { background-color: #005f99; }
     );
   }
 }
+/* Unified logout button styling for all pages (matches home page) */
 .logout-btn {
-  background: #2d7ef7a9;
+  background: #2d7ef7;
   color: #fff;
   border: none;
   border-radius: 6px;
   padding: 0.4rem 1rem;
   font-size: 0.9rem;
   cursor: pointer;
+  font-family: 'Formation Sans Regular', Arial, sans-serif;
+  font-weight: 500;
+  box-shadow: none;
+  transform: none;
+  transition: background 0.2s, transform 0.18s cubic-bezier(.25,1.5,.5,1), box-shadow 0.18s;
 }
-.logout-btn:hover { background: #1a5ec8; }
-.signup-container button[type="submit"] {
-  padding: 0.7rem;
-  border-radius: 6px;
-  background: #2d7ef7;
-  color: #fff;
-  border: none;
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: 0.5rem;
-  transition: background 0.2s;
-}
-.signup-container button[type="submit"]:hover {
+.logout-btn:hover {
   background: #1a5ec8;
+  transform: scale(1.08) perspective(600px) rotateY(-8deg);
+  box-shadow: 0 8px 32px rgba(44, 182, 255, 0.28), 0 2px 0 #0cb6e5 inset;
 }
 
 /* =====================
@@ -617,19 +689,26 @@ form:has(> button.logout-btn) {
 
 .signup-container button[type="submit"] {
   padding: 0.7rem;
-  border-radius: 6px;
-  background: #2d7ef799;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #1c0432 0%, #0cb6e5 60%, #ffb300 100%);
+  background-size: 200% 100%;
+  background-position: 0% 0;
   color: #fff;
   border: none;
   font-weight: bold;
   cursor: pointer;
   margin-top: 0.5rem;
-  transition: background 0.2s;
+  box-shadow: 0 4px 18px rgba(44, 182, 255, 0.18), 0 1.5px 0 #1c0432 inset;
+  transition: background 0.2s, background-position 0.5s cubic-bezier(.25,1.5,.5,1), transform 0.18s cubic-bezier(.25,1.5,.5,1), box-shadow 0.18s;
 }
 
 .signup-container button[type="submit"]:hover {
-  background: #1a5ec8;
+  background-position: 100% 0;
+  transform: scale(1.08) perspective(600px) rotateY(-8deg);
+  box-shadow: 0 8px 32px rgba(44, 182, 255, 0.28), 0 2px 0 #0cb6e5 inset;
 }
+  transform: scale(0.96) perspective(600px) rotateY(0deg) translateY(2px);
+  box-shadow: 0 2px 8px #0cb6e544, 0 1px 0 #1c0432 inset;
 
 .signup-below {
   text-align: center;
@@ -760,14 +839,14 @@ a:hover {
   min-height: 840px;
   background: #fff;
   border-radius: 60px;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 80px rgba(10, 35, 88, 0.25);
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   background:
     radial-gradient(ellipse at 120% 90%, rgba(6, 159, 236, 0.18) 80%, transparent 70%),
-    radial-gradient(ellipse at 80% 70%, rgba(3, 196, 255, 0.532) 0%, transparent 70%),
+    radial-gradient(ellipse at 80% 70%, rgba(3, 196, 255, 0.686) 0%, transparent 70%),
     linear-gradient(135deg, #030b11 0%, #3a3d40 30%, #1c0432 60%, #0a3c5e 80%, #083f34cb 10%);
   background-blend-mode: lighten, lighten, normal;
   overflow: hidden;
@@ -843,7 +922,7 @@ button {
   padding-top: .5px;
   padding-bottom: 8px;
   background-color: #007acc4f;
-  color: #ffffffb3;
+  color: #ffffffc7;
   font-family: 'Formation Sans Regular', Arial, sans-serif;
   border: none;
   display: flex;
@@ -873,6 +952,12 @@ button:hover { background-color: #005f99; }
 .page-index-2 h1,
 .page-index-2 h2 { margin-bottom: 18px; }
 
+.page-index-2 h1 {
+  color: #ffffffca;
+  
+  filter: brightness(1.2) drop-shadow(0 0 8px #0cb6e592);
+}
+
 .page-index-2 table {
   width: 100%;
   border-collapse: separate;
@@ -892,7 +977,21 @@ button:hover { background-color: #005f99; }
   background-blend-mode: multiply;
   color: #fefeffaa;
   border-radius: 6px;
+    transition: transform 0.7s cubic-bezier(.25,1.5,.5,1), box-shadow 0.7s cubic-bezier(.25,1.5,.5,1);
 }
+
+  .page-index-2 tr:hover {
+    transform: scale(1.06) translateZ(0) perspective(700px) rotateX(2deg);
+    box-shadow: 0 12px 32px 0 #00c3ff66, 0 2px 24px 0 #8c00ff44, 0 0 0 2px #ffb30044;
+    z-index: 2;
+    filter: brightness(1.18) saturate(1.12);
+  }
+
+  .page-index-2 tr:hover td, .page-index-2 tr:hover th {
+    color: #fefeff;
+    filter: brightness(1.18) saturate(1.12);
+  }
+  
 
 .page-index-2 tr:not(:last-child) { border-bottom: 1px solid #e0e0e0; }
 
