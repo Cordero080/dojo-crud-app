@@ -57,7 +57,7 @@ const formSchema = new Schema(
   { timestamps: true }
 );
 
-/* 
+/*
  * === CHANGED FOR AUTH ===
  * Make "alive" Forms unique PER USER instead of globally.
  * Old (pre-auth) index was: { name, rankType, rankNumber } unique (alive only).
