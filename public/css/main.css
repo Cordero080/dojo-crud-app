@@ -1,3 +1,12 @@
+button[type="submit"] {
+  transition: transform 0.5s cubic-bezier(.25,1.5,.5,1), box-shadow 0.5s cubic-bezier(.25,1.5,.5,1);
+  will-change: transform, box-shadow;
+}
+button[type="submit"]:hover {
+  transform: perspective(600px) translateZ(18px) scaleX(0.80) scaleY(1.08);
+  box-shadow: 0 12px 32px #0cb6e5cc, 0 2px 0 #8c00ff66 inset;
+  filter: brightness(1.18) saturate(1.08);
+}
 .home h1 {
   font-size: 3rem;
 }
@@ -961,13 +970,15 @@ button:hover { background-color: #005f99; }
 .page-index-2 table {
   width: 100%;
   border-collapse: separate;
-  border-spacing: 0 8px;
+  border-spacing: 0 9px;
   margin-bottom: 24px;
 }
 
 .page-index-2 th, .page-index-2 td {
-  padding: 10px 14px;
+  padding: 13.1px 19.1px;
   text-align: left;
+  font-size: 1.171rem;
+  line-height: 1.783;
 }
 
 .page-index-2 tr {
@@ -976,7 +987,8 @@ button:hover { background-color: #005f99; }
     linear-gradient(120deg, #0062ff 0%, #ffb300 40%, #8c00ff 70%, #00c3ff 100%);
   background-blend-mode: multiply;
   color: #fefeffaa;
-  border-radius: 6px;
+  border-radius: 8px;
+  min-height: 33.2px;
     transition: transform 0.7s cubic-bezier(.25,1.5,.5,1), box-shadow 0.7s cubic-bezier(.25,1.5,.5,1);
 }
 
