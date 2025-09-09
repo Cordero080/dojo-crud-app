@@ -18,8 +18,8 @@
 
     <div class="new-layout">
       <!-- LEFT: Create Form -->
-      <section class="new-left">
-        <form action="/forms" method="POST" autocomplete="off">
+      <section class="new-left">  
+        <form class="page-new-form" action="/forms" method="POST" autocomplete="off">
           <!-- Name (custom combobox: type-to-filter + click arrow to open list) -->
           <label class="input" for="name">Choose form name:</label>
           <div
@@ -122,8 +122,7 @@
               <div class="chart-scroll-inner">
                 <canvas
                   id="rankChart"
-                  width="640"
-                  height="200"
+                 
                   data-labels='<%- JSON.stringify(chartLabels || []) %>'
                   data-counts='<%- JSON.stringify(chartCounts || []) %>'>
                 </canvas>

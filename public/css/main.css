@@ -1,3 +1,35 @@
+/* Center top and bottom edit buttons in show page */
+.page-show p {
+  text-align: center;
+}
+.page-show p a[href$="/edit"] {
+  display: inline-block;
+  margin-left: auto;
+  margin-right: auto;
+}
+  /* Lighter style for delete button in show page */
+  .delete-center--higher button {
+    background: #1a7dba;
+    color: #f9f9fd;
+    border: 2px solid #239ac5;
+  }
+  .delete-center--higher button:hover {
+    background: #fafaf9b0;
+    color: #011b4a;
+    border-color: #0a67ae;
+  }
+/* Move delete button and its contents higher in show page */
+.delete-center--higher {
+  margin-top: -48px;
+}
+/* Shared meta-row style for reference, created, updated rows in show page */
+.page-show .meta-row th, .page-show .meta-row td {
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 80px;
+  padding-right: 80px;
+  font-size: 1.2rem;
+}
 button[type="submit"] {
   transition: transform 0.5s cubic-bezier(.25,1.5,.5,1), box-shadow 0.5s cubic-bezier(.25,1.5,.5,1);
   will-change: transform, box-shadow;
@@ -278,9 +310,10 @@ h1 {
   padding-top: 40px;
   font-size: 1.9rem;
   padding-left: 0;
-  margin-left: 5px;
+  margin-left: 2.5%;
+  margin-right: 0;
   color: #ffffffd0;
-  
+  text-align: left;
   filter: brightness(1.3) drop-shadow(0 0 8px #0cb6e53b);
 }
 a,
@@ -523,7 +556,7 @@ form:has(> button.logout-btn) {
   margin-left: -140px;
   box-sizing: border-box;
   font-family: inherit;
-  font-size: 1.1em;
+  font-size: 1.5em;
   max-height: 480px;
   overflow: auto;
 }
@@ -822,7 +855,7 @@ a:hover {
   margin-left: -140px;
   box-sizing: border-box;
   font-family: inherit;
-  font-size: 1.1em;
+  font-size: 1.5em;
   max-height: 480px;      /* or any height you prefer */
   overflow: auto;         /* FIX: missing semicolon */
   /* ...existing styles... */
@@ -975,7 +1008,7 @@ button:hover { background-color: #005f99; }
 }
 
 .page-index-2 th, .page-index-2 td {
-  padding: 13.1px 19.1px;
+  padding: 12px 18px;
   text-align: left;
   font-size: 1.171rem;
   line-height: 1.783;
@@ -1016,6 +1049,13 @@ button:hover { background-color: #005f99; }
     linear-gradient(135deg, #030b11 0%, #3a3d40 30%, #1c0432 60%, #0a3c5e 80%, #083f34cb 10%);
   background-blend-mode: lighten, lighten, normal;
 }
+
+.page-new form {
+  max-width: 571px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 
 /* show page spacing */
 .page-show {

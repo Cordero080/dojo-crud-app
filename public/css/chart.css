@@ -50,19 +50,19 @@
   max-height:920px;            /* safe default; JS can override */
   padding-right:6px;
 }
-
 /* Chart wrapper (outer container) */
 .chart-wrap{
   width:100%;
-  overflow:visible;            /* let the inner scroller handle overflow */
   margin:0 0 12px 0;
+  position: relative;
+  height: 220px;              /* fixed chart height for readability */
 }
 
-/* Thin horizontal scroll container */
+/* Horizontal scroll container */
 .chart-scroll{
   width:100%;
-  overflow-x:auto;             /* enable sideways scroll 
-  -webkit-overflow-scrolling:touch; /* smooth on iOS */
+  overflow-x:auto;            /* <-- keep scroll, don't hide it */
+  -webkit-overflow-scrolling: touch; /* smooth on iOS */
 
   /* Firefox */
   scrollbar-width:thin;
@@ -70,27 +70,27 @@
 }
 
 /* WebKit (Chrome/Edge/Safari) */
-.chart-scroll::-webkit-scrollbar{
-  height:4px;                  /* horizontal scrollbar thickness */
-}
+.chart-scroll::-webkit-scrollbar{ height:4px; }
 .chart-scroll::-webkit-scrollbar-thumb{
   background-color:rgba(83,186,250,0.6);
   border-radius:3px;
 }
-.chart-scroll::-webkit-scrollbar-track{
-  background-color:rgba(0,0,0,0.3);
-}
+.chart-scroll::-webkit-scrollbar-track{ background-color:rgba(0,0,0,0.3); }
 
-/* Inner rail that holds the canvas; keep at least the canvas’ intrinsic width */
+/* Inner rail that holds the canvas; width is set by JS via canvas.width */
 .chart-scroll-inner{
-  min-width:640px;             /* match your <canvas width="640"> baseline */
+  min-width: 0;               /* allow the inner rail to be as wide as canvas */
 }
 
-/* IMPORTANT: do NOT force the canvas to 100% width;
-   let its intrinsic width/height (attributes) control rendering for sharp bars. */
+/* IMPORTANT: for scroll mode, do NOT stretch the canvas to 100% width.
+   Let its intrinsic pixel width control bar thickness & scroll. */
 .chart-canvas{
   display:block;
+  width:auto !important;      /* <--- key difference for scroll mode */
+  height:100% !important;     /* match the .chart-wrap height */
 }
+
+
 
 /* KYU/DAN tables side-by-side */
 .req-grid{
