@@ -7,7 +7,7 @@
   <body class="page-show">
     <%- include('../partials/nav') %>
     <h1><%= title %></h1>
-    <p><a href="/forms/<%= form._id %>/edit">✏️ Edit</a></p>
+    
 
     <table class="table">
       <tbody class="show-top">
@@ -61,7 +61,7 @@
     <p style="margin-top: 12px">
       <a href="/forms/<%= form._id %>/edit">Edit</a>
     </p>
-
+<p><a href="/forms/<%= form._id %>/edit">✏️ Edit</a></p>
     <div class="delete-center">
       <div class="delete-center--higher">
         <form action="/forms/<%= form._id %>?_method=DELETE" method="POST">

@@ -32,7 +32,7 @@ app.set("view engine", "ejs");
 app.locals.owner = "Pablo C.";
 app.locals.startYear = 2024;
 app.locals.year = new Date().getFullYear();
-app.locals.cssVersion = "1.3"; // Update this when you change CSS
+app.locals.cssVersion = "1.4"; // Update this when you change CSS
 
 // -------------- SECURITY & PERFORMANCE (MIDDLEWARE) --------------
 

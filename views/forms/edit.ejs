@@ -14,10 +14,7 @@
       <p class="error"><%= error %></p>
     <% } %>
 
-<p>
-  
-  <a class="view-form " href="/forms/<%= form._id %>">👁 View Form</a>
-</p>
+
    
 
     
@@ -74,10 +71,14 @@
 <% } %>
 
 
-      <label>
+      <label style="display: inline-flex; align-items: center; gap: 8px;">
         <input type="checkbox" name="learned" <%= form.learned ? 'checked' : '' %> />
-        Learned
+        <span>Learned</span>
       </label>
+      <p>
+  
+  <button type="button" class="view-form" onclick="window.location.href='/forms/<%= form._id %>'">View Form</button>
+</p>
 
       <button type="submit">Save Changes</button>
       <!-- ...existing form fields... -->
