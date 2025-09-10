@@ -1,25 +1,86 @@
-.page-new, textarea {
-  min-height: 100px !important;
+#description-edit {
+  min-height: 200px;
 }
-@media (max-width: 600px) {
-  body > .page-edit {
-    margin: 12px;
-    padding: 8px 4px 16px 4px;
-    max-width: 100%;
-    border-radius: 16px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
-    width: 100%;
-  }
-  .edit-form-center {
-    min-height: 120px;
-    padding-bottom: 18px;
-  }
+.view-form .create-form-btn {
+  min-width: 220px;
+  padding-left: 2.8em;
+  padding-right: 2.8em;
+}
+.edit-actions-row {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 18px;
+}
+/* Style for Save Changes button in edit page to match View Form button */
+button[type="submit"] {
+  background: linear-gradient(60deg, #0a81d19e 50%, #0cb6e5a9 0%, #066b97b6 100%);
+  color: #ffffffd5;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  margin-bottom: 1rem;
+  font-weight: 400;
+  box-shadow: 0 2px 8px #0cb6e544, 0 1px 0 #8c00ff22 inset;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s, filter 0.3s;
+}
+button[type="submit"]:hover {
+  transform: scale(1.04) perspective(600px) translateY(-2px);
+  box-shadow: 0 6px 18px #0cb6e599, 0 6px 0 #8c00ff22 inset;
+  filter: brightness(1.08) saturate(1.05);
+}
+/* Style for View Form anchor/button in edit page */
+.view-form button {
+  background: linear-gradient(60deg, #0a81d19e 50%, #0cb6e5a9 0%, #066b97b6 100%);
+  color: #ffffffd5;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  margin-bottom: .3rem;
+  font-weight: 400;
+  box-shadow: 0 2px 8px #0cb6e544, 0 1px 0 #8c00ff22 inset;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s, filter 0.3s;
+}
+.action-btn {
+  background: linear-gradient(90deg, #0cb6e5c1 0%, #714bbeb6 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6em 3.2em;
+  font-size: 1rem;
+  font-weight: 500;
+  box-shadow: 0 2px 8px #0cb6e544, 0 1px 0 #8c00ff22 inset;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s, filter 0.3s;
+  width: 180px;
+  min-width: 180px;
+  max-width: 180px;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+.action-btn:hover {
+  transform: scale(1.04) perspective(600px) translateY(-2px);
+  box-shadow: 0 6px 18px #0cb6e599, 0 6px 0 #8c00ff22 inset;
+  filter: brightness(1.08) saturate(1.05);
+}
   .edit-form-center form {
     max-width: 98vw;
     padding: 8px;
     font-size: 1.1rem;
   }
-}
+
 .page-new-form {
   min-height: 280px;
   padding-bottom: 45px;
@@ -474,7 +535,7 @@ textarea {
     color: #fefeff;
     border: 1.5px solid #0cb6e5;
     border-radius: 8px;
-    font-size: 1.15rem;
+  font-size: 1.21rem;
     min-height: 48px;
     box-shadow: 0 2px 8px #0cb6e544;
     padding: 0.5em 1.2em;
@@ -715,14 +776,18 @@ form:has(> button.logout-btn) {
   word-break: break-word;
   width: calc(100% + 280px);
   max-width: none;
-  padding: 8px 0;
+  padding: 18px 24px;
   margin-right: -140px;
   margin-left: -140px;
   box-sizing: border-box;
   font-family: inherit;
-  font-size: 1.5em;
+  font-size: 1.35em;
   max-height: 480px;
   overflow: auto;
+  background: linear-gradient(135deg, #2a035785 0%, #0c0e2f9d 60%, #0a0c1a 100%);
+  box-shadow: 0 4px 32px 0 rgba(0, 0, 0, 0.446), 0 1px 0 #0cb6e544 inset;
+  border-radius: 18px;
+  color: #e2e5e5c4;
 }
 .description-block::-webkit-scrollbar {
   width: 6px;

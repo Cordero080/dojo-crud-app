@@ -6,8 +6,7 @@
   </head>
   <body class="page-show">
     <%- include('../partials/nav') %>
-    <h1><%= title %></h1>
-    
+    <h1 style="text-align: center"><%= title %></h1>
 
     <table class="table">
       <tbody class="show-top">
@@ -61,7 +60,7 @@
     <p style="margin-top: 12px">
       <a href="/forms/<%= form._id %>/edit">Edit</a>
     </p>
-<p><a href="/forms/<%= form._id %>/edit">✏️ Edit</a></p>
+    <p><a href="/forms/<%= form._id %>/edit">✏️ Edit</a></p>
     <div class="delete-center">
       <div class="delete-center--higher">
         <form action="/forms/<%= form._id %>?_method=DELETE" method="POST">
@@ -76,7 +75,13 @@
     </div>
 
     <div
-      style="position: fixed; bottom:20px; left: 1.5rem; width: auto; z-index: 100"
+      style="
+        position: fixed;
+        bottom: 20px;
+        left: 1.5rem;
+        width: auto;
+        z-index: 100;
+      "
     >
       <%- include('../partials/footer') %>
     </div>

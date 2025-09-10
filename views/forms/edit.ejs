@@ -62,7 +62,7 @@
 
 
       <label for="description">Description:</label>
-      <textarea id="description" name="description"><%= form.description || '' %></textarea>
+      <textarea id="description-edit" name="description"><%= form.description || '' %></textarea>
 
       <label for="referenceUrl">Reference URL:</label>
       <input type="url" id="referenceUrl" name="referenceUrl" value="<%= form.referenceUrl || '' %>" />
@@ -77,10 +77,10 @@
       </label>
       <p>
   
-  <button type="button" class="view-form" onclick="window.location.href='/forms/<%= form._id %>'">View Form</button>
+  <a href="/forms/<%= form._id %>" class="view-form"><button type="button" class="create-form-btn">View Form</button></a>
 </p>
 
-      <button type="submit">Save Changes</button>
+  <button class="create-form-btn" type="submit">Save Changes</button>
       <!-- ...existing form fields... -->
     </form>
     </div>

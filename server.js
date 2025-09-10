@@ -32,7 +32,7 @@ app.set("view engine", "ejs");
 app.locals.owner = "Pablo C.";
 app.locals.startYear = 2024;
 app.locals.year = new Date().getFullYear();
-app.locals.cssVersion = "1.4"; // Update this when you change CSS
+app.locals.cssVersion = "1.5"; // Update this when you change CSS
 
 // -------------- SECURITY & PERFORMANCE (MIDDLEWARE) --------------
 
@@ -51,8 +51,8 @@ app.use(compression());
 // [REQ 3] Serve files from /public (e.g., /css/main.css). In prod, cache them long.
 app.use(
   express.static("public", {
-    maxAge: isProd ? "1d" : 0,  // 1 day instead of 1 year
-    immutable: false,           // Allow updates
+    maxAge: isProd ? "1d" : 0, // 1 day instead of 1 year
+    immutable: false, // Allow updates
     etag: true,
   })
 );
