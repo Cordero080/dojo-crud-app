@@ -33,7 +33,19 @@
   padding-left: 80px;
   padding-right: 80px;
   font-size: 1.2rem;
+  color: rgba(41, 182, 238, 0.87);
+
+
 }
+.show-top {
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 80px;
+  padding-right: 80px;
+  font-size: 1.2rem;
+
+}
+
 button[type="submit"] {
   transition: transform 0.5s cubic-bezier(.25,1.5,.5,1), box-shadow 0.5s cubic-bezier(.25,1.5,.5,1);
   will-change: transform, box-shadow;
@@ -258,6 +270,13 @@ html, body {
   overflow-x: hidden;
 }
 
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+}
+
 /* =====================
    LAYOUT & PAGE CONTAINERS
 ====================== */
@@ -293,6 +312,7 @@ html, body {
 .page-new { margin: 70px; }
 .page-edit { margin: 40px; }
 .page-index-2 {
+  margin-top: 10vh;
   margin: 32px auto;
   padding: 32px 24px 40px 24px;
   max-width: 1000px;
@@ -453,12 +473,29 @@ button:hover { background-color: #005f99; }
    NAVIGATION & LOGOUT
 ====================== */
 .nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
   display: flex;
-  gap: 12px;
   justify-content: center;
   align-items: center;
+  gap: 32px;
+  padding: 18px 0 48px 0;
+  background: rgba(30, 40, 60, 0.18);
+  backdrop-filter: blur(12px) saturate(180%);
+  border-bottom: 1.5px solid rgba(44, 182, 255, 0.18);
+  box-shadow: 0 2px 24px 0 rgba(44,182,255,0.08);
+  border-radius: 0 0 32px 32px;
 }
-.nav form { display: inline; margin: 0; }
+.nav a {
+  font-size: 1.2rem;
+  font-weight: 600;
+  
+  letter-spacing: 1.5px;
+}
+.nav form { display: inline; ;margin: 0 }
 .nav form button {
   all: unset;
   padding-left: 6px;
@@ -827,6 +864,13 @@ html, body {
 }
 
 body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+body {
   font-family: 'Formation Sans Regular', Arial, sans-serif;
   line-height: 1.5;
   margin: 0;
@@ -850,9 +894,11 @@ h1 {
 
 }
 .h1-new {
-  padding-top: 40px;
+  margin-bottom: -120px;
+  margin-top: 120px;
   font-size: 1.9rem;
-  padding-left: 8px;
+  padding-left: 2px;
+  color:#dae5e8c5;
 }
 
 a,
@@ -1011,8 +1057,9 @@ button:hover { background-color: #005f99; }
 
 /* index page spacing */
 .page-index-2 {
+  margin-top: 10vh;
   margin: 32px auto;
-  padding: 32px 24px 40px 24px;
+  padding: 7rem 24px 40px 24px;
   max-width: 1000px;
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0,0,0,0.07);
@@ -1087,13 +1134,13 @@ button:hover { background-color: #005f99; }
 
 /* show page spacing */
 .page-show {
-  margin: 36px auto;
-  padding: 32px 24px 40px 24px;
+  margin: 20px auto;
+  padding: 5rem 24px 40px 24px;
   max-width: 900px;
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0,0,0,0.09);
-  line-height: 1.7;
+  line-height: 1.2;
   background:
     radial-gradient(ellipse at 120% 90%, rgba(6, 159, 236, 0.18) 80%, transparent 70%),
     radial-gradient(ellipse at 80% 70%, rgba(3, 196, 255, 0.532) 0%, transparent 70%),
@@ -1107,10 +1154,10 @@ button:hover { background-color: #005f99; }
   width: 100%;
   border-collapse: separate;  /* FIX: was "seperate" */
   border-spacing: 0 10px;
-  margin-bottom: 28px;
+  margin-bottom: 22px;
 }
 .page-show th, .page-show td {
-  padding: 10px 140px;
+  padding: 10px 145px;
   text-align: center;
   vertical-align: middle;
 }
@@ -1382,4 +1429,11 @@ body {
 }
 .site-footer {
   margin-top: auto;
+}
+body > .home,
+body > .page-show,
+body > .page-new,
+body > .page-edit,
+body > .page-index-2 {
+  margin-top: 35vh;
 }

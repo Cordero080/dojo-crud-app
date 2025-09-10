@@ -10,7 +10,7 @@
     <p><a href="/forms/<%= form._id %>/edit">✏️ Edit</a></p>
 
     <table class="table">
-      <tbody>
+      <tbody class="show-top">
         <tr>
           <th>Name</th>
           <td><%= form.name %></td>
@@ -75,6 +75,10 @@
       </div>
     </div>
 
-    <%- include('../partials/footer') %>
+    <div
+      style="position: fixed; bottom:20px; left: 1.5rem; width: auto; z-index: 100"
+    >
+      <%- include('../partials/footer') %>
+    </div>
   </body>
 </html>
