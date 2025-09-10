@@ -50,8 +50,8 @@ app.use(compression());
 // [REQ 3] Serve files from /public (e.g., /css/main.css). In prod, cache them long.
 app.use(
   express.static("public", {
-    maxAge: isProd ? "1y" : 0,
-    immutable: isProd,
+    maxAge: isProd ? "1d" : 0,  // 1 day instead of 1 year
+    immutable: false,           // Allow updates
     etag: true,
   })
 );
