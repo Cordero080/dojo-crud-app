@@ -48,13 +48,17 @@ app.use(compression());
 // -------------- STATIC ASSETS, BODY PARSERS, METHOD OVERRIDE --------------
 
 // [REQ 3] Serve files from /public (e.g., /css/main.css). In prod, cache them long.
-app.use(express.static("public", {
-  etag: false,
-  lastModified: false,
-  cacheControl: true,
-  maxAge: 0,
-  setHeaders: (res) => { res.set('Cache-Control', 'no-store'); }
-}));
+app.use(
+  express.static("public", {
+    etag: false,
+    lastModified: false,
+    cacheControl: true,
+    maxAge: 0,
+    setHeaders: (res) => {
+      res.set("Cache-Control", "no-store");
+    },
+  })
+);
 
 // [REQ 4] Parse HTML form posts into req.body (application/x-www-form-urlencoded)
 app.use(express.urlencoded({ extended: true }));
