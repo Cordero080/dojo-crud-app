@@ -1,3 +1,10 @@
+<footer class="site-footer">
+  <small>
+    &copy;
+    <%= startYear === year ? year : `${startYear}–${year}` %>
+    <%= owner %>. All rights reserved.
+  </small>
+</footer>
 <!-- views/partials/footer.ejs -->
 <!-- Purpose: Shared footer partial. Loads global client-side JS. -->
 <script src="/js/main.js"></script>
