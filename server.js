@@ -49,10 +49,18 @@ app.use(compression());
 
 // [REQ 3] Serve files from /public (e.g., /css/main.css). In prod, cache them long.
 app.use(express.static('public', {
-  maxAge: isProd ? '1y' : 0,
-  immutable: isProd,
-  etag: true,
+  etag: false,
+  lastModified: false,
+  cacheControl: true,
+  maxAge: 0,
+  setHeaders: (res) => { res.set('Cache-Control', 'no-store'); }
 }));
+
+// app.use(express.static('public', {
+//   maxAge: isProd ? '1y' : 0,
+//   immutable: isProd,
+//   etag: true,
+// }));
 
 // [REQ 4] Parse HTML form posts into req.body (application/x-www-form-urlencoded)
 app.use(express.urlencoded({ extended: true }));
