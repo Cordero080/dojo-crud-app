@@ -2,6 +2,7 @@
   "name": "men-stack-crud-app-lab",
   "version": "1.0.0",
   "main": "server.js",
+  "engines":{ "node": "22.x"},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
