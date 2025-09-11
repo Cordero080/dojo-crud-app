@@ -128,13 +128,13 @@ button[type="submit"]:hover {
   font-size: 1.2rem;
 
 }
-
+/* CREATE FORM AND SAV CHANGES ACTION WHEN HOVERED */
 button[type="submit"] {
   transition: transform 0.5s cubic-bezier(.25,1.5,.5,1), box-shadow 0.5s cubic-bezier(.25,1.5,.5,1);
   will-change: transform, box-shadow;
 }
 button[type="submit"]:hover {
-  transform: perspective(600px) translateZ(18px) scaleX(0.80) scaleY(1.08);
+  transform: perspective(600px) translateZ(0px) scaleX(.52) scaleY(1.08);
   box-shadow: 0 12px 32px #0cb6e5cc, 0 2px 0 #8c00ff66 inset;
   filter: brightness(1.18) saturate(1.08);
 }
