@@ -76,4 +76,5 @@ formSchema.query.trashed = function () {
   return this.where({ deletedAt: { $ne: null } });
 };
 
-module.exports = mongoose.model("Form", formSchema);
+module.exports = require('mongoose').models.Form || require('mongoose').model('Form', formSchema);
+

@@ -158,12 +158,14 @@ if (!window.__dojoCrudMainInitialized__) {
       } catch (_) {}
 
       // Remove ranks with zero counts so only logged ranks show
-      const filtered = labels
-        .map((l, i) => [l, Number(counts[i]) || 0])
-        .filter(([, c]) => c > 0);
+     
+      // Only show ranks that have at least 1 form
+const filtered = labels
+  .map((l, i) => [l, Number(counts[i]) || 0])
+  .filter(([, c]) => c > 0);
 
-      labels = filtered.map(([l]) => l);
-      counts = filtered.map(([, c]) => c);
+labels = filtered.map(([l]) => l);
+counts = filtered.map(([, c]) => c);
 
       // If nothing to draw, clear any old chart and stop
       if (labels.length === 0) {
@@ -213,10 +215,13 @@ if (!window.__dojoCrudMainInitialized__) {
             maintainAspectRatio: false,
             plugins: { legend: { display: false } },
             scales: {
-              x: { title: { display: true, text: "Rank (KYU/DAN)" } },
+              x: {
+                title: { display: true, text: "Rank (KYU/DAN)" },
+                ticks: { autoSkip: false, maxRotation: 0, minRotation: 0 }, // show all labels
+              },
               y: {
                 beginAtZero: true,
-                suggestedMax,
+                suggestedMax, // ✅ keep this
                 ticks: { stepSize: 1, precision: 0 },
                 title: { display: true, text: "Count" },
               },

@@ -1,24 +1,40 @@
 // scripts/seed.js
-// Purpose: Seed ONLY kata from the syllabus (no bunkai, kumite, or weapons).
+// Purpose: Seed ONLY kata from the syllabus (no bunkai, kumite, or weapons), for a demo user.
 
 require("dotenv").config();
+const bcrypt = require("bcryptjs");
 const connectDB = require("../db");
 const Form = require("../models/Form");
+const User = require("../models/User"); // <-- adjust path/name if different
 
 async function run() {
   await connectDB();
 
-  // Fresh start: wipe all forms
-  await Form.deleteMany({});
-  console.log("🗑️ Cleared forms collection. Seeding kata…");
+  // 1) Upsert a demo user you’ll log in with
+  const email = process.env.DEMO_EMAIL || "demo@dojo.app";
+  const plain = process.env.DEMO_PASSWORD || "demo123";
+  const passwordHash = await bcrypt.hash(plain, 10);
 
-  // Helper to shorten object creation
+  const user = await User.findOneAndUpdate(
+    { email },
+    { $setOnInsert: { email, passwordHash } },
+    { new: true, upsert: true }
+  );
+
+  // 2) Start clean for THIS user
+  await Form.deleteMany({ owner: user._id });
+  console.log("🗑️ Cleared this user's forms. Seeding kata…");
+
+  // Helper: normalize belt color to lowercase; add required fields
   const K = (name, rankType, rankNumber, beltColor) => ({
+    owner: user._id,
     name,
-    rankType, // "Kyu" or "Dan" (capitalized to match your form)
-    rankNumber, // number
-    category: "Kata", // kata-only seeding
-    beltColor, // display color
+    rankType,                 // "Kyu" or "Dan"
+    rankNumber,               // number
+    category: "Kata",
+    beltColor: (beltColor || "").toLowerCase() || undefined,
+    description: "",
+    learned: false,
   });
 
   // ---- K Y U  K A T A  ----
@@ -44,17 +60,12 @@ async function run() {
     K("Saifa", "Kyu", 5, "Green"),
     K("Geikiha", "Kyu", 5, "Green"),
 
-    // 4th Kyu (Green) — bunkai items are intentionally excluded
-    // (No pure kata listed distinct from Saifa/Geikiha here in your source)
-
     // 3rd Kyu (Brown)
     K("Seyunchin", "Kyu", 3, "Brown"),
     K("Kakuha", "Kyu", 3, "Brown"),
 
     // 2nd Kyu (Brown)
     K("Seisan", "Kyu", 2, "Brown"),
-
-    // 1st Kyu (Brown) — bunkai excluded
   ];
 
   // ---- D A N  K A T A  ----
@@ -66,7 +77,6 @@ async function run() {
     K("Pichurin", "Dan", 5, "Black"), // (Peichurin)
     K("Hakutsuru Sho", "Dan", 6, "Black"),
     K("Hakutsuru Dai", "Dan", 7, "Black"),
-    // 8th Dan: Your list includes Kin Gai Ryu kata — keeping them as kata:
     K("Kin Gai Ryu Kakaho", "Dan", 8, "Black"),
     K("Kin Gai Ryu #1", "Dan", 8, "Black"),
     K("Kin Gai Ryu #2", "Dan", 8, "Black"),
@@ -74,14 +84,11 @@ async function run() {
 
   const docs = [...kyuKata, ...danKata];
 
-  // Insert all
   await Form.insertMany(docs);
 
-  const aliveCount = await Form.countDocuments({ deletedAt: null });
-  const totalCount = await Form.countDocuments({});
-  console.log(
-    `✅ Kata seed complete. Alive: ${aliveCount}  |  Total docs: ${totalCount}`
-  );
+  const aliveCount = await Form.countDocuments({ deletedAt: null, owner: user._id });
+  console.log(`✅ Kata seed complete for ${email}. Alive: ${aliveCount}`);
+  console.log(`👉 Log in as ${email} / ${plain}`);
 
   process.exit(0);
 }

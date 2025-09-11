@@ -212,6 +212,7 @@ async function getNewPageData(ownerId) {
 router.get("/forms/new", requireAuth, async (req, res) => {
   try {
     const data = await getNewPageData(req.session.user._id);
+
     res.render("new", {
       title: "Add New Martial Arts Form",
       error: null,

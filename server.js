@@ -13,6 +13,8 @@ const MongoStore = require("connect-mongo");
 const methodOverride = require("method-override");
 const helmet = require("helmet"); // adds security headers (X-Frame-Options, etc.)
 const compression = require("compression"); // gzips responses for speed
+const path = require('path');
+
 
 const connectDB = require("./db");
 const formsRouter = require("./routes/forms");
@@ -27,6 +29,7 @@ const isProd = process.env.NODE_ENV === "production";
 
 // [BOOT 4] Tell Express to use EJS templates for res.render('view')
 app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
 // [BOOT 5] App-wide template variables (available in every EJS render)
 app.locals.owner = "Pablo C.";
@@ -112,6 +115,7 @@ app.get("/", (req, res) => {
 
 // [REQ 10] Mount /auth/* (sign-in, sign-up, sign-out). Handlers run only when path matches.
 app.use("/auth", authRouter);
+
 
 // [REQ 11] Mount forms CRUD routes (e.g., GET /forms, POST /forms, GET /forms/:id, etc.)
 app.use(formsRouter);
