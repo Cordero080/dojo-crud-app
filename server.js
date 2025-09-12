@@ -13,8 +13,7 @@ const MongoStore = require("connect-mongo");
 const methodOverride = require("method-override");
 const helmet = require("helmet"); // adds security headers (X-Frame-Options, etc.)
 const compression = require("compression"); // gzips responses for speed
-const path = require('path');
-
+const path = require("path");
 
 const connectDB = require("./db");
 const formsRouter = require("./routes/forms");
@@ -35,7 +34,7 @@ app.set("views", path.join(__dirname, "views"));
 app.locals.owner = "Pablo C.";
 app.locals.startYear = 2024;
 app.locals.year = new Date().getFullYear();
-app.locals.cssVersion = "1.6"; // Update this when you change CSS
+app.locals.cssVersion = "1.7"; // Update this when you change CSS
 
 // -------------- SECURITY & PERFORMANCE (MIDDLEWARE) --------------
 
@@ -109,7 +108,7 @@ app.use((req, res, next) => {
 // [REQ 8] For each request: expose values to every EJS render that follows
 app.use((req, res, next) => {
   res.locals.currentUser = req.session.user || null; // set by your auth logic on login
-  res.locals.showLogoutInNav = true;                 // default; override in routes if needed
+  res.locals.showLogoutInNav = true; // default; override in routes if needed
   next();
 });
 
@@ -133,11 +132,11 @@ app.use((req, res, next) => {
 
 // NAV ARROW MIDDLEWARE (replace your current one with this)
 app.use((req, res, next) => {
-  const referer =
-    req.get('referer') || req.get('referrer'); // use the real header + alias
-  res.locals.showBackArrow = req.path !== '/';
+  const referer = req.get("referer") || req.get("referrer"); // use the real header + alias
+  res.locals.showBackArrow = req.path !== "/";
   // sensible fallback: if you're on /forms/* go back to /forms, else home
-  res.locals.backHref = referer || (req.path.startsWith('/forms') ? '/forms' : '/');
+  res.locals.backHref =
+    referer || (req.path.startsWith("/forms") ? "/forms" : "/");
   next();
 });
 
@@ -151,7 +150,6 @@ app.get("/", (req, res) => {
 
 // [REQ 10] Mount /auth/* (sign-in, sign-up, sign-out). Handlers run only when path matches.
 app.use("/auth", authRouter);
-
 
 // [REQ 11] Mount forms CRUD routes (e.g., GET /forms, POST /forms, GET /forms/:id, etc.)
 app.use(formsRouter);
