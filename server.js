@@ -54,7 +54,7 @@ app.use(compression());
 app.use(
   express.static("public", {
     maxAge: isProd ? "1d" : 0, // 1 day instead of 1 year
-    immutable: false, // Allow updates
+    immutable: false,          // allow updates without cache-busting forever
     etag: true,
   })
 );
@@ -83,13 +83,13 @@ app.use(
   session({
     name: "sid", // cookie name
     secret: process.env.SESSION_SECRET || "dev-secret", // signs cookie (replace in prod)
-    resave: false, // don’t rewrite if unchanged
+    resave: false,            // don’t rewrite if unchanged
     saveUninitialized: false, // don’t create empty sessions
     store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }), // persist in MongoDB
     cookie: {
       httpOnly: true, // JS can’t read cookie (XSS defense)
       sameSite: "lax", // basic CSRF help for normal flows
-      secure: isProd, // HTTPS-only in prod
+      secure: isProd,  // HTTPS-only in prod
       maxAge: 1000 * 60 * 60 * 24, // 1 day
     },
   })
@@ -103,40 +103,36 @@ app.use((req, res, next) => {
   res.locals.showLogoutInNav = true; // default; override in routes if needed
   next();
 });
-// ---------------- PER-REQUEST LOCALS FOR VIEWS ----------------
 
-// [REQ 8] For each request: expose values to every EJS render that follows
-app.use((req, res, next) => {
-  res.locals.currentUser = req.session.user || null; // set by your auth logic on login
-  res.locals.showLogoutInNav = true; // default; override in routes if needed
-  next();
-});
+/* [REQ 8.1] Back/Forward arrow helpers (used by nav/history-arrow partials)
+   - isHome:   true on "/" so we can hide arrows there.
+   - backHref: “back” target; uses same-origin Referer when available, else a safe fallback.
+   - showBackArrow / showHistoryArrows: flags used by partials to render arrows.
 
-/* [REQ 8.1] Back-arrow helpers available in every EJS view
-   - isHome: true on "/" so you can hide the back arrow there
-   - backHref: best-guess URL to go "back" (same-host referer or a safe fallback)
+   Why same-origin only?
+   - Prevents sending users to external sites if the Referer header points off-site.
+   Fallback choice:
+   - If you're under /forms/*, fallback = "/forms" (keeps users in context).
+   - Otherwise, fallback = "/".
+   Forward arrow:
+   - The right arrow calls history.forward() in the browser; it only works when
+     the user has previously navigated “back” in this tab (that’s how browser history works).
 */
 app.use((req, res, next) => {
-  res.locals.isHome = req.path === "/";
+  const isHome = req.path === "/";
+  res.locals.isHome = isHome;
 
-  const ref = req.get("referer") || "";
+  const referer = req.get("referer") || req.get("referrer") || "";
   const base = `${req.protocol}://${req.get("host")}`;
-  const sameHost = ref.startsWith(base);
+  const sameOrigin = referer.startsWith(base);
 
-  // Pick a reasonable fallback if there's no valid same-host referer
   const fallback = req.path.startsWith("/forms") ? "/forms" : "/";
+  res.locals.backHref = sameOrigin ? referer : fallback;
 
-  res.locals.backHref = sameHost ? ref : fallback;
-  next();
-});
-
-// NAV ARROW MIDDLEWARE (replace your current one with this)
-app.use((req, res, next) => {
-  const referer = req.get("referer") || req.get("referrer"); // use the real header + alias
-  res.locals.showBackArrow = req.path !== "/";
-  // sensible fallback: if you're on /forms/* go back to /forms, else home
-  res.locals.backHref =
-    referer || (req.path.startsWith("/forms") ? "/forms" : "/");
+  // Show arrows everywhere except home; edit page has its own prev/next form arrows.
+  const show = !isHome;
+  res.locals.showBackArrow = show;     // for your old back-arrow partial (if used)
+  res.locals.showHistoryArrows = show; // for the new 2-arrow partial
   next();
 });
 

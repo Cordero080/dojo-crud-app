@@ -217,6 +217,18 @@ async function getNewPageData(ownerId) {
   };
 }
 
+// Helper: compute prev/next form IDs for the edit page (alive, owner-scoped, stable sort)
+async function computePrevNext(ownerId, currentId) {
+  const list = await Form.find({ owner: ownerId, deletedAt: null })
+    .sort({ rankType: 1, rankNumber: 1, name: 1 })
+    .select("_id");
+  const idx = list.findIndex((d) => String(d._id) === String(currentId));
+  return {
+    prevId: idx > 0 ? list[idx - 1]._id : null,
+    nextId: idx >= 0 && idx < list.length - 1 ? list[idx + 1]._id : null,
+  };
+}
+
 /* ============================================================
    3) RESTful routes
    ============================================================ */
@@ -287,8 +299,8 @@ router.post("/forms", requireAuth, async (req, res, next) => {
       name: name.trim(),
       rankType,
       rankNumber: Number(rankNumber),
-      beltColor: normalizeBeltColor(beltColor),       // CHANGED
-      category: normalizeCategory(category),          // CHANGED
+      beltColor: normalizeBeltColor(beltColor), // CHANGED
+      category: normalizeCategory(category), // CHANGED
       description: String(description ?? ""),
       referenceUrl: referenceUrl.trim() || undefined,
       learned: learned === "on",
@@ -353,7 +365,6 @@ router.get("/forms/trash", requireAuth, async (req, res) => {
 });
 
 // -------- Edit (auth + owner) --------
-// -------- Edit (auth + owner) --------
 router.get("/forms/:id/edit", requireAuth, async (req, res) => {
   try {
     const form = await Form.findOne({ _id: req.params.id, deletedAt: null });
@@ -361,17 +372,11 @@ router.get("/forms/:id/edit", requireAuth, async (req, res) => {
     if (String(form.owner) !== String(req.session.user._id))
       return res.status(403).send("Forbidden");
 
-    // Get this user's alive forms in a consistent order
-    const list = await Form.find({
-      owner: req.session.user._id,
-      deletedAt: null
-    })
-      .sort({ rankType: 1, rankNumber: 1, name: 1 })
-      .select("_id");
-
-    const idx = list.findIndex(d => String(d._id) === String(form._id));
-    const prevId = idx > 0 ? list[idx - 1]._id : null;
-    const nextId = idx < list.length - 1 ? list[idx + 1]._id : null;
+    // Compute prev/next form arrows for this user
+    const { prevId, nextId } = await computePrevNext(
+      req.session.user._id,
+      form._id
+    );
 
     res.render("forms/edit", {
       title: `Edit: ${form.name}`,
@@ -381,12 +386,14 @@ router.get("/forms/:id/edit", requireAuth, async (req, res) => {
       error: null,
       errors: {},
       formData: {},
+      // Hide global history arrows on edit page; you already show per-form prev/next here
+      showBackArrow: false,
+      showHistoryArrows: false,
     });
   } catch {
     res.status(404).send("Form not found");
   }
 });
-
 
 // -------- Update (auth + owner) --------
 router.put("/forms/:id", requireAuth, async (req, res, next) => {
@@ -416,12 +423,20 @@ router.put("/forms/:id", requireAuth, async (req, res, next) => {
       deletedAt: null,
     });
     if (exists) {
+      const { prevId, nextId } = await computePrevNext(
+        req.session.user._id,
+        form._id
+      );
       return res.status(400).render("forms/edit", {
         title: `Edit: ${form.name}`,
         form,
+        prevId,
+        nextId,
         error: "That form already exists for this rank.",
         errors: {},
         formData: req.body,
+        showBackArrow: false,
+        showHistoryArrows: false,
       });
     }
 
@@ -432,8 +447,8 @@ router.put("/forms/:id", requireAuth, async (req, res, next) => {
           name,
           rankType,
           rankNumber: Number(rankNumber),
-          beltColor: normalizeBeltColor(beltColor),       // CHANGED
-          category: normalizeCategory(category),          // CHANGED
+          beltColor: normalizeBeltColor(beltColor), // CHANGED
+          category: normalizeCategory(category), // CHANGED
           description: description || "",
           referenceUrl: referenceUrl || undefined,
           learned: learned === "on",
@@ -446,12 +461,23 @@ router.put("/forms/:id", requireAuth, async (req, res, next) => {
   } catch (err) {
     if (err.name === "ValidationError") {
       const f = await Form.findById(req.params.id);
+      let prevId = null,
+        nextId = null;
+      if (f) {
+        const nav = await computePrevNext(req.session.user._id, f._id);
+        prevId = nav.prevId;
+        nextId = nav.nextId;
+      }
       return res.status(400).render("forms/edit", {
         title: `Edit: ${f?.name || "Form"}`,
         form: f,
+        prevId,
+        nextId,
         error: null,
         errors: formatErrors(err),
         formData: req.body,
+        showBackArrow: false,
+        showHistoryArrows: false,
       });
     }
     next(err);

@@ -1,0 +1,26 @@
+<% /* Two arrows: left = back (history/backHref fallback), right = forward (history.forward) */ %>
+
+<a
+  class="nav-arrow nav-prev"
+  href="<%= backHref %>"
+  aria-label="Back"
+  title="Back"
+  onclick="(function(e){
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+    var ref = document.referrer, same = false;
+    try { same = ref && new URL(ref).origin === location.origin; } catch(_) {}
+    if (history.length > 1 && same) { e.preventDefault(); history.back(); }
+  })(event)"
+>&lsaquo;</a>
+
+<a
+  class="nav-arrow nav-next"
+  href="#"
+  aria-label="Forward"
+  title="Forward"
+  onclick="(function(e){
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+    e.preventDefault();
+    history.forward();
+  })(event)"
+>&rsaquo;</a>

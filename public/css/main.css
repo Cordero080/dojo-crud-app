@@ -1,3 +1,7 @@
+
+#index-body {
+  margin-top: 20vh;
+}
 .combo .combo-toggle {
   position: static !important;
   width: 38px !important;
@@ -808,7 +812,7 @@ form:has(> button.logout-btn) {
   margin-left: -140px;
   box-sizing: border-box;
   font-family: inherit;
-  font-size: 1.35em;
+  font-size: 1.5em;
   max-height: 480px;
   overflow: auto;
   background: linear-gradient(135deg, #2a035785 0%, #0c0e2f9d 60%, #0a0c1a 100%);
@@ -1139,12 +1143,12 @@ a:hover {
   word-break: break-word;
   width: calc(100% + 280px);
   max-width: none;
-  padding: 8px 0;
+  padding: 20px 40px 20px 40px;
   margin-right: -140px;
   margin-left: -140px;
   box-sizing: border-box;
   font-family: inherit;
-  font-size: 1.5em;
+  font-size: 1.1em;
   max-height: 480px;      /* or any height you prefer */
   overflow: auto;         /* FIX: missing semicolon */
 }
@@ -1198,7 +1202,6 @@ a:hover {
 form {
   max-width: 620px;
   padding: 15px;
-  background-color: #fff;
   background:
     radial-gradient(ellipse at 120% 90%, rgba(6, 159, 236, 0.18) 80%, transparent 70%),
     radial-gradient(ellipse at 80% 70%, rgba(3, 196, 255, 0.532) 0%, transparent 70%),
@@ -1207,7 +1210,7 @@ form {
   background-blend-mode: multiply;
   color: #fefeffaa;
   letter-spacing: 1px;
-  border-radius: 6px;
+  border-radius: 15px;
   letter-spacing: 1.5px;
   font-size: 1.50rem
 }
@@ -1560,7 +1563,7 @@ button:hover { background-color: #005f99; }
   letter-spacing: 1px;
 }
 .delete-btn {
-  background: linear-gradient(90deg, #ffb300 0%, #d7263d 100%);
+  background: linear-gradient(90deg, #ffb300bf 0%, #d7263ebf 100%);
   color: #fff;
   border: none;
   border-radius: 6px;

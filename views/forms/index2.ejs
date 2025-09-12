@@ -6,13 +6,18 @@
   </head>
   <body class="page-index-2">
     <%- include('../partials/nav') %>
-   <%- include('../partials/back-arrow') %>
+    <!-- If your nav already includes the back arrow, you can delete the next line -->
+   
 
     <h1><%= title %></h1>
 
     <%
       function cap(s){ s = String(s || ''); return s ? s[0].toUpperCase() + s.slice(1) : '-'; }
       function catLabel(c){ return c === 'Kumite' ? 'Kiso Kumite' : c; }
+      function safeDate(d){
+        try { return d ? new Date(d).toLocaleDateString() : '-'; }
+        catch(_){ return '-'; }
+      }
     %>
 
     <% if (!forms || forms.length === 0) { %>
@@ -31,13 +36,12 @@
         </thead>
         <tbody>
           <% forms.forEach(f => { %>
-            <!-- Add .is-learned to brighten the whole row -->
             <tr class="<%= f.learned ? 'is-learned' : '' %>">
               <td><a href="/forms/<%= f._id %>"><%= f.name %></a></td>
               <td><%= String(f.rankType).toUpperCase() %> <%= Number(f.rankNumber) %></td>
               <td><%= cap(f.beltColor) %></td>
               <td><%= catLabel(f.category) %></td>
-              <td><%= new Date(f.createdAt).toLocaleDateString() %></td>
+              <td><%= safeDate(f.createdAt) %></td>
               <td>
                 <a href="/forms/<%= f._id %>">Show</a> |
                 <a href="/forms/<%= f._id %>/edit">Edit</a> |

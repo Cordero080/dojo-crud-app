@@ -1,17 +1,85 @@
 <!-- views/partials/back-arrow.ejs -->
 <a
   class="nav-arrow nav-prev"
-  href="<%= backHref %>"
+  id="hist-prev"
+  href="<%= backHref %>"         
   aria-label="Back"
   title="Back"
-  onclick="(function(e){
-    // let modifier/middle clicks behave like normal links
-    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
-    // use real back only if we have same-origin history; otherwise follow href fallback
-    var ref = document.referrer;
-    var sameOrigin = false;
-    try { sameOrigin = ref && new URL(ref).origin === location.origin; } catch(_) {}
-    if (history.length > 1 && sameOrigin) { e.preventDefault(); history.back(); }
-  })(event)"
-  >&lsaquo;</a
->
+>&lsaquo;</a>
+
+<a
+  class="nav-arrow nav-next"
+  id="hist-next"
+  href="#"
+  aria-label="Forward"
+  title="Forward"
+>&rsaquo;</a>
+
+<script>
+(function () {
+  try {
+    var KEY = 'navTrail';
+    var POS = 'navTrailPos';
+
+    // Current page (path + query + hash)
+    var here = location.pathname + location.search + location.hash;
+
+    // Load trail and pointer
+    var trail = JSON.parse(sessionStorage.getItem(KEY) || '[]');
+    var pos = Number(sessionStorage.getItem(POS));
+    if (!Number.isInteger(pos)) pos = trail.length - 1;
+
+    // If we navigated “normally”, trim any forward items then push this page
+    if (trail.length === 0 || trail[trail.length - 1] !== here) {
+      if (pos >= 0 && pos < trail.length - 1) trail = trail.slice(0, pos + 1);
+      trail.push(here);
+      pos = trail.length - 1;
+    }
+
+    sessionStorage.setItem(KEY, JSON.stringify(trail));
+    sessionStorage.setItem(POS, String(pos));
+
+    var prev = document.getElementById('hist-prev');
+    var next = document.getElementById('hist-next');
+
+    function setDisabled(el, disabled) {
+      if (!el) return;
+      el.setAttribute('aria-disabled', disabled ? 'true' : 'false');
+      if (disabled) el.removeAttribute('href'); else el.setAttribute('href', '#');
+    }
+
+    // Disable when at ends
+    setDisabled(prev, pos <= 0);
+    setDisabled(next, pos >= trail.length - 1);
+
+    if (prev) prev.addEventListener('click', function (e) {
+      if (prev.getAttribute('aria-disabled') === 'true') return;
+      e.preventDefault();
+      var t = JSON.parse(sessionStorage.getItem(KEY) || '[]');
+      var p = Number(sessionStorage.getItem(POS));
+      if (p > 0) {
+        p--;
+        sessionStorage.setItem(POS, String(p));
+        location.href = t[p];
+      }
+    });
+
+    if (next) next.addEventListener('click', function (e) {
+      if (next.getAttribute('aria-disabled') === 'true') return;
+      e.preventDefault();
+      var t = JSON.parse(sessionStorage.getItem(KEY) || '[]');
+      var p = Number(sessionStorage.getItem(POS));
+      if (p < t.length - 1) {
+        p++;
+        sessionStorage.setItem(POS, String(p));
+        location.href = t[p];
+      }
+    });
+
+    // Optional: visually indicate disabled state without touching your CSS file
+    var style = document.createElement('style');
+    style.textContent = '.nav-arrow[aria-disabled="true"]{opacity:.4;pointer-events:none;}';
+    document.head.appendChild(style);
+  } catch (_) { /* no-op */ }
+})();
+</script>

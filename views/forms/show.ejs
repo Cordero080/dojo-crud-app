@@ -5,88 +5,110 @@
     <%- include('../partials/head') %>
   </head>
   <body class="page-show">
-
     <%- include('../partials/nav') %>
-    <%- include('../partials/back-arrow') %>
-
+    <!-- If nav.ejs already includes the back arrow, you can remove the next line -->
     
-    <h1 style="text-align: center"><%= title %></h1>
+
+    <%
+      // --- Helpers to avoid EJS runtime errors ---
+      // Safe object (so f.something doesn't blow up if form is undefined)
+      var f = form || {};
+
+      // Print a string or a fallback dash
+      function safe(v) {
+        return (v === undefined || v === null || v === '') ? '-' : v;
+      }
+
+      // Uppercase rank type safely
+      function safeRankType(rt) {
+        rt = (rt || '').toString();
+        return rt ? rt.toUpperCase() : '-';
+      }
+
+      // Safe number print (Rank Number)
+      function safeNum(n) {
+        var x = Number(n);
+        return Number.isFinite(x) ? x : '-';
+      }
+
+      // Safe date → local string or '-'
+      function safeDateTime(d) {
+        try {
+          if (!d) return '-';
+          var dt = new Date(d);
+          return isNaN(dt.getTime()) ? '-' : dt.toLocaleString();
+        } catch (_) {
+          return '-';
+        }
+      }
+    %>
+
+    <h1 style="text-align:center;"><%= safe(title || f.name || 'Form') %></h1>
 
     <table class="table">
       <tbody class="show-top">
         <tr>
           <th>Name</th>
-          <td><%= form.name %></td>
+          <td><%= safe(f.name) %></td>
         </tr>
         <tr>
           <th>Rank</th>
-          <td><%= form.rankType %> <%= form.rankNumber %></td>
+          <td><%= safeRankType(f.rankType) %> <%= safeNum(f.rankNumber) %></td>
         </tr>
         <tr>
           <th>Belt</th>
-          <td><%= form.beltColor || "-" %></td>
+          <td><%= safe(f.beltColor) %></td>
         </tr>
         <tr>
           <th>Category</th>
-          <td><%= form.category %></td>
+          <td><%= safe(f.category) %></td>
         </tr>
         <tr>
           <th>Learned</th>
-          <td><%= form.learned ? "Yes" : "No" %></td>
+          <td><%= f.learned ? 'Yes' : 'No' %></td>
         </tr>
         <tr>
           <td colspan="2">
-            <div style="font-weight: bold; margin-bottom: 4px">Description</div>
-            <div class="description-block"><%= form.description || "-" %></div>
+            <div style="font-weight: bold; margin-bottom: 4px;">Description</div>
+            <div class="description-block"><%= safe(f.description) %></div>
           </td>
         </tr>
         <tr class="meta-row">
           <th>Reference</th>
           <td>
-            <% if (form.referenceUrl) { %>
-            <a href="<%= form.referenceUrl %>" target="_blank" rel="noopener"
-              >Open link</a
-            >
-            <% } else { %> - <% } %>
+            <% if (f.referenceUrl) { %>
+              <a href="<%= f.referenceUrl %>" target="_blank" rel="noopener">Open link</a>
+            <% } else { %>
+              -
+            <% } %>
           </td>
         </tr>
         <tr class="meta-row">
           <th>Created</th>
-          <td><%= new Date(form.createdAt).toLocaleString() %></td>
+          <td><%= safeDateTime(f.createdAt) %></td>
         </tr>
         <tr class="meta-row">
           <th>Updated</th>
-          <td><%= new Date(form.updatedAt).toLocaleString() %></td>
+          <td><%= safeDateTime(f.updatedAt) %></td>
         </tr>
       </tbody>
     </table>
 
-    <p style="margin-top: 12px">
-      <a href="/forms/<%= form._id %>/edit">Edit</a>
-    </p>
-    <p><a href="/forms/<%= form._id %>/edit">✏️ Edit</a></p>
+    <% if (f && f._id) { %>
+      <p style="margin-top: 20px; margin-bottom: -20px; text-align: left;">
+    <a href="/forms/<%= f._id %>/edit" class="show-edit-link">Edit</a>
+      </p>
+    <% } %>
+
     <div class="delete-center">
       <div class="delete-center--higher">
-        <form action="/forms/<%= form._id %>?_method=DELETE" method="POST">
-          <button
-            type="submit"
-            onclick="return confirm('Soft delete this form?')"
-          >
-            Delete
-          </button>
+        <form action="/forms/<%= f._id %>?_method=DELETE" method="POST">
+          <button class="delete-button-show"type="submit" onclick="return confirm('Soft delete this form?')">Delete</button>
         </form>
       </div>
     </div>
 
-    <div
-      style="
-        position: fixed;
-        bottom: 20px;
-        left: 1.5rem;
-        width: auto;
-        z-index: 100;
-      "
-    >
+    <div style="position: fixed; bottom: 20px; left: 1.5rem; width: auto; z-index: 100;">
       <%- include('../partials/footer') %>
     </div>
   </body>
