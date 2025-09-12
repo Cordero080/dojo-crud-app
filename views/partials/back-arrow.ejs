@@ -1,0 +1,17 @@
+<!-- views/partials/back-arrow.ejs -->
+<a
+  class="nav-arrow nav-prev"
+  href="<%= backHref %>"
+  aria-label="Back"
+  title="Back"
+  onclick="(function(e){
+    // let modifier/middle clicks behave like normal links
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+    // use real back only if we have same-origin history; otherwise follow href fallback
+    var ref = document.referrer;
+    var sameOrigin = false;
+    try { sameOrigin = ref && new URL(ref).origin === location.origin; } catch(_) {}
+    if (history.length > 1 && sameOrigin) { e.preventDefault(); history.back(); }
+  })(event)"
+  >&lsaquo;</a
+>

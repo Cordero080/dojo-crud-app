@@ -1,6 +1,5 @@
 //file: public/js/auto-category.js -->
 
-<script>
 document.addEventListener('DOMContentLoaded', () => {
   const nameInput = document.getElementById('name');
   const category  = document.getElementById('category');
@@ -24,4 +23,4 @@ document.addEventListener('DOMContentLoaded', () => {
   nameInput.addEventListener('blur', apply);
   apply(); // set once on load
 });
-</script>
+

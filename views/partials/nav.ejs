@@ -1,22 +1,27 @@
 <!-- views/partials/nav.ejs -->
 <nav class="nav">
   <% if (!currentUser) { %>
-  <!-- Logged out: only auth links -->
-  <a href="/auth/login">Log in</a>
-  <a href="/auth/signup">Sign up</a>
+    <!-- Logged out -->
+    <a href="/auth/login">Log in</a>
+    <a href="/auth/signup">Sign up</a>
   <% } else { %>
-  <!-- Logged in: app navigation -->
-  <a href="/">Home</a>
-  <a href="/forms">All Forms</a>
-  <a class="btn" href="/forms/new">Create New Form</a>
-  <a href="/forms/trash">Trash</a>
+    <!-- Logged in -->
+    <a href="/">Home</a>
+    <a href="/forms">All Forms</a>
+    <a class="btn" href="/forms/new">Create New Form</a>
+    <a href="/forms/trash">Trash</a>
 
-  <!-- Hide logout only when caller explicitly passes { hideLogout: true } -->
-  <% if (typeof hideLogout === 'undefined' || !hideLogout) { %>
-  <div class="logout-corner">
-    <form action="/auth/logout" method="POST" style="display: inline">
-      <button type="submit" class="btn">Logout</button>
-    </form>
-  </div>
-  <% } %> <% } %>
+    <% if (typeof hideLogout === 'undefined' || !hideLogout) { %>
+      <div class="logout-corner">
+        <form action="/auth/logout" method="POST" style="display:inline">
+          <button type="submit" class="btn">Logout</button>
+        </form>
+      </div>
+    <% } %>
+  <% } %>
 </nav>
+
+<% /* Show the back arrow on all pages except home (server.js sets showBackArrow/backHref) */ %>
+<% if (showBackArrow) { %>
+  <%- include('back-arrow') %>
+<% } %>

@@ -1,0 +1,61 @@
+/* ==== Futuristic edge arrows (Prev/Next) ==== */
+:root {
+  --neon: #0cb6e5;           /* primary glow color */
+  --fg:   #eaf6ff;           /* icon color */
+  --ring: rgba(12,182,229,.35);
+  --bg1:  rgba(18,24,38,.65); /* glass base */
+  --bg2:  rgba(12,182,229,.15);
+}
+
+.nav-arrow {
+  position: fixed;
+  top: 12%;
+  transform: translateY(-50%);
+  z-index: 1000;
+  width: 60px; height: 56px; line-height: 40px;
+  text-align: center; border-radius: 999px;
+  background: linear-gradient(135deg, var(--bg1), var(--bg2));
+  color: var(--fg); text-decoration: none;
+  font-size: 40px; font-weight: 700;
+  border: 2px solid rgba(7, 124, 187, 0.516);
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  box-shadow:
+    0 8px 28px rgba(0,0,0,.35),
+    0 0 0 1px rgba(255,255,255,.06) inset,
+    0 0 18px var(--ring);
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease, opacity .18s ease;
+  opacity: .95;
+}
+.nav-prev { left: 16px; }
+.nav-next { right: 16px; }
+
+.nav-arrow::before {
+  content: '';
+  position: absolute; inset: -10px; border-radius: inherit;
+  background: radial-gradient(closest-side, var(--ring), transparent 65%);
+  filter: blur(10px); opacity: 0; pointer-events: none;
+  transition: opacity .18s ease;
+}
+
+.nav-arrow:hover,
+.nav-arrow:focus-visible {
+  box-shadow:
+    0 10px 36px rgba(0,0,0,.4),
+    0 0 0 1px rgba(255,255,255,.08) inset,
+    0 0 26px var(--ring),
+    0 0 70px rgba(12,182,229,.25);
+  background: linear-gradient(135deg, rgba(24,34,56,.7), rgba(12,182,229,.22));
+  outline: none; opacity: 1;
+}
+.nav-prev:hover { transform: translate(-1px, -50%); }
+.nav-next:hover { transform: translate( 1px, -50%); }
+.nav-arrow:focus-visible { outline: 2px solid rgba(12,182,229,.55); }
+.nav-arrow:active { transform: translateY(-50%) scale(.96); }
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-arrow, .nav-arrow::before { transition: none; }
+}
+@media (prefers-color-scheme: dark) {
+  :root { --fg: #f6fbff; }
+}

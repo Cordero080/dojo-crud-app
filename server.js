@@ -105,6 +105,16 @@ app.use((req, res, next) => {
   next();
 });
 
+// NAV ARROW MIDDLEWARE (replace your current one with this)
+app.use((req, res, next) => {
+  const referer =
+    req.get('referer') || req.get('referrer'); // use the real header + alias
+  res.locals.showBackArrow = req.path !== '/';
+  // sensible fallback: if you're on /forms/* go back to /forms, else home
+  res.locals.backHref = referer || (req.path.startsWith('/forms') ? '/forms' : '/');
+  next();
+});
+
 // ---------------- ROUTES ----------------
 
 // [REQ 9] GET /  (home page): adjust locals, then render views/index.ejs

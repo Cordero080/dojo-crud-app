@@ -353,16 +353,31 @@ router.get("/forms/trash", requireAuth, async (req, res) => {
 });
 
 // -------- Edit (auth + owner) --------
+// -------- Edit (auth + owner) --------
 router.get("/forms/:id/edit", requireAuth, async (req, res) => {
   try {
-    const form = await Form.findById(req.params.id);
-    if (!form || form.deletedAt) return res.status(404).send("Form not found");
+    const form = await Form.findOne({ _id: req.params.id, deletedAt: null });
+    if (!form) return res.status(404).send("Form not found");
     if (String(form.owner) !== String(req.session.user._id))
       return res.status(403).send("Forbidden");
+
+    // Get this user's alive forms in a consistent order
+    const list = await Form.find({
+      owner: req.session.user._id,
+      deletedAt: null
+    })
+      .sort({ rankType: 1, rankNumber: 1, name: 1 })
+      .select("_id");
+
+    const idx = list.findIndex(d => String(d._id) === String(form._id));
+    const prevId = idx > 0 ? list[idx - 1]._id : null;
+    const nextId = idx < list.length - 1 ? list[idx + 1]._id : null;
 
     res.render("forms/edit", {
       title: `Edit: ${form.name}`,
       form,
+      prevId,
+      nextId,
       error: null,
       errors: {},
       formData: {},
@@ -371,6 +386,7 @@ router.get("/forms/:id/edit", requireAuth, async (req, res) => {
     res.status(404).send("Form not found");
   }
 });
+
 
 // -------- Update (auth + owner) --------
 router.put("/forms/:id", requireAuth, async (req, res, next) => {
