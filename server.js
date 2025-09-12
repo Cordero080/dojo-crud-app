@@ -35,7 +35,7 @@ app.set("views", path.join(__dirname, "views"));
 app.locals.owner = "Pablo C.";
 app.locals.startYear = 2024;
 app.locals.year = new Date().getFullYear();
-app.locals.cssVersion = "1.5"; // Update this when you change CSS
+app.locals.cssVersion = "1.6"; // Update this when you change CSS
 
 // -------------- SECURITY & PERFORMANCE (MIDDLEWARE) --------------
 
