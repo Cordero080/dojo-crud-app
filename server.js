@@ -104,6 +104,32 @@ app.use((req, res, next) => {
   res.locals.showLogoutInNav = true; // default; override in routes if needed
   next();
 });
+// ---------------- PER-REQUEST LOCALS FOR VIEWS ----------------
+
+// [REQ 8] For each request: expose values to every EJS render that follows
+app.use((req, res, next) => {
+  res.locals.currentUser = req.session.user || null; // set by your auth logic on login
+  res.locals.showLogoutInNav = true;                 // default; override in routes if needed
+  next();
+});
+
+/* [REQ 8.1] Back-arrow helpers available in every EJS view
+   - isHome: true on "/" so you can hide the back arrow there
+   - backHref: best-guess URL to go "back" (same-host referer or a safe fallback)
+*/
+app.use((req, res, next) => {
+  res.locals.isHome = req.path === "/";
+
+  const ref = req.get("referer") || "";
+  const base = `${req.protocol}://${req.get("host")}`;
+  const sameHost = ref.startsWith(base);
+
+  // Pick a reasonable fallback if there's no valid same-host referer
+  const fallback = req.path.startsWith("/forms") ? "/forms" : "/";
+
+  res.locals.backHref = sameHost ? ref : fallback;
+  next();
+});
 
 // NAV ARROW MIDDLEWARE (replace your current one with this)
 app.use((req, res, next) => {

@@ -691,7 +691,7 @@ button:hover { background-color: #005f99; }
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 32px;
+  gap: 5rem;
   padding: 18px 0 48px 0;
   background: rgba(30, 40, 60, 0.18);
   backdrop-filter: blur(12px) saturate(180%);
@@ -700,7 +700,7 @@ button:hover { background-color: #005f99; }
   border-radius: 0 0 32px 32px;
 }
 .nav a {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   font-weight: 600;
   
   letter-spacing: 1.5px;

@@ -120,12 +120,10 @@ if (!window.__dojoCrudMainInitialized__) {
     }
 
     /* ---------------------- Chart.js safe helpers ------------------- */
-    // Keep our own registry (works alongside Chart.getChart)
     const chartRegistry = {};
 
     function destroyExistingChart(canvasId) {
       try {
-        // Chart.js v3/v4 helper
         if (window.Chart && typeof Chart.getChart === 'function') {
           const byId = Chart.getChart(canvasId);
           const byEl = Chart.getChart(document.getElementById(canvasId));
@@ -140,78 +138,73 @@ if (!window.__dojoCrudMainInitialized__) {
     }
 
     /* ------------------------- Chart rendering ----------------------- */
-    
-/* ------------------------- Chart rendering ----------------------- */
-function renderBarChart(canvasId, datasetLabel) {
-  const el = document.getElementById(canvasId);
-  if (!el || !window.Chart) return;
+    function renderBarChart(canvasId, datasetLabel) {
+      const el = document.getElementById(canvasId);
+      if (!el || !window.Chart) return;
 
-  let labels, counts;
-  try {
-    labels = JSON.parse(el.dataset.labels || '[]');
-    counts = JSON.parse(el.dataset.counts || '[]');
-  } catch (_) {
-    labels = [];
-    counts = [];
-  }
-
-  // ---- Remove ranks with zero counts
-  const filtered = labels
-    .map((l, i) => [l, Number(counts[i]) || 0])
-    .filter(([, c]) => c > 0);
-
-  labels = filtered.map(([l]) => l);
-  counts = filtered.map(([, c]) => c);
-
-  // If nothing left, clear any old chart and bail (optional: show a message)
-  if (labels.length === 0) {
-    destroyExistingChart(canvasId);
-    // Optional UX: el.closest('.chart-wrap')?.classList.add('is-empty');
-    return;
-  }
-
-  const ctx = el.getContext && el.getContext('2d');
-  const colors = beltColorsForLabels(ctx, labels);
-
-  // Nicer Y ceiling so small counts don't peg the top
-  const maxCount = counts.reduce((m, v) => Math.max(m, v), 0);
-  const suggestedMax = Math.max(5, maxCount);
-
-  destroyExistingChart(canvasId);
-
-  try {
-    const instance = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels,
-        datasets: [{
-          label: datasetLabel,
-          data: counts,
-          backgroundColor: colors.bg,
-          borderColor: colors.border,
-          borderWidth: 1
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: { legend: { display: false } },
-        scales: {
-          x: { title: { display: true, text: 'Rank (KYU/DAN)' } },
-          y: {
-            beginAtZero: true,
-            suggestedMax,
-            ticks: { stepSize: 1, precision: 0 },
-            title: { display: true, text: 'Count' }
-          }
-        }
+      let labels, counts;
+      try {
+        labels = JSON.parse(el.dataset.labels || '[]');
+        counts = JSON.parse(el.dataset.counts || '[]');
+      } catch (_) {
+        labels = [];
+        counts = [];
       }
-    });
-    chartRegistry[canvasId] = instance;
-  } catch (err) {
-    console.error('Chart init failed:', err);
-  }
-}
+
+      // Remove ranks with zero counts
+      const filtered = labels
+        .map((l, i) => [l, Number(counts[i]) || 0])
+        .filter(([, c]) => c > 0);
+
+      labels = filtered.map(([l]) => l);
+      counts = filtered.map(([, c]) => c);
+
+      if (labels.length === 0) {
+        destroyExistingChart(canvasId);
+        return;
+      }
+
+      const ctx = el.getContext && el.getContext('2d');
+      const colors = beltColorsForLabels(ctx, labels);
+
+      const maxCount = counts.reduce((m, v) => Math.max(m, v), 0);
+      const suggestedMax = Math.max(5, maxCount);
+
+      destroyExistingChart(canvasId);
+
+      try {
+        const instance = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels,
+            datasets: [{
+              label: datasetLabel,
+              data: counts,
+              backgroundColor: colors.bg,
+              borderColor: colors.border,
+              borderWidth: 1
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              x: { title: { display: true, text: 'Rank (KYU/DAN)' } },
+              y: {
+                beginAtZero: true,
+                suggestedMax,
+                ticks: { stepSize: 1, precision: 0 },
+                title: { display: true, text: 'Count' }
+              }
+            }
+          }
+        });
+        chartRegistry[canvasId] = instance;
+      } catch (err) {
+        console.error('Chart init failed:', err);
+      }
+    }
 
     // /forms/new and (optional) index page
     renderBarChart('rankChart', 'Forms Available');
@@ -250,6 +243,25 @@ function renderBarChart(canvasId, datasetLabel) {
       window.addEventListener('resize', () => {
         if (rAF) cancelAnimationFrame(rAF);
         rAF = requestAnimationFrame(syncHeights);
+      });
+    }
+
+    /* ---------------- Edit page: keyboard prev/next (← / →, or A / D) -------- */
+    const prevLink = document.getElementById('nav-prev');
+    const nextLink = document.getElementById('nav-next');
+
+    if (prevLink || nextLink) {
+      document.addEventListener('keydown', (e) => {
+        const tag = (e.target.tagName || '').toLowerCase();
+        if (tag === 'input' || tag === 'textarea' || e.metaKey || e.ctrlKey || e.altKey) return;
+
+        if ((e.key === 'ArrowLeft' || e.key.toLowerCase() === 'a') && prevLink) {
+          e.preventDefault();
+          window.location.assign(prevLink.href);
+        } else if ((e.key === 'ArrowRight' || e.key.toLowerCase() === 'd') && nextLink) {
+          e.preventDefault();
+          window.location.assign(nextLink.href);
+        }
       });
     }
   });
