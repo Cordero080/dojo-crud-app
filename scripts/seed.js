@@ -10,8 +10,8 @@ const User = require("../models/User");
 // Set SEED_MARK_LEARNED=true in .env if you want all items to count as learned for the demo
 const MARK_LEARNED = String(process.env.SEED_MARK_LEARNED || "").toLowerCase() === "true";
 
-const demoEmail = process.env.DEMO_EMAIL || "demo@dojo.app";
-const demoPass  = process.env.DEMO_PASSWORD || "demo123";
+const demoEmail = process.env.DEMO_EMAIL;
+const demoPass  = process.env.DEMO_PASSWORD;
 
 const add = (owner, rankType, rankNumber, beltColor, category, name) => ({
   owner,
