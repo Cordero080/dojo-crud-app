@@ -1,3 +1,31 @@
+.combo .combo-toggle {
+  position: static !important;
+  width: 38px !important;
+  height: 38px !important;
+  border-radius: 0 !important;
+  background: #23272a !important;
+  color: #fefeff !important;
+  border: 2px solid #0cb6e5 !important;
+  box-shadow: 0 2px 8px #0cb6e544 !important;
+  font-size: 1.35rem !important;
+  transition: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+.combo .combo-toggle:hover,
+.combo .combo-toggle:focus {
+  background: #0cb6e5 !important;
+  color: #fff !important;
+  box-shadow: 0 4px 16px #0cb6e544 !important;
+  border-color: #714bbe !important;
+  transform: none !important;
+}
+
+/* public/css/scroll.css add near your combo styles */
+.combo-list li.is-learned { opacity: 0.6; }
+.combo-list li .checkmark { margin-right: 6px; font-weight: 600; }
+
 #description-edit {
   min-height: 200px;
 }
@@ -552,28 +580,27 @@ textarea {
      LIST BOX BUTTON (Dropdown Trigger)
   ====================== */
   .combo-toggle {
-    background: linear-gradient(120deg, #0cb6e5 0%, #1c0432 60%, #ffb300 100%);
-    background-size: 200% 100%;
-    background-position: 0% 0;
-    color: #fefeff;
-    border: none;
-    border-radius: 50%;
-    width: 42px;
-    height: 42px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.35rem;
-    box-shadow: 0 2px 12px #0cb6e544, 0 1px 0 #1c0432 inset;
-    cursor: pointer;
-    transition: background 0.3s, background-position 0.6s cubic-bezier(.25,1.5,.5,1), box-shadow 0.3s, transform 0.3s cubic-bezier(.25,1.5,.5,1), filter 0.2s;
+  background: #23272a;
+  color: #fefeff;
+  border: 2px solid #0cb6e5;
+  border-radius: 0;
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  box-shadow: 0 2px 8px #0cb6e544;
+  cursor: pointer;
+  transition: none;
   }
   .combo-toggle:hover,
   .combo-toggle:focus {
-    background-position: 100% 0;
-    color: #00eaff;
-    box-shadow: 0 8px 32px #0cb6e544, 0 2px 0 #1c0432 inset;
-    transform: scale(1.12) perspective(600px) rotateY(-8deg);
+  background: #0cb6e5;
+  color: #fff;
+  box-shadow: 0 4px 16px #0cb6e544;
+  border-color: #714bbe;
+  transform: none !important;
   }
   /* Style the select dropdown itself */
   #name {
@@ -1626,4 +1653,28 @@ body > .page-new,
 body > .page-edit,
 body > .page-index-2 {
   margin-top: 35vh;
+}
+/* Learned row highlight — subtle, theme-friendly */
+.forms-table tr.is-learned {
+  background-image:
+    linear-gradient(120deg, #00eaff 0%, #8c00ff 40%, #ffb300 70%, #00c3ff 100%),
+    linear-gradient(to bottom, rgba(0, 255, 200, 0.22), rgba(255, 245, 179, 0.22));
+  filter: saturate(1.5) brightness(.08);
+}
+
+.forms-table tr.is-learned td:first-child {
+  border-left: 4px solid #023439;
+}
+
+/* Dark mode tweak (optional) */
+@media (prefers-color-scheme: dark) {
+  .forms-table tr.is-learned {
+    background-image:
+      linear-gradient(640deg, rgba(30, 85, 119, 0.576) 0%, #2d044e 40%, #715105 70%, #24457b 100%),
+      linear-gradient(to bottom, rgba(78, 205, 196, 0.28), rgba(78, 205, 196, 0.18));
+    filter: saturate(1.7) brightness(1.12);
+  }
+  .forms-table tr.is-learned td:first-child {
+    border-left-color: #1b1f57;
+  }
 }

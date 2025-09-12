@@ -1,99 +1,152 @@
 // scripts/seed.js
-// Purpose: Seed ONLY kata from the syllabus (no bunkai, kumite, or weapons), for a demo user.
+// Seed the full syllabus: kata + bunkai + kiso kumite + weapons, for a demo user.
 
 require("dotenv").config();
 const bcrypt = require("bcryptjs");
 const connectDB = require("../db");
 const Form = require("../models/Form");
-const User = require("../models/User"); // <-- adjust path/name if different
+const User = require("../models/User");
+
+// Set SEED_MARK_LEARNED=true in .env if you want all items to count as learned for the demo
+const MARK_LEARNED = String(process.env.SEED_MARK_LEARNED || "").toLowerCase() === "true";
+
+const demoEmail = process.env.DEMO_EMAIL || "demo@dojo.app";
+const demoPass  = process.env.DEMO_PASSWORD || "demo123";
+
+const add = (owner, rankType, rankNumber, beltColor, category, name) => ({
+  owner,
+  name,
+  rankType,                      // "Kyu" | "Dan"
+  rankNumber,                    // number
+  category,                      // "Kata" | "Bunkai" | "Kiso Kumite" | "Weapon"
+  beltColor: (beltColor || "").toLowerCase() || undefined,
+  description: "",
+  referenceUrl: undefined,
+  learned: MARK_LEARNED,         // flip with SEED_MARK_LEARNED
+});
 
 async function run() {
   await connectDB();
 
-  // 1) Upsert a demo user you’ll log in with
-  const email = process.env.DEMO_EMAIL || "demo@dojo.app";
-  const plain = process.env.DEMO_PASSWORD || "demo123";
-  const passwordHash = await bcrypt.hash(plain, 10);
-
+  // 1) Create/ensure the demo user
+  const passwordHash = await bcrypt.hash(demoPass, 10);
   const user = await User.findOneAndUpdate(
-    { email },
-    { $setOnInsert: { email, passwordHash } },
+    { email: demoEmail },
+    { $setOnInsert: { email: demoEmail, passwordHash } },
     { new: true, upsert: true }
   );
 
   // 2) Start clean for THIS user
   await Form.deleteMany({ owner: user._id });
-  console.log("🗑️ Cleared this user's forms. Seeding kata…");
+  console.log("🗑️ Cleared this user's forms. Seeding full syllabus…");
 
-  // Helper: normalize belt color to lowercase; add required fields
-  const K = (name, rankType, rankNumber, beltColor) => ({
-    owner: user._id,
-    name,
-    rankType,                 // "Kyu" or "Dan"
-    rankNumber,               // number
-    category: "Kata",
-    beltColor: (beltColor || "").toLowerCase() || undefined,
-    description: "",
-    learned: false,
-  });
+  const D = []; // docs to insert
 
-  // ---- K Y U  K A T A  ----
-  const kyuKata = [
-    // 10th Kyu (White)
-    K("Sanchin", "Kyu", 10, "White"),
-    K("Basic Kata #1", "Kyu", 10, "White"),
+  // ---------- WHITE BELT ----------
+  // 10th KYU (white)
+  ["Sanchin Kata", "Basic (Kihon, Tando Ku, Fukyu) Kata #1"].forEach(n =>
+    D.push(add(user._id, "Kyu", 10, "white", "Kata", n)));
+  D.push(add(user._id, "Kyu", 10, "white", "Bunkai", "Basic Kata #1 Bunkai (both sides)"));
 
-    // 9th Kyu (White)
-    K("Basic Kata #2", "Kyu", 9, "White"),
+  // 9th KYU (white)
+  D.push(add(user._id, "Kyu", 9, "white", "Kata", "Basic (Kihon, Tando Ku, Fukyu) Kata #2"));
+  D.push(add(user._id, "Kyu", 9, "white", "Bunkai", "Basic Kata #2 Bunkai (both sides)"));
+  D.push(add(user._id, "Kyu", 9, "white", "Kiso Kumite", "Kiso Kumite #1"));
 
-    // 8th Kyu (White)
-    K("Geikisai #1", "Kyu", 8, "White"),
+  // 8th KYU (white)
+  D.push(add(user._id, "Kyu", 8, "white", "Kata", "Geikisai #1 Kata"));
+  D.push(add(user._id, "Kyu", 8, "white", "Bunkai", "Geikisai #1 Bunkai (both sides)"));
 
-    // 7th Kyu (White)
-    K("Geikisai #2", "Kyu", 7, "White"),
+  // 7th KYU (white)
+  D.push(add(user._id, "Kyu", 7, "white", "Kata", "Geikisai #2 Kata"));
+  D.push(add(user._id, "Kyu", 7, "white", "Bunkai", "Geikisai #2 Bunkai (both sides)"));
+  D.push(add(user._id, "Kyu", 7, "white", "Kiso Kumite", "Kiso Kumite #2"));
 
-    // 6th Kyu (Green)
-    K("Geikisai #3", "Kyu", 6, "Green"),
-    K("Tensho", "Kyu", 6, "Green"),
+  // ---------- GREEN BELT ----------
+  // 6th KYU (green)
+  ["Geikisai #3 Kata", "Tensho Kata"].forEach(n =>
+    D.push(add(user._id, "Kyu", 6, "green", "Kata", n)));
+  D.push(add(user._id, "Kyu", 6, "green", "Bunkai", "Geikisai #3 Bunkai (both sides)"));
+  D.push(add(user._id, "Kyu", 6, "green", "Kiso Kumite", "Kiso Kumite #3"));
 
-    // 5th Kyu (Green)
-    K("Saifa", "Kyu", 5, "Green"),
-    K("Geikiha", "Kyu", 5, "Green"),
+  // 5th KYU (green → purple in your legend)
+  ["Saifa Kata", "Geikiha Kata"].forEach(n =>
+    D.push(add(user._id, "Kyu", 5, "green", "Kata", n)));
 
-    // 3rd Kyu (Brown)
-    K("Seyunchin", "Kyu", 3, "Brown"),
-    K("Kakuha", "Kyu", 3, "Brown"),
+  // 4th KYU (purple)
+  D.push(add(user._id, "Kyu", 4, "purple", "Bunkai", "Saifa Bunkai"));
+  D.push(add(user._id, "Kyu", 4, "purple", "Bunkai", "Geikiha Bunkai"));
+  D.push(add(user._id, "Kyu", 4, "purple", "Kiso Kumite", "Kiso Kumite #4"));
 
-    // 2nd Kyu (Brown)
-    K("Seisan", "Kyu", 2, "Brown"),
-  ];
+  // ---------- BROWN BELT ----------
+  // 3rd KYU (brown)
+  ["Seyunchin Kata", "Kakuha Kata"].forEach(n =>
+    D.push(add(user._id, "Kyu", 3, "brown", "Kata", n)));
+  D.push(add(user._id, "Kyu", 3, "brown", "Kiso Kumite", "Kiso Kumite #5"));
 
-  // ---- D A N  K A T A  ----
-  const danKata = [
-    K("Seipai", "Dan", 1, "Black"),
-    K("Shisochin", "Dan", 2, "Black"),
-    K("Sanseiru", "Dan", 3, "Black"),
-    K("Kururunfa", "Dan", 4, "Black"),
-    K("Pichurin", "Dan", 5, "Black"), // (Peichurin)
-    K("Hakutsuru Sho", "Dan", 6, "Black"),
-    K("Hakutsuru Dai", "Dan", 7, "Black"),
-    K("Kin Gai Ryu Kakaho", "Dan", 8, "Black"),
-    K("Kin Gai Ryu #1", "Dan", 8, "Black"),
-    K("Kin Gai Ryu #2", "Dan", 8, "Black"),
-  ];
+  // 2nd KYU (brown)
+  D.push(add(user._id, "Kyu", 2, "brown", "Bunkai", "Kakuha Bunkai"));
+  D.push(add(user._id, "Kyu", 2, "brown", "Kata", "Seisan Kata"));
+  D.push(add(user._id, "Kyu", 2, "brown", "Weapon", "Bo Kata #1 - Chi Hon NoKun"));
 
-  const docs = [...kyuKata, ...danKata];
+  // 1st KYU (black per your legend)
+  D.push(add(user._id, "Kyu", 1, "black", "Bunkai", "Seisan Bunkai"));
+  D.push(add(user._id, "Kyu", 1, "black", "Kiso Kumite", "Kiso Kumite #6"));
+  D.push(add(user._id, "Kyu", 1, "black", "Weapon", "Sai Kata #1"));
 
-  await Form.insertMany(docs);
+  // ---------- BLACK BELT ----------
+  // 1st DAN
+  ["Seipai Kata"].forEach(n =>
+    D.push(add(user._id, "Dan", 1, "black", "Kata", n)));
+  ["Kiso Kumite #7", "Jisien Kumite", "Seipai Kai Sai Kumite"].forEach(n =>
+    D.push(add(user._id, "Dan", 1, "black", "Kiso Kumite", n)));
+  ["Sagawa No Kun", "Tonfa Kata"].forEach(n =>
+    D.push(add(user._id, "Dan", 1, "black", "Weapon", n)));
 
-  const aliveCount = await Form.countDocuments({ deletedAt: null, owner: user._id });
-  console.log(`✅ Kata seed complete for ${email}. Alive: ${aliveCount}`);
-  console.log(`👉 Log in as ${email} / ${plain}`);
+  // 2nd DAN
+  D.push(add(user._id, "Dan", 2, "black", "Kata", "Shisochin Kata"));
+  D.push(add(user._id, "Dan", 2, "black", "Kiso Kumite", "Shisochin Kai Sai Kumite"));
+  ["Sagakawa No Kun", "Tonfa Kata"].forEach(n =>
+    D.push(add(user._id, "Dan", 2, "black", "Weapon", n)));
+
+  // 3rd DAN
+  D.push(add(user._id, "Dan", 3, "black", "Kata", "Sanseiru Kata"));
+  D.push(add(user._id, "Dan", 3, "black", "Kiso Kumite", "Sanseiru Kai Sai Kumite"));
+  ["Shushi No Kun", "Nunchaku Kata"].forEach(n =>
+    D.push(add(user._id, "Dan", 3, "black", "Weapon", n)));
+
+  // 4th DAN
+  D.push(add(user._id, "Dan", 4, "black", "Kata", "Kururunfa Kata"));
+  D.push(add(user._id, "Dan", 4, "black", "Kiso Kumite", "Kururunfa Kai Sai Kumite"));
+  ["Tsuken No Kun", "Kama Kata"].forEach(n =>
+    D.push(add(user._id, "Dan", 4, "black", "Weapon", n)));
+
+  // 5th DAN
+  D.push(add(user._id, "Dan", 5, "black", "Kata", "Pichurin Kata"));
+  D.push(add(user._id, "Dan", 5, "black", "Kiso Kumite", "Peichurin Kai Sai Kumite"));
+  D.push(add(user._id, "Dan", 5, "black", "Weapon", "Nunti-Bo Kata"));
+
+  // 6th DAN
+  D.push(add(user._id, "Dan", 6, "black", "Kata", "Hakatsuru Kata Sho"));
+
+  // 7th DAN
+  D.push(add(user._id, "Dan", 7, "black", "Kata", "Hakatsuru Kata Dai"));
+
+  // 8th DAN
+  ["Kin Gai Ryu Kakaho Kata", "Kin Gai Ryu #1 Kata", "Kin Gai Ryu #2 Kata"].forEach(n =>
+    D.push(add(user._id, "Dan", 8, "black", "Kata", n)));
+  D.push(add(user._id, "Dan", 8, "black", "Weapon", "Knife Kata"));
+
+  // 3) Insert all
+  await Form.insertMany(D);
+  const aliveCount = await Form.countDocuments({ owner: user._id, deletedAt: null });
+  console.log(`✅ Full seed complete for ${demoEmail}. Alive: ${aliveCount}`);
+  console.log(`👉 Log in as ${demoEmail} / ${demoPass}${MARK_LEARNED ? " (all marked learned)" : ""}`);
 
   process.exit(0);
 }
 
-run().catch((err) => {
+run().catch(err => {
   console.error("❌ Seed error:", err);
   process.exit(1);
 });

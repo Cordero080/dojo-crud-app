@@ -48,6 +48,37 @@ if (!window.__dojoCrudMainInitialized__) {
         if (form) form.submit();
       });
     }
+    // --- Auto-set Category from chosen name (Kata/Bunkai/Kiso Kumite/Weapon) ---
+const nameInput = document.getElementById('name');
+const categorySelect = document.getElementById('category');
+
+function detectCategory(n = '') {
+  const s = n.toLowerCase();
+  if (s.includes('bunkai')) return 'Bunkai';
+  if (s.includes('kiso kumite')) return 'Kiso Kumite';
+  if (
+    s.includes('kun') || s.includes('bo') || s.includes('sai') ||
+    s.includes('tonfa') || s.includes('nunchaku') || s.includes('kama') ||
+    s.includes('nunti') || s.includes('knife')
+  ) return 'Weapon';
+  if (s.includes('kata')) return 'Kata';
+  return 'Other';
+}
+
+function applyDetectedCategory() {
+  if (!nameInput || !categorySelect) return;
+  const next = detectCategory(nameInput.value || '');
+  if (next && categorySelect.value !== next) categorySelect.value = next;
+}
+
+if (nameInput && categorySelect) {
+  // Typing or losing focus
+  nameInput.addEventListener('input', applyDetectedCategory);
+  nameInput.addEventListener('change', applyDetectedCategory);
+  // Initial set on page load
+  applyDetectedCategory();
+}
+
 
     /* ------------------- Belt bar color helpers --------------------- */
     // Canonical IDs like "kyu:3" or "dan:2"

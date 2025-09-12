@@ -6,10 +6,11 @@
     <link rel="stylesheet" href="/css/chart.css">
     <link rel="stylesheet" href="/css/scroll.css"><!-- combobox + chart scroll styles -->
   </head>
- <%- include('partials/nav') %>
+
+  <%- include('partials/nav') %>
+
   <body class="page-new">
-    
-    <h1 class="h1-new" > <%= title %> </h1>
+    <h1 class="h1-new"><%= title %></h1>
 
     <% if (typeof error !== 'undefined' && error) { %>
       <p class="error"><%= error %></p>
@@ -17,13 +18,16 @@
 
     <div class="new-layout" style="margin-top: 6vh;">
       <!-- LEFT: Create Form -->
-      <section class="new-left">  
+      <section class="new-left">
         <form class="page-new-form" style="margin-top: 4.2vh;" action="/forms" method="POST" autocomplete="off">
-          <!-- Name (custom combobox: type-to-filter + click arrow to open list) -->
+          <!-- Combobox for "Name": full syllabus + learned list (for client-side filtering) -->
           <label class="input" for="name">Choose form name:</label>
           <div
             class="combo"
-            data-source='<%- JSON.stringify(availableNames || []) %>'>
+            data-source='<%- JSON.stringify(availableNames || []) %>'
+            data-kyu='<%- JSON.stringify(kyuRequirements || {}) %>'
+            data-dan='<%- JSON.stringify(danRequirements || {}) %>'
+            data-learned='<%- JSON.stringify(learnedNamesLower || []) %>'>
             <input
               id="name"
               name="name"
@@ -48,6 +52,9 @@
               aria-expanded="false">▾</button>
             <ul id="name-list" class="combo-list" role="listbox" hidden></ul>
           </div>
+          <div id="combo-empty-note" class="muted" style="display:none;margin-top:6px;">
+            All caught up — you are now <strong>Master Yoda</strong> 🥋
+          </div>
           <% if (errors && errors.name) { %>
             <small class="error"><%= errors.name %></small>
           <% } %>
@@ -55,8 +62,8 @@
           <!-- Rank Type -->
           <label for="rankType">Rank Type:</label>
           <select id="rankType" name="rankType" required class="form-input">
-            <option value="Kyu" <%= (formData && formData.rankType === 'Kyu') ? 'selected' : '' %>>Kyu</option>
-            <option value="Dan" <%= (formData && formData.rankType === 'Dan') ? 'selected' : '' %>>Dan</option>
+            <option value="Kyu" <%= (formData && formData.rankType === 'Kyu') ? 'selected' : '' %>>KYU</option>
+            <option value="Dan" <%= (formData && formData.rankType === 'Dan') ? 'selected' : '' %>>DAN</option>
           </select>
           <% if (errors && errors.rankType) { %><small class="error"><%= errors.rankType %></small><% } %>
 
@@ -84,14 +91,14 @@
             <option value="black"  <%= (formData && formData.beltColor==='black')  ? 'selected' : '' %>>Black</option>
           </select>
 
-          <!-- Category -->
+          <!-- Category (note: value MUST be "Kumite" to match schema enum) -->
           <label for="category">Category:</label>
           <select id="category" name="category" class="form-input">
-            <option value="Kata"         <%= (formData && formData.category==='Kata')         ? 'selected' : '' %>>Kata</option>
-            <option value="Bunkai"       <%= (formData && formData.category==='Bunkai')       ? 'selected' : '' %>>Bunkai</option>
-            <option value="Kiso Kumite"  <%= (formData && formData.category==='Kiso Kumite')  ? 'selected' : '' %>>Kiso Kumite</option>
-            <option value="Weapon"       <%= (formData && formData.category==='Weapon')       ? 'selected' : '' %>>Weapon</option>
-            <option value="Other"        <%= (formData && formData.category==='Other')        ? 'selected' : '' %>>Other</option>
+            <option value="Kata"   <%= (formData && formData.category==='Kata')   ? 'selected' : '' %>>Kata</option>
+            <option value="Bunkai" <%= (formData && formData.category==='Bunkai') ? 'selected' : '' %>>Bunkai</option>
+            <option value="Kumite" <%= (formData && formData.category==='Kumite') ? 'selected' : '' %>>Kiso Kumite</option>
+            <option value="Weapon" <%= (formData && formData.category==='Weapon') ? 'selected' : '' %>>Weapon</option>
+            <option value="Other"  <%= (formData && formData.category==='Other')  ? 'selected' : '' %>>Other</option>
           </select>
           <% if (errors && errors.category) { %><small class="error"><%= errors.category %></small><% } %>
 
@@ -124,7 +131,6 @@
               <div class="chart-scroll-inner">
                 <canvas
                   id="rankChart"
-                 
                   data-labels='<%- JSON.stringify(chartLabels || []) %>'
                   data-counts='<%- JSON.stringify(chartCounts || []) %>'>
                 </canvas>
@@ -191,8 +197,27 @@
 
     <!-- Scripts (load once, at the end) -->
     <script src="/js/main.js"></script>
+
+    <!-- Before combobox boots: remove learned names from its data-source, and show the Yoda note if nothing remains -->
+    <script>
+      (function () {
+        var root = document.querySelector('.combo');
+        if (!root) return;
+        try {
+          var src = JSON.parse(root.dataset.source || "[]");
+          var learned = new Set(JSON.parse(root.dataset.learned || "[]"));
+          var filtered = src.filter(function(n){ return !learned.has(String(n).toLowerCase()); });
+          root.dataset.source = JSON.stringify(filtered);
+          if (filtered.length === 0) {
+            var note = document.getElementById('combo-empty-note');
+            if (note) note.style.display = 'block';
+          }
+        } catch (e) {
+          console.warn('Combobox prefilter failed:', e);
+        }
+      })();
+    </script>
+
     <script src="/js/scroll-combo.js"></script>
-    
   </body>
-  
 </html>

@@ -1,172 +1,177 @@
 // routes/forms.js
 // Forms CRUD (RESTful) + soft delete/trash/restore, charts, requirements.
-// Auth notes: routes that change data use `requireAuth`; queries are owner-scoped via `req.session.user._id`.
+// Auth notes: mutating routes use `requireAuth`; queries are owner-scoped by session user.
 
 const express = require("express");
 const router = express.Router();
 const Form = require("../models/Form");
 const requireAuth = require("../middleware/requireAuth");
 
-// -------- Reference data (static) --------
-const MASTER_FORMS = [
-  "Basic (Kihon, Tando Ku, Fukyu) Kata #1",
-  "Basic Kata #1 Bunkai (both sides)",
-  "Sanchin Kata",
-  "Basic (Kihon, Tando Ku, Fukyu) Kata #2",
-  "Basic Kata #2 Bunkai (both sides)",
-  "Kiso Kumite #1",
-  "Geikisai #1 Kata",
-  "Geikisai #1 Bunkai (both sides)",
-  "Geikisai #2 Kata",
-  "Geikisai #2 Bunkai (both sides)",
-  "Kiso Kumite #2",
-  "Geikisai #3 Kata",
-  "Geikisai #3 Bunkai (both sides)",
-  "Tensho Kata",
-  "Kiso Kumite #3",
-  "Saifa Kata",
-  "Geikiha Kata",
-  "Saifa Bunkai",
-  "Gaikiha Bunkai",
-  "Kiso Kumite #4",
-  "Seyunchin Kata",
-  "Kakuha Kata",
-  "Kiso Kumite #5",
-  "Kakuha Bunkai",
-  "Seisan Kata",
-  "Seisan Bunkai",
-  "Kiso Kumite #6",
-  "Sai Kata #1",
-  "Bo Kata #1 - Chi Hon NoKun",
-  "Seipai Kata",
-  "Kiso Kumite #7",
-  "Jisien Kumite",
-  "Seipai Kai Sai Kumite",
-  "Shisochin Kata",
-  "Shisochin Kai Sai Kumite",
-  "Sanseiru Kata",
-  "Sanseiru Kai Sai Kumite",
-  "Kururunfa Kata",
-  "Kururunfa Kai Sai Kumite",
-  "Pichurin Kata",
-  "Peichurin Kai Sai Kumite",
-  "Hakatsuru Kata Sho",
-  "Hakatsuru Kata Dai",
-  "Kin Gai Ryu Kakaho Kata",
-  "Kin Gai Ryu #1 Kata",
-  "Kin Gai Ryu #2 Kata",
-  "Sagawa No Kun",
-  "Tonfa Kata",
-  "Shushi No Kun",
-  "Nunchaku Kata",
-  "Tsuken No Kun",
-  "Kama Kata",
-  "Nunti-Bo Kata",
-  "Knife Kata",
-];
+/* ============================================================
+   1) Canonical syllabus (single source of truth)
+   ------------------------------------------------------------
+   These lists feed:
+   - MASTER_FORMS (dropdown source)
+   - Requirements tables (right panel)
+   Keeping them here prevents drift across files.
+   ============================================================ */
+const kyuRequirements = {
+  10: [
+    "Basic (Kihon, Tando Ku, Fukyu) Kata #1",
+    "Basic Kata #1 Bunkai (both sides)",
+    "Sanchin Kata",
+  ],
+  9: [
+    "Basic (Kihon, Tando Ku, Fukyu) Kata #2",
+    "Basic Kata #2 Bunkai (both sides)",
+    "Kiso Kumite #1",
+  ],
+  8: ["Geikisai #1 Kata", "Geikisai #1 Bunkai (both sides)"],
+  7: ["Geikisai #2 Kata", "Geikisai #2 Bunkai (both sides)", "Kiso Kumite #2"],
+  6: [
+    "Geikisai #3 Kata",
+    "Geikisai #3 Bunkai (both sides)",
+    "Tensho Kata",
+    "Kiso Kumite #3",
+  ],
+  5: ["Saifa Kata", "Geikiha Kata"],
+  4: ["Saifa Bunkai", "Geikiha Bunkai", "Kiso Kumite #4"],
+  3: ["Seyunchin Kata", "Kakuha Kata", "Kiso Kumite #5"],
+  2: ["Kakuha Bunkai", "Seisan Kata", "Bo Kata #1 - Chi Hon NoKun"],
+  1: ["Seisan Bunkai", "Kiso Kumite #6", "Sai Kata #1"],
+};
 
-// -------- Helpers --------
+const danRequirements = {
+  1: [
+    "Seipai Kata",
+    "Kiso Kumite #7",
+    "Jisien Kumite",
+    "Seipai Kai Sai Kumite",
+    "Sagawa No Kun",
+    "Tonfa Kata",
+  ],
+  2: [
+    "Shisochin Kata",
+    "Shisochin Kai Sai Kumite",
+    "Sagakawa No Kun",
+    "Tonfa Kata",
+  ],
+  3: [
+    "Sanseiru Kata",
+    "Sanseiru Kai Sai Kumite",
+    "Shushi No Kun",
+    "Nunchaku Kata",
+  ],
+  4: [
+    "Kururunfa Kata",
+    "Kururunfa Kai Sai Kumite",
+    "Tsuken No Kun",
+    "Kama Kata",
+  ],
+  5: ["Pichurin Kata", "Peichurin Kai Sai Kumite", "Nunti-Bo Kata"],
+  6: ["Hakatsuru Kata Sho"],
+  7: ["Hakatsuru Kata Dai"],
+  8: [
+    "Kin Gai Ryu Kakaho Kata",
+    "Kin Gai Ryu #1 Kata",
+    "Kin Gai Ryu #2 Kata",
+    "Knife Kata",
+  ],
+};
+
+// Build MASTER_FORMS from requirements to prevent drift.
+// (Sorted + de-duped)
+const MASTER_FORMS = [
+  ...new Set([
+    ...Object.values(kyuRequirements).flat(),
+    ...Object.values(danRequirements).flat(),
+  ]),
+].sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }));
+
+/* ============================================================
+   2) Helpers
+   ============================================================ */
+
+// All alive names this user has in DB (not used by the dropdown anymore,
+// but still handy for other features or future use).
 async function getExistingAliveNames(ownerId) {
   const docs = await Form.find({ deletedAt: null, owner: ownerId }).select(
     "name -_id"
   );
   return docs.map((d) => d.name);
 }
+
+// LEGACY (kept for reference): previously we sent only "what's left" to the dropdown.
+// Now we send the whole syllabus (MASTER_FORMS) and let the client filter by rank/learned.
 function computeAvailableNames(master, existing) {
-  const taken = new Set(existing.map((s) => String(s).toLowerCase()));
-  return master
+  const taken = new Set((existing || []).map((s) => String(s).toLowerCase()));
+  return (master || [])
     .filter((n) => !taken.has(String(n).toLowerCase()))
     .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }));
 }
+
+// Consistent error shape for templates.
 function formatErrors(err) {
   return Object.fromEntries(
-    Object.entries(err.errors || {}).map(([k, v]) => [k, v.message])
+    Object.entries(err?.errors || {}).map(([k, v]) => [k, v.message])
   );
 }
+
+// NEW: names of learned items (lowercased) so the client can disable/hide them
+// in the combobox (UX request: keep learned out of the “to add” list).
+async function getLearnedNamesLower(ownerId) {
+  const docs = await Form.find({
+    owner: ownerId,
+    deletedAt: null,
+    learned: true,
+  }).select("name -_id");
+  return docs.map((d) => String(d.name).toLowerCase());
+}
+
+// NEW: normalize category coming from form/auto-detect to match the schema enum.
+// Your Form model allows: "Kata", "Bunkai", "Kumite", "Weapon", "Other".
+// Many labels say "Kiso Kumite" — we coerce that to "Kumite" here.
+function normalizeCategory(c) {
+  const raw = String(c || "").trim();
+  if (/^kiso\s+kumite$/i.test(raw)) return "Kumite"; // CHANGED: coercion path
+  if (/^kumite$/i.test(raw)) return "Kumite";
+  if (/^bunkai$/i.test(raw)) return "Bunkai";
+  if (/^weapon$/i.test(raw)) return "Weapon";
+  if (/^kata$/i.test(raw)) return "Kata";
+  return "Other";
+}
+
+// Optional: keep belt colors consistent (UI expects lowercase tokens).
+function normalizeBeltColor(b) {
+  return String(b || "").trim().toLowerCase() || undefined;
+}
+
+// Progress chart: labels are KYU 10..1, DAN 1..8
+// Counts are how many forms are **learned: true** at each rank for this user.
 async function getChartData(ownerId) {
   const labels = [
     ...Array.from({ length: 10 }, (_, i) => `KYU ${10 - i}`),
     ...Array.from({ length: 8 }, (_, i) => `DAN ${i + 1}`),
   ];
   const counts = new Map(labels.map((l) => [l, 0]));
-  const alive = await Form.find({ deletedAt: null, owner: ownerId }).select(
-    "rankType rankNumber"
-  );
-  for (const f of alive) {
+
+  const learned = await Form.find({
+    owner: ownerId,
+    deletedAt: null,
+    learned: true,
+  }).select("rankType rankNumber");
+
+  for (const f of learned) {
     const label = `${String(f.rankType).toUpperCase()} ${Number(f.rankNumber)}`;
     if (counts.has(label)) counts.set(label, counts.get(label) + 1);
   }
   return { chartLabels: labels, chartCounts: labels.map((l) => counts.get(l)) };
 }
+
 function getRequirements() {
-  const kyuRequirements = {
-    10: [
-      "Basic (Kihon, Tando Ku, Fukyu) Kata #1",
-      "Basic Kata #1 Bunkai (both sides)",
-      "Sanchin Kata",
-    ],
-    9: [
-      "Basic (Kihon, Tando Ku, Fukyu) Kata #2",
-      "Basic Kata #2 Bunkai (both sides)",
-      "Kiso Kumite #1",
-    ],
-    8: ["Geikisai #1 Kata", "Geikisai #1 Bunkai (both sides)"],
-    7: [
-      "Geikisai #2 Kata",
-      "Geikisai #2 Bunkai (both sides)",
-      "Kiso Kumite #2",
-    ],
-    6: [
-      "Geikisai #3 Kata",
-      "Geikisai #3 Bunkai (both sides)",
-      "Tensho Kata",
-      "Kiso Kumite #3",
-    ],
-    5: ["Saifa Kata", "Geikiha Kata"],
-    4: ["Saifa Bunkai", "Gaikiha Bunkai", "Kiso Kumite #4"],
-    3: ["Seyunchin Kata", "Kakuha Kata", "Kiso Kumite #5"],
-    2: ["Kakuha Bunkai", "Seisan Kata", "Bo Kata #1 - Chi Hon NoKun"],
-    1: ["Seisan Bunkai", "Kiso Kumite #6", "Sai Kata #1"],
-  };
-  const danRequirements = {
-    1: [
-      "Seipai Kata",
-      "Kiso Kumite #7",
-      "Jisien Kumite",
-      "Seipai Kai Sai Kumite",
-      "Sagawa No Kun",
-      "Tonfa Kata",
-    ],
-    2: [
-      "Shisochin Kata",
-      "Shisochin Kai Sai Kumite",
-      "Sagakawa No Kun",
-      "Tonfa Kata",
-    ],
-    3: [
-      "Sanseiru Kata",
-      "Sanseiru Kai Sai Kumite",
-      "Shushi No Kun",
-      "Nunchaku Kata",
-    ],
-    4: [
-      "Kururunfa Kata",
-      "Kururunfa Kai Sai Kumite",
-      "Tsuken No Kun",
-      "Kama Kata",
-    ],
-    5: ["Pichurin Kata", "Peichurin Kai Sai Kumite", "Nunti-Bo Kata"],
-    6: ["Hakatsuru Kata Sho"],
-    7: ["Hakatsuru Kata Dai"],
-    8: [
-      "Kin Gai Ryu Kakaho Kata",
-      "Kin Gai Ryu #1 Kata",
-      "Kin Gai Ryu #2 Kata",
-      "Knife Kata",
-    ],
-  };
   return { kyuRequirements, danRequirements };
 }
+
 function getKyuChipMap() {
   return {
     10: "chip-white",
@@ -181,38 +186,45 @@ function getKyuChipMap() {
     1: "chip-black",
   };
 }
+
+// Assemble everything the /forms/new page needs.
+// CHANGED: dropdown now gets MASTER_FORMS + a learned list so the client can hide/disable learned.
 async function getNewPageData(ownerId) {
-  const [existingNames, chart, reqs] = await Promise.all([
+  const [/* existingNames */, chart, reqs, learnedNamesLower] = await Promise.all([
     getExistingAliveNames(ownerId),
     getChartData(ownerId),
     Promise.resolve(getRequirements()),
+    getLearnedNamesLower(ownerId), // NEW
   ]);
+
   return {
-    availableNames: computeAvailableNames(MASTER_FORMS, existingNames),
+    // CHANGED: feed the combobox the full syllabus; client filters by rank + learned
+    availableNames: MASTER_FORMS,
+
+    // chart data (learned-only counts)
     chartLabels: chart.chartLabels,
     chartCounts: chart.chartCounts,
+
+    // requirements tables
     kyuRequirements: reqs.kyuRequirements,
     danRequirements: reqs.danRequirements,
+
+    // belt UI chips
     kyuChipMap: getKyuChipMap(),
+
+    // NEW: expose learned set for client-side disabling/hiding in dropdown
+    learnedNamesLower,
   };
 }
 
-// ======================= RESTful routes =======================
-// Index:    GET    /forms          → list (auth-scoped)
-// New:      GET    /forms/new      → create form page (auth required)
-// Create:   POST   /forms          → create (auth required)
-// Show:     GET    /forms/:id      → details (public read)
-// Edit:     GET    /forms/:id/edit → edit page (auth + owner)
-// Update:   PUT    /forms/:id      → update (auth + owner)
-// Destroy:  DELETE /forms/:id      → soft delete (auth + owner)
-// Trash:    GET    /forms/trash    → list deleted (auth + owner)
-// Restore:  POST   /forms/:id/restore → undelete (auth + owner)
+/* ============================================================
+   3) RESTful routes
+   ============================================================ */
 
 // -------- New (auth) --------
 router.get("/forms/new", requireAuth, async (req, res) => {
   try {
     const data = await getNewPageData(req.session.user._id);
-
     res.render("new", {
       title: "Add New Martial Arts Form",
       error: null,
@@ -221,7 +233,7 @@ router.get("/forms/new", requireAuth, async (req, res) => {
       ...data,
     });
   } catch (e) {
-    console.error("GET /forms/new error:", e.message);
+    console.error("GET /forms/new error:", e);
     res.render("new", {
       title: "Add New Martial Arts Form",
       error: "Failed to load reference data.",
@@ -233,6 +245,7 @@ router.get("/forms/new", requireAuth, async (req, res) => {
       kyuRequirements: {},
       danRequirements: {},
       kyuChipMap: {},
+      learnedNamesLower: [], // NEW: keep template happy on error
     });
   }
 });
@@ -240,22 +253,21 @@ router.get("/forms/new", requireAuth, async (req, res) => {
 // -------- Create (auth) --------
 router.post("/forms", requireAuth, async (req, res, next) => {
   const ownerId = req.session.user?._id;
+
   const renderNew = async ({
     error = null,
     errors = {},
     formData = req.body,
     status = 400,
   } = {}) => {
-    const data = await getNewPageData(ownerId);
-    return res
-      .status(status)
-      .render("new", {
-        title: "Add New Martial Arts Form",
-        error,
-        errors,
-        formData,
-        ...data,
-      });
+    const data = await getNewPageData(ownerId); // CHANGED: includes learnedNamesLower now
+    return res.status(status).render("new", {
+      title: "Add New Martial Arts Form",
+      error,
+      errors,
+      formData,
+      ...data,
+    });
   };
 
   try {
@@ -275,8 +287,8 @@ router.post("/forms", requireAuth, async (req, res, next) => {
       name: name.trim(),
       rankType,
       rankNumber: Number(rankNumber),
-      beltColor: beltColor.trim() || undefined,
-      category,
+      beltColor: normalizeBeltColor(beltColor),       // CHANGED
+      category: normalizeCategory(category),          // CHANGED
       description: String(description ?? ""),
       referenceUrl: referenceUrl.trim() || undefined,
       learned: learned === "on",
@@ -295,8 +307,9 @@ router.post("/forms", requireAuth, async (req, res, next) => {
       rankNumber: doc.rankNumber,
       deletedAt: null,
     });
-    if (exists)
+    if (exists) {
       return renderNew({ error: "That form already exists for this rank." });
+    }
 
     await Form.create(doc);
     res.redirect("/forms");
@@ -321,7 +334,7 @@ router.get("/forms", async (req, res) => {
     }).sort({ rankType: 1, rankNumber: 1, name: 1 });
     res.render("forms/index2", { title: "All Forms", forms });
   } catch (e) {
-    console.error("GET /forms error:", e.message);
+    console.error("GET /forms error:", e);
     res.status(500).send("Failed to load forms");
   }
 });
@@ -403,8 +416,8 @@ router.put("/forms/:id", requireAuth, async (req, res, next) => {
           name,
           rankType,
           rankNumber: Number(rankNumber),
-          beltColor: beltColor || undefined,
-          category: category || "Kata",
+          beltColor: normalizeBeltColor(beltColor),       // CHANGED
+          category: normalizeCategory(category),          // CHANGED
           description: description || "",
           referenceUrl: referenceUrl || undefined,
           learned: learned === "on",
@@ -440,16 +453,12 @@ router.delete("/forms/:id", requireAuth, async (req, res) => {
     const hard = req.query.hard === "1" || req.body.hard === "1";
     if (hard) {
       await Form.deleteOne({ _id: req.params.id });
-      console.log(`[DEBUG] Hard deleted form ${req.params.id}`);
       return res.redirect("/forms/trash");
     }
-    const result = await Form.updateOne(
+
+    await Form.updateOne(
       { _id: req.params.id },
       { $set: { deletedAt: new Date() } }
-    );
-    console.log(
-      `[DEBUG] Soft deleted form ${req.params.id}, update result:`,
-      result
     );
     res.redirect("/forms/trash");
   } catch {
