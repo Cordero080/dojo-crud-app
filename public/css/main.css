@@ -1,4 +1,35 @@
 
+@font-face {
+  font-family: 'Formation Sans Regular';
+  src: url('./Fonts/Formation Sans Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+html, body { 
+  overflow-x: hidden;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+body {
+  font-family: "Formation Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.5;
+  margin: 0;
+  min-height: 100vh;
+  color: #f8f8f8ad;
+  letter-spacing: 1px;
+  background:
+    radial-gradient(ellipse at 120% 90%, rgba(6, 159, 236, 0.18) 80%, transparent 70%),
+    radial-gradient(ellipse at 80% 70%, rgba(3, 196, 255, 0.686) 0%, transparent 70%),
+    linear-gradient(135deg, #030b11 0%, #3a3d40 30%, #1c0432 60%, #0a3c5e 80%, #083f34cb 10%);
+  background-blend-mode: lighten, lighten, normal;
+}
 
 #index-body {
   margin-top: 20vh;
@@ -375,12 +406,7 @@ button[type="submit"]:hover {
 /* =====================
    FONT & RESET
 ====================== */
-@font-face {
-  font-family: 'Formation Sans Regular';
-  src: url('./Fonts/Formation Sans Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -1046,8 +1072,9 @@ form:has(> button.logout-btn) {
 @font-face {
   font-family: 'Formation Sans Regular';
   src: url('./Fonts/Formation Sans Regular.ttf') format('truetype');
-  font-weight: normal;
+  font-weight: 400;
   font-style: normal;
+  font-display: swap;
 }
 
 /* Two-toned gradient for all browser scrollbars */
@@ -1078,32 +1105,6 @@ select {
   margin: 0;
   padding: 0;
 }
-
-html, body { 
-  overflow-x: hidden;
-}
-
-body {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-height: 100vh;
-}
-
-body {
-  font-family: 'Formation Sans Regular', Arial, sans-serif;
-  line-height: 1.5;
-  margin: 0;
-  min-height: 100vh;
-  color: #f8f8f8ad;
-  letter-spacing: 1px;
-  background:
-    radial-gradient(ellipse at 120% 90%, rgba(6, 159, 236, 0.18) 80%, transparent 70%),
-    radial-gradient(ellipse at 80% 70%, rgba(3, 196, 255, 0.686) 0%, transparent 70%),
-    linear-gradient(135deg, #030b11 0%, #3a3d40 30%, #1c0432 60%, #0a3c5e 80%, #083f34cb 10%);
-  background-blend-mode: lighten, lighten, normal;
-}
-
 
 
 /* Headings */
