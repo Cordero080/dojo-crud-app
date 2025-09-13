@@ -35,7 +35,7 @@ app.locals.owner = "Pablo C.";
 app.locals.startYear = 2024;
 app.locals.year = new Date().getFullYear();
 // 🔁 Cache-buster for static links in head.ejs, e.g. /css/main.css?v=<%= cssVersion %>
-app.locals.cssVersion = "2.0"; // bump this when you change any CSS
+app.locals.cssVersion = "2.1"; // bump this when you change any CSS
 
 // -------------- SECURITY & PERFORMANCE (MIDDLEWARE) --------------
 
