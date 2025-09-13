@@ -176,12 +176,9 @@ button[type="submit"]:hover {
 }
 /* Shared meta-row style for reference, created, updated rows in show page */
 .page-show .meta-row th, .page-show .meta-row td {
-  padding-top: 2px;
-  padding-bottom: 2px;
-  padding-left: 80px;
-  padding-right: 80px;
-  font-size: 1.2rem;
-  color: rgba(41, 182, 238, 0.87);
+  padding: 12px 8px;
+  font-size: 1.3rem;
+  color: rgba(215, 233, 240, 0.933);
 
 
 }
