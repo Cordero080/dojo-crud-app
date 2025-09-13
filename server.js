@@ -56,7 +56,7 @@ app.use(compression());
 app.use(
   express.static("public", {
     maxAge: isProd ? "1d" : 0,
-    immutable: false,          // allow updates without forever-cache
+    immutable: false, // allow updates without forever-cache
     etag: true,
   })
 );
@@ -85,13 +85,13 @@ app.use(
   session({
     name: "sid", // cookie name
     secret: process.env.SESSION_SECRET || "dev-secret", // signs cookie (replace in prod)
-    resave: false,            // don’t rewrite if unchanged
+    resave: false, // don’t rewrite if unchanged
     saveUninitialized: false, // don’t create empty sessions
     store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }), // persist in MongoDB
     cookie: {
       httpOnly: true, // JS can’t read cookie (XSS defense)
       sameSite: "lax", // basic CSRF help for normal flows
-      secure: isProd,  // HTTPS-only in prod
+      secure: isProd, // HTTPS-only in prod
       maxAge: 1000 * 60 * 60 * 24, // 1 day
     },
   })
