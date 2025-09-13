@@ -1,13 +1,11 @@
 
 @font-face {
   font-family: 'Formation Sans Regular';
-  src: url('/fonts/FormationSans-Regular.woff2') format('woff2'),
-       url('/fonts/FormationSans-Regular.woff')  format('woff');
-  font-weight: 400;
+  src: url('/fonts/Formation%20Sans%20Regular.ttf') format('truetype');
+  font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
-
 
 html, body { 
   overflow-x: hidden;
