@@ -1,4 +1,5 @@
 <!-- views/forms/show.ejs -->
+<!-- Purpose: Show a single form with safe rendering + Prev/Next arrows between forms -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -6,32 +7,22 @@
   </head>
   <body class="page-show">
     <%- include('../partials/nav') %>
-    <!-- If nav.ejs already includes the back arrow, you can remove the next line -->
-    
 
+    <% /* ---------- Safe helpers so missing values don't explode ---------- */ %>
     <%
-      // --- Helpers to avoid EJS runtime errors ---
-      // Safe object (so f.something doesn't blow up if form is undefined)
       var f = form || {};
 
-      // Print a string or a fallback dash
       function safe(v) {
         return (v === undefined || v === null || v === '') ? '-' : v;
       }
-
-      // Uppercase rank type safely
       function safeRankType(rt) {
         rt = (rt || '').toString();
         return rt ? rt.toUpperCase() : '-';
       }
-
-      // Safe number print (Rank Number)
       function safeNum(n) {
         var x = Number(n);
         return Number.isFinite(x) ? x : '-';
       }
-
-      // Safe date → local string or '-'
       function safeDateTime(d) {
         try {
           if (!d) return '-';
@@ -42,6 +33,23 @@
         }
       }
     %>
+
+    <% /* ---------- Prev/Next arrows (render only if route provided IDs) ----------
+       - These use your existing .nav-arrow .nav-prev/.nav-next CSS
+       - The route should set prevId/nextId (same ordering logic as edit route)
+    --------------------------------------------------------------------------- */ %>
+    <% if (typeof prevId !== 'undefined' && prevId) { %>
+      <a class="nav-arrow nav-prev"
+         href="/forms/<%= prevId %>"
+         aria-label="Previous form"
+         title="Previous form">&lsaquo;</a>
+    <% } %>
+    <% if (typeof nextId !== 'undefined' && nextId) { %>
+      <a class="nav-arrow nav-next"
+         href="/forms/<%= nextId %>"
+         aria-label="Next form"
+         title="Next form">&rsaquo;</a>
+    <% } %>
 
     <h1 style="text-align:center;"><%= safe(title || f.name || 'Form') %></h1>
 
@@ -69,7 +77,7 @@
         </tr>
         <tr>
           <td colspan="2">
-            <div style="font-weight: bold; margin-bottom: 4px;">Description</div>
+            <div style="font-weight: bold; margin-bottom: 4px;">DESCRIPTION</div>
             <div class="description-block"><%= safe(f.description) %></div>
           </td>
         </tr>
@@ -94,19 +102,25 @@
       </tbody>
     </table>
 
+    <% /* Keep your Edit link exactly as requested */ %>
     <% if (f && f._id) { %>
       <p style="margin-top: 20px; margin-bottom: -20px; text-align: left;">
-    <a href="/forms/<%= f._id %>/edit" class="show-edit-link">Edit</a>
+        <a href="/forms/<%= f._id %>/edit" class="show-edit-link"> EDIT</a>
       </p>
     <% } %>
 
-    <div class="delete-center">
-      <div class="delete-center--higher">
-        <form action="/forms/<%= f._id %>?_method=DELETE" method="POST">
-          <button class="delete-button-show"type="submit" onclick="return confirm('Soft delete this form?')">Delete</button>
-        </form>
+    <% if (f && f._id) { %>
+      <div class="delete-center">
+        <div class="delete-center--higher">
+          <form action="/forms/<%= f._id %>?_method=DELETE" method="POST">
+            <button class="delete-button-show" type="submit"
+                    onclick="return confirm('Soft delete this form?')">
+              Delete
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
+    <% } %>
 
     <div style="position: fixed; bottom: 20px; left: 1.5rem; width: auto; z-index: 100;">
       <%- include('../partials/footer') %>

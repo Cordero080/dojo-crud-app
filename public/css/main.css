@@ -1,4 +1,5 @@
 
+
 #index-body {
   margin-top: 20vh;
 }
@@ -123,18 +124,18 @@ button[type="submit"]:hover {
 }
 .page-show p a[href$="/edit"] {
   display: inline-block;
-  margin-left: auto;
+  margin-left: 30px;
   margin-right: auto;
 }
   /* Lighter style for delete button in show page */
   .delete-center--higher button {
-    background: #1a7dba;
+    background: #0370af;
     color: #f9f9fd;
-    border: 2px solid #239ac5;
+    
   }
   .delete-center--higher button:hover {
-    background: #fafaf9b0;
-    color: #011b4a;
+    background: #fafaf967;
+    color: #010815;
     border-color: #0a67ae;
   }
 /* Move delete button and its contents higher in show page */
@@ -803,6 +804,7 @@ form:has(> button.logout-btn) {
    PAGE-SPECIFIC STYLES
 ====================== */
 .description-block {
+  background: linear-gradient(120deg, #e0f7fa 0%, #f3e5f5 100%);
   white-space: pre-line;
   word-break: break-word;
   width: calc(100% + 280px);
@@ -815,9 +817,9 @@ form:has(> button.logout-btn) {
   font-size: 1.5em;
   max-height: 480px;
   overflow: auto;
-  background: linear-gradient(135deg, #2a035785 0%, #0c0e2f9d 60%, #0a0c1a 100%);
+  background: linear-gradient(135deg, #036eb199 0%, #011839b5 60%, #03379eb3 100%);
   box-shadow: 0 4px 32px 0 rgba(0, 0, 0, 0.446), 0 1px 0 #0cb6e544 inset;
-  border-radius: 18px;
+  border-radius: 5px;
   color: #e2e5e5c4;
 }
 .description-block::-webkit-scrollbar {

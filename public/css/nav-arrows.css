@@ -27,8 +27,8 @@
   transition: transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease, opacity .18s ease;
   opacity: .95;
 }
-.nav-prev { left: 16px; }
-.nav-next { right: 16px; }
+.nav-prev { left: 17px; }
+.nav-next { right: 17px; }
 
 .nav-arrow::before {
   content: '';

@@ -524,14 +524,34 @@ router.post("/forms/:id/restore", requireAuth, async (req, res) => {
 });
 
 // -------- Show (public read) --------
+// -------- Show (public read) --------
 router.get("/forms/:id", async (req, res) => {
   try {
     const form = await Form.findById(req.params.id);
     if (!form || form.deletedAt) return res.status(404).send("Form not found");
-    res.render("forms/show", { title: form.name, form });
+
+    // Build the ordered list of this owner's alive forms
+    const list = await Form.find({
+      owner: form.owner,
+      deletedAt: null,
+    })
+      .sort({ rankType: 1, rankNumber: 1, name: 1 }) // same sort as Edit for consistent nav
+      .select("_id");
+
+    const idx = list.findIndex((d) => String(d._id) === String(form._id));
+    const prevId = idx > 0 ? list[idx - 1]._id : null;
+    const nextId = idx < list.length - 1 ? list[idx + 1]._id : null;
+
+    res.render("forms/show", {
+      title: form.name,
+      form,
+      prevId,
+      nextId,
+    });
   } catch {
     res.status(404).send("Form not found");
   }
 });
+
 
 module.exports = router;

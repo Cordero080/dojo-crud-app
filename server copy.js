@@ -104,8 +104,37 @@ app.use((req, res, next) => {
   next();
 });
 
-// NOTE: Global back/history arrow helpers removed.
-// The only arrows now are the prev/next ones rendered by forms/edit.ejs using prevId/nextId.
+/* [REQ 8.1] Back/Forward arrow helpers (used by nav/history-arrow partials)
+   - isHome:   true on "/" so we can hide arrows there.
+   - backHref: “back” target; uses same-origin Referer when available, else a safe fallback.
+   - showBackArrow / showHistoryArrows: flags used by partials to render arrows.
+
+   Why same-origin only?
+   - Prevents sending users to external sites if the Referer header points off-site.
+   Fallback choice:
+   - If you're under /forms/*, fallback = "/forms" (keeps users in context).
+   - Otherwise, fallback = "/".
+   Forward arrow:
+   - The right arrow calls history.forward() in the browser; it only works when
+     the user has previously navigated “back” in this tab (that’s how browser history works).
+*/
+// Back/Forward arrow helpers used by the nav/back-arrow partial
+app.use((req, res, next) => {
+  const isHome = req.path === "/";
+  const isEdit = /^\/forms\/[^/]+\/edit$/.test(req.path);
+
+  // Only render global arrows when NOT home and NOT edit page
+  res.locals.showHistoryArrows = !isHome && !isEdit;
+
+  // A safe fallback href for middle-clicks etc. (JS overrides on normal clicks)
+  const referer = req.get("referer") || req.get("referrer") || "";
+  const base = `${req.protocol}://${req.get("host")}`;
+  const sameOrigin = referer.startsWith(base);
+  const fallback = req.path.startsWith("/forms") ? "/forms" : "/";
+  res.locals.backHref = sameOrigin ? referer : fallback;
+
+  next();
+});
 
 // ---------------- ROUTES ----------------
 
