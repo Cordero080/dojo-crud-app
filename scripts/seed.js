@@ -119,7 +119,7 @@ async function run() {
       user._id,
       "Kyu",
       9,
-      "white",
+      "orange",
       "Kata",
       "Basic (Kihon, Tando Ku, Fukyu) Kata #2"
     )
@@ -137,17 +137,17 @@ async function run() {
   D.push(add(user._id, "Kyu", 9, "white", "Kiso Kumite", "Kiso Kumite #1")); // category normalized to "Kumite"
 
   // 8th KYU (white)
-  D.push(add(user._id, "Kyu", 8, "white", "Kata", "Geikisai #1 Kata"));
+  D.push(add(user._id, "Kyu", 8, "orange", "Kata", "Geikisai #1 Kata"));
   D.push(
-    add(user._id, "Kyu", 8, "white", "Bunkai", "Geikisai #1 Bunkai (both sides)")
+    add(user._id, "Kyu", 8, "", "Bunkai", "Geikisai #1 Bunkai (both sides)")
   );
 
   // 7th KYU (white)
-  D.push(add(user._id, "Kyu", 7, "white", "Kata", "Geikisai #2 Kata"));
+  D.push(add(user._id, "Kyu", 7, "orange", "Kata", "Geikisai #2 Kata"));
   D.push(
-    add(user._id, "Kyu", 7, "white", "Bunkai", "Geikisai #2 Bunkai (both sides)")
+    add(user._id, "Kyu", 7, "orange", "Bunkai", "Geikisai #2 Bunkai (both sides)")
   );
-  D.push(add(user._id, "Kyu", 7, "white", "Kiso Kumite", "Kiso Kumite #2"));
+  D.push(add(user._id, "Kyu", 7, "orange", "Kiso Kumite", "Kiso Kumite #2"));
 
   // ---------------------- GREEN / PURPLE (KYU 6 → 4) -------------------
   // 6th KYU (green)

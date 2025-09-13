@@ -29,12 +29,14 @@ _Entity Relationship Diagram showing the database structure_
 
 ## ✨ Key Features
 
-### 🔐 User Authentication & Authorization
+### 🔐 User Authentication & Security
 
 - **Secure user registration** with email validation and bcrypt password hashing
 - **Session-based authentication** with MongoDB session store
 - **User-scoped data** - each practitioner manages only their own forms
 - **Protected routes** with authentication middleware
+- **Security headers** via Helmet.js for protection against common attacks
+- **Response compression** for improved performance
 
 ### 📋 Comprehensive Form Management
 
@@ -43,6 +45,7 @@ _Entity Relationship Diagram showing the database structure_
 - **Form categories**: Kata, Bunkai, Kiso Kumite, Weapon, Other
 - **Progress tracking** with "learned" status flags
 - **Reference URLs** for instructional videos or documentation
+- **Smart dropdown** with type-to-filter functionality for form names
 
 ### 🗑️ Advanced Data Management
 
@@ -50,10 +53,11 @@ _Entity Relationship Diagram showing the database structure_
 - **Trash management** - view and restore accidentally deleted forms
 - **Hard delete option** for permanent removal
 - **Duplicate prevention** - unique constraints per user for form/rank combinations
+- **Database seeding** with traditional kata progression for testing
 
 ### 📊 Progress Analytics
 
-- **Visual progress charts** showing form completion by rank
+- **Visual progress charts** showing form completion by rank using Chart.js
 - **Requirements tracking** based on traditional Goju-Ryu syllabus
 - **Belt progression visualization** with color-coded rank chips
 - **Master forms reference** with traditional forms from white belt to 8th dan
@@ -63,7 +67,7 @@ _Entity Relationship Diagram showing the database structure_
 - **Traditional ranking system**: 10th Kyu (White) to 8th Dan (Black)
 - **Authentic form names** including Sanchin, Tensho, Seisan, Seipai, etc.
 - **Weapon forms** including Bo, Sai, Tonfa, Nunchaku, and more
-- **Kin Gai Ryu kata** for advanced practitioners
+- **Requirements system** prevents curriculum inconsistencies
 
 ---
 
@@ -72,19 +76,19 @@ _Entity Relationship Diagram showing the database structure_
 ### Backend
 
 - **Node.js** - Runtime environment
-- **Express.js** - Web application framework
+- **Express.js** - Web application framework with security middleware (Helmet.js)
 - **MongoDB** - NoSQL database with Mongoose ODM
-- **bcryptjs** - Password hashing
+- **bcryptjs** - Password hashing with 12 salt rounds
 - **express-session** - Session management with MongoDB store
+- **compression** - Response compression for performance
 
 ### Frontend & Templating
 
 - **EJS** - Embedded JavaScript templating
 - **Partial Components** - Reusable nav, head, footer, and error templates
-- **Custom CSS** - Responsive design with page-specific styling
+- **Custom CSS** - Responsive design with Formation Sans font
 - **Method Override** - Support for PUT/DELETE in forms
-- **Interactive Charts** - Canvas-based progress visualization
-- **Chart.js** - Vendor library for data visualization
+- **Chart.js** - Interactive progress visualization
 
 ---
 
@@ -106,9 +110,12 @@ dojo-app/
 ├── views/
 │   ├── index.ejs            # Home page with animated Goju-Ryu logo
 │   ├── new.ejs              # Create form with progress charts & requirements
+│   ├── 404.ejs              # Page not found error template
+│   ├── 500.ejs              # Server error template
 │   ├── auth/
 │   │   ├── login.ejs        # User login page
-│   │   └── signup.ejs       # User registration page
+│   │   ├── sign-up.ejs      # User registration page
+│   │   └── signup.ejs       # User registration page (alternate)
 │   ├── forms/
 │   │   ├── index2.ejs       # Forms listing with delete confirmation
 │   │   ├── show.ejs         # Individual form details
@@ -118,24 +125,39 @@ dojo-app/
 │       ├── head.ejs         # Shared HTML head with meta tags
 │       ├── nav.ejs          # Dynamic navigation (auth-aware)
 │       ├── footer.ejs       # Shared scripts and footer
-│       └── errors.ejs       # Error message display component
-├── public/css/
-│   ├── main.css             # Primary styling with custom fonts & animations
-│   ├── chart.css            # Chart layout & belt progression styling
-│   └── scroll.css           # Custom combobox & scrolling components
-├── db.js                    # Database connection configuration
-└── server.js                # Express application setup with session handling
+│       ├── errors.ejs       # Error message display component
+│       └── history-arrows.ejs # Navigation arrow components
+├── public/
+│   ├── css/
+│   │   ├── main.css         # Primary styling with custom fonts & animations
+│   │   ├── chart.css        # Chart layout & belt progression styling
+│   │   ├── nav-arrows.css   # Navigation arrow styling
+│   │   ├── scroll.css       # Custom combobox & scrolling components
+│   │   └── fonts/
+│   │       └── Formation Sans Regular.ttf # Custom font family
+│   ├── js/
+│   │   ├── beltColors.js    # Belt color mapping and utilities
+│   │   ├── chart.min.js     # Chart.js library (minified)
+│   │   ├── main.js          # Primary JavaScript functionality
+│   │   └── scroll-combo.js  # Custom combobox behavior
+│   └── images/
+│       ├── chi-i-do.png     # Martial arts organization logo
+│       ├── dojoApp-erd.png  # Entity relationship diagram
+│       └── home-page-logged-in.png # Screenshot for documentation
+├── .env                     # Environment variables (not tracked)
+├── .gitignore              # Git ignore patterns
+├── db.js                   # Database connection configuration
+├── package.json            # Dependencies and project metadata
+├── package-lock.json       # Dependency version lock file
+├── README.md               # Project documentation
+└── server.js               # Express application setup with session handling
 ```
 
 ---
 
 ## 🚀 Getting Started
 
-### Live Application
-
-**Deployed App**: [Coming Soon - Deployment in Progress]
-
-### Planning Materials
+### Project Planning
 
 **Project Planning**: [Dojo App Project Planning](https://trello.com/invite/b/68bcd7a74cee7fffb574acdc/ATTI1791e513c27783e74637a75085e5b30a951327AD/dojo-app-plan)
 
@@ -169,6 +191,8 @@ dojo-app/
    PORT=3000
    SESSION_SECRET=your-secure-session-secret
    NODE_ENV=development
+   DEMO_EMAIL=demo@example.com
+   DEMO_PASSWORD=demo123
    ```
 
 4. **Initialize database**
@@ -226,39 +250,6 @@ dojo-app/
 
 ---
 
-## 🎨 User Interface Features
-
-### Responsive Design
-
-- **Mobile-first** CSS architecture with Formation Sans font
-- **Animated home page** with 3D Goju-Ryu logo animation
-- **Visual rank progression** with color-coded belt chips
-- **Interactive charts** showing training progress by rank
-- **Custom scrollbars** with gradient styling
-
-### Component Architecture
-
-- **Modular EJS partials** for consistent UI elements
-- **Dynamic navigation** with authentication state awareness
-- **Shared error handling** with reusable error display component
-- **Consistent head/footer** across all pages
-
-### Form Creation Experience
-
-- **Smart combobox** with type-to-filter functionality for form names
-- **Real-time requirements** display showing traditional syllabus
-- **Progress visualization** with canvas-based charts
-- **Belt color integration** with authentic Goju-Ryu progression
-
-### Data Management
-
-- **Confirmation dialogs** for delete operations
-- **Trash system** with restore and hard delete options
-- **Form validation** with detailed error messaging
-- **Responsive tables** for form listings
-
----
-
 ## 🗄️ Database Schema
 
 ### User Model
@@ -280,7 +271,7 @@ dojo-app/
   rankType: Enum ['Kyu', 'Dan'] (required),
   rankNumber: Number (required, min: 1),
   beltColor: String,
-  category: Enum ['Kata', 'Bunkai', 'Kumite', 'Weapon', 'Other'],
+  category: Enum ['Kata', 'Bunkai', 'Kumite', 'Kiso Kumite', 'Weapon', 'Other'],
   description: String,
   referenceUrl: String (URL validation),
   learned: Boolean (default: false),
@@ -308,7 +299,7 @@ dojo-app/
 
 ### Master Forms Reference
 
-The application includes 48+ traditional forms:
+The application includes 48+ traditional forms across categories:
 
 - **Foundation**: Sanchin, Tensho, Basic Kata series
 - **Intermediate**: Geikisai series, Saifa, Seisan
@@ -326,110 +317,68 @@ The application includes 48+ traditional forms:
 
 ## 🔧 Advanced Features
 
-### Authentication & Security
+### Security Implementation
 
-- **Session-based auth** with MongoDB store
-- **Password hashing** using bcrypt with salt rounds
-- **CSRF protection** via session validation
-- **User isolation** - complete data separation between users
+- **Multi-tenant architecture** with owner-scoped queries
+- **Password security** using bcrypt with 12 salt rounds
+- **Session management** with secure cookies and MongoDB storage
+- **Input validation** at multiple layers (client, server, database)
+- **Protection middleware** for authenticated routes
 
-### Performance Optimizations
+### Performance Features
 
 - **Database indexing** for fast owner-scoped queries
-- **Soft delete system** preserving data integrity
+- **Response compression** using compression middleware
 - **Optimized aggregation** for progress analytics
-- **Lazy loading** of reference data
+- **Strategic data loading** for requirements and charts
 
 ### Development Tools
 
 - **Database seeding** with authentic kata progression
-- **Index synchronization** for schema updates
-- **Environment configuration** for development/production
-- **Method override** for RESTful form operations
+- **Index synchronization** for schema management
+- **Demo user setup** for easy evaluation
+- **Environment configuration** for development workflow
 
 ---
 
-## 🎯 Form Categories
+## 🎯 Architecture Decisions
 
-### Kata (Forms)
+### Why MEN Stack?
 
-Traditional solo exercises demonstrating martial arts techniques in sequence
+- **Server-side rendering** optimal for form-heavy applications
+- **Traditional POST/redirect** patterns work well for CRUD operations
+- **Session-based auth** provides better control over user sessions
+- **MongoDB flexibility** handles complex martial arts data structures
 
-### Bunkai (Applications)
+### Why Soft Deletes?
 
-Practical applications of kata movements with partner training
+- **Data recovery** prevents accidental loss of training records
+- **Audit trail** maintains complete history
+- **User experience** allows mistake correction without permanent consequences
 
-### Kiso Kumite (Basic Sparring)
+### Why Requirements System?
 
-Structured sparring exercises building combat skills progressively
-
-### Weapon Forms
-
-Traditional Okinawan weapons including Bo, Sai, Tonfa, and others
-
-### Other
-
-Specialized training forms and modern adaptations
-
----
-
-## 📋 Technologies Used
-
-### Core Stack
-
-- **Node.js** - Runtime environment
-- **Express.js** - Web application framework
-- **MongoDB** - NoSQL database with Mongoose ODM
-- **EJS** - Embedded JavaScript templating
-
-### Authentication & Security
-
-- **bcryptjs** - Password hashing
-- **express-session** - Session management with MongoDB store
-- **connect-mongo** - Session storage
-
-### Frontend & UI
-
-- **Custom CSS** - Responsive design with Formation Sans font
-- **Chart.js** - Data visualization library
-- **Method Override** - RESTful form operations
+- **Single source of truth** prevents curriculum inconsistencies
+- **Dynamic dropdown generation** ensures accurate form selection
+- **Progress tracking** provides meaningful advancement metrics
 
 ---
 
-## 🎯 Next Steps
+## 🎯 Future Enhancements
 
-### Phase 1: Enhanced User Experience
+### Planned Improvements
 
-- [ ] Video integration for form demonstrations
-- [ ] Advanced search and filtering
-- [ ] Export functionality for training logs
-- [ ] Mobile app development
+- Client-side form validation for better user experience
+- Advanced search and filtering capabilities
+- Export functionality for training logs
+- Enhanced mobile responsiveness
 
-### Phase 2: Community Features
+### Potential Extensions
 
-- [ ] Multi-dojo support with instructor roles
-- [ ] Form sharing between practitioners
-- [ ] Tournament registration and tracking
-- [ ] Achievement badges and milestones
-
-### Phase 3: Advanced Analytics
-
-- [ ] Training pattern analysis
-- [ ] Progress prediction algorithms
-- [ ] Integration with wearable devices
-- [ ] Comparative progress reports
-
-## 🔮 Long-term Vision
-
-Beyond the immediate roadmap, future martial arts education technology could potentially include:
-
-- **3D interactive form animations** with pause/rotate functionality for multi-angle technique study
-- **Motion capture integration** for authentic demonstration of traditional forms
-- **Breathing pattern visualization** synchronized with movement sequences
-- **Contextual technique explanations** triggered by animation position
-- **Progressive difficulty settings** adapted to different skill levels
-
-_These represent aspirational concepts for martial arts education technology rather than planned extensions of the current application._
+- Multi-dojo support with instructor roles
+- Integration with video platforms for form demonstrations
+- Achievement tracking and milestone badges
+- Training pattern analytics
 
 ---
 
@@ -438,7 +387,7 @@ _These represent aspirational concepts for martial arts education technology rat
 - **Chart.js** - Data visualization library (https://www.chartjs.org/)
 - **Formation Sans** - Custom font family for typography
 - **Chi-i-do Organization** - Traditional Goju-Ryu syllabus and curriculum structure
-- **ChatGPT** - Development assistance for soft delete implementation and database seeding concepts
+- **ChatGPT** - Development assistance for implementing advanced features like soft delete patterns, security best practices, and database optimization strategies
 
 ---
 
@@ -455,7 +404,7 @@ This project welcomes contributions from:
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License.
 
 ---
 
@@ -464,8 +413,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - **Traditional Goju-Ryu syllabus** from Okinawan martial arts lineage
 - **CHI-I-DO** (International Organization) for form standardization
 - **Open source community** for the excellent MEN stack ecosystem
-- **Formation Sans** font family for authentic martial arts presentation
 
 ---
 
-**Built with 🧿💙🧿 for the martial arts community**
+**Built with respect for traditional martial arts and modern development practices**
