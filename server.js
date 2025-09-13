@@ -34,7 +34,8 @@ app.set("views", path.join(__dirname, "views"));
 app.locals.owner = "Pablo C.";
 app.locals.startYear = 2024;
 app.locals.year = new Date().getFullYear();
-app.locals.cssVersion = "1.7"; // Update this when you change CSS
+// 🔁 Cache-buster for static links in head.ejs, e.g. /css/main.css?v=<%= cssVersion %>
+app.locals.cssVersion = "1.8"; // bump this when you change any CSS
 
 // -------------- SECURITY & PERFORMANCE (MIDDLEWARE) --------------
 
@@ -50,11 +51,12 @@ app.use(compression());
 
 // -------------- STATIC ASSETS, BODY PARSERS, METHOD OVERRIDE --------------
 
-// [REQ 3] Serve files from /public (e.g., /css/main.css). In prod, cache them long.
+// [REQ 3] Serve files from /public (e.g., /css/main.css). In prod, cache them.
+// NOTE: We keep maxAge short (1d) since you manually bust cache via ?v=<cssVersion>.
 app.use(
   express.static("public", {
-    maxAge: isProd ? "1d" : 0, // 1 day instead of 1 year
-    immutable: false,          // allow updates without cache-busting forever
+    maxAge: isProd ? "1d" : 0,
+    immutable: false,          // allow updates without forever-cache
     etag: true,
   })
 );
@@ -105,7 +107,8 @@ app.use((req, res, next) => {
 });
 
 // NOTE: Global back/history arrow helpers removed.
-// The only arrows now are the prev/next ones rendered by forms/edit.ejs using prevId/nextId.
+// The only arrows now are the prev/next ones rendered by forms/edit.ejs (and show.ejs if added)
+// using prevId/nextId computed in routes/forms.js.
 
 // ---------------- ROUTES ----------------
 
