@@ -1,3 +1,64 @@
+.page-edit input[type='checkbox'] {
+  display: inline-block !important;
+  min-width: 10px !important;
+  min-height: 0px !important;
+  max-width: 10px !important;
+  max-height: 34px !important;
+  appearance: none;
+  -webkit-appearance: none;
+  border-radius: 70px !important;
+  border: 2px solid #0cb6e5;
+  background: linear-gradient(135deg, #23223a 60%, #0cb6e5 100%);
+  box-shadow: 0 2px 8px #0cb6e544, 0 1px 0 #1c0432 inset;
+  transition: border 0.2s, box-shadow 0.2s, background 0.3s;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+}
+.page-edit input[type='checkbox']:hover {
+  border-color: #53bafab9;
+  background: linear-gradient(135deg, #0cb6e5 60%, #23223a 100%);
+  box-shadow: 0 4px 16px #0cb6e544;
+}
+.page-edit input[type='checkbox']:checked {
+  background: linear-gradient(135deg, #53bafab9 60%, #0cb6e5 100%);
+  border-color: #53bafab9;
+}
+.page-edit input[type='checkbox']:checked::after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 2.5px;
+  height: 10px;
+  transform: translate(-50%, -50%) rotate(45deg);
+  border: solid #fff;
+  border-width: 0 3px 3px 0;
+  box-shadow: 0 0 4px #0cb6e5cc;
+}
+
+
+
+#rankType, #rankType option {
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  line-height: 1.6;
+  vertical-align: middle;
+}
+select#rank-type, select#rank-type option {
+  padding-top: 2px;
+  padding-bottom: 2px;
+  line-height: 1.4;
+}
+.form .btn,
+.form button.logout-btn {
+  width: 100%;
+  max-width: 320px;
+  min-width: 120px;
+  margin: 0 auto;
+  display: block;
+}
 
 @font-face {
   font-family: 'Formation Sans Regular';
@@ -74,7 +135,7 @@ body {
 .edit-actions-row {
   display: flex;
   flex-direction: row;
-  gap: 16px;
+  gap: 36px;
   justify-content: center;
   margin-top: 18px;
 }
@@ -568,15 +629,17 @@ textarea {
   .page-edit input,
   .page-edit textarea,
   .page-edit select {
-    background: linear-gradient(120deg, #23272a 0%, #0cb6e555 100%);
-    color: #fefeffc9;
-    border: 1.5px solid #0cb6e5;
-    border-radius: 8px;
-    font-size: 1.15rem;
-    min-height: 20px;
-    box-shadow: 0 2px 8px #0cb6e544;
-    padding: 0.5em 1.2em;
-    transition: background 0.3s, box-shadow 0.3s, border 0.2s;
+  background: linear-gradient(120deg, #23272a 0%, #0cb6e555 100%);
+  color: #fefeffc9;
+  border: 1.5px solid #0cb6e5;
+  border-radius: 8px;
+  font-size: 1.21rem;
+  min-width: 220px;
+  min-height: 48px;
+  height: 48px;
+  box-shadow: 0 2px 8px #0cb6e544;
+  padding: 0.2em 1.2em 0.2em 1.2em;
+  transition: background 0.3s, box-shadow 0.3s, border 0.2s;
   }
   .page-edit input:focus,
   .page-edit textarea:focus,
@@ -591,16 +654,22 @@ textarea {
   .page-new input,
   .page-new textarea,
   .page-new select {
-    background: linear-gradient(120deg, #23272a 0%, #0cb6e555 100%);
-    color: #fefeff;
-    border: 1.5px solid #0cb6e5;
-    border-radius: 8px;
+  background: linear-gradient(120deg, #23272a 0%, #0cb6e555 100%);
+  color: #fefeff;
+  border: 1.5px solid #0cb6e5;
+  border-radius: 8px;
   font-size: 1.21rem;
-    min-height: 48px;
-    box-shadow: 0 2px 8px #0cb6e544;
-    padding: 0.5em 1.2em;
-    transition: background 0.3s, box-shadow 0.3s, border 0.2s;
-  }
+  min-height: 48px;
+  box-shadow: 0 2px 8px #0cb6e544;
+  padding: 0.2em 1.2em 0.2em 1.2em;
+  transition: background 0.3s, box-shadow 0.3s, border 0.2s;
+}
+.page-new select#rankType {
+  padding-top: 0.1em !important;
+  padding-bottom: 0.1em !important;
+  line-height: 1.7 !important;
+}
+  
   .page-new input:focus,
   .page-new textarea:focus,
   .page-new select:focus {
@@ -651,8 +720,7 @@ textarea {
     outline-offset: 2px;
     background: linear-gradient(120deg, #0cb6e5 0%, #23272a 100%);
   }
-====================== */
-button,
+
 .signup-link,
 .signin-link {
   margin-top: 4px;
