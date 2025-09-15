@@ -5,73 +5,84 @@
   </head>
   <body class="page-index-2">
     <%- include('../partials/nav') %>
-    <!-- If nav.ejs already injects the back arrow, you can remove the next line -->
-    
 
     <h1><%= title %></h1>
 
-    <%
-      // Guard against bad or missing dates so EJS doesn't throw.
-      function safeDateTime(d) {
-        try {
-          if (!d) return '-';
-          const dt = new Date(d);
-          return isNaN(dt.getTime()) ? '-' : dt.toLocaleString();
-        } catch (_) { return '-'; }
-      }
-    %>
-
-    <% if (!forms || forms.length === 0) { %>
-      <p>Trash is empty.</p>
+    <% function safeDateTime(d) { try { if (!d) return '-'; const dt = new
+    Date(d); return isNaN(dt.getTime()) ? '-' : dt.toLocaleString(); } catch (_)
+    { return '-'; } } %> <% if (!forms || forms.length === 0) { %>
+    <p>Trash is empty.</p>
     <% } else { %>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Rank</th>
-            <th>Belt</th>
-            <th>Category</th>
-            <th>Deleted</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% forms.forEach(f => { %>
-            <tr>
-              <td><%= f.name %></td>
-              <td><%= String(f.rankType).toUpperCase() %> <%= Number(f.rankNumber) %></td>
-              <td><%= f.beltColor || '-' %></td>
-              <td><%= f.category || '-' %></td>
-              <td><%= safeDateTime(f.deletedAt) %></td>
-              <td>
-                <span class="trash-actions">
-                  <a href="#"
-                     onclick="event.preventDefault(); document.getElementById('restore-<%= f._id %>').submit();">
-                    Restore
-                  </a>
-                  <a href="#"
-                     onclick="event.preventDefault(); if (confirm('Permanently delete this form?')) document.getElementById('hard-<%= f._id %>').submit();">
-                    Hard Delete
-                  </a>
-                </span>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Rank</th>
+          <th>Belt</th>
+          <th>Category</th>
+          <th>Deleted</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% forms.forEach(f => { %>
+        <tr>
+          <td><%= f.name %></td>
+          <td>
+            <%= String(f.rankType).toUpperCase() %> <%= Number(f.rankNumber) %>
+          </td>
+          <td><%= f.beltColor || '-' %></td>
+          <td><%= f.category || '-' %></td>
+          <td><%= safeDateTime(f.deletedAt) %></td>
+          <td>
+            <span class="trash-actions">
+              <!-- same anchors for styling; behavior handled by external JS -->
+              <a href="#" class="restore-link" data-id="<%= f._id %>"
+                >Restore</a
+              >
+              <a href="#" class="hard-link" data-id="<%= f._id %>"
+                >Hard Delete</a
+              >
+            </span>
 
-                <!-- Hidden forms to submit actions -->
-                <form id="restore-<%= f._id %>"
-                      action="/forms/<%= f._id %>/restore"
-                      method="POST"
-                      style="display:none"></form>
+            <!-- Hidden forms (no visual impact) -->
+            <!-- RESTORE → POST /forms/:id/restore -->
+            <form
+              id="restore-<%= f._id %>"
+              action="/forms/<%= f._id %>/restore"
+              method="POST"
+              style="display: none"
+            ></form>
 
-                <form id="hard-<%= f._id %>"
-                      action="/forms/<%= f._id %>?_method=DELETE&hard=1"
-                      method="POST"
-                      style="display:none"></form>
-              </td>
-            </tr>
-          <% }) %>
-        </tbody>
-      </table>
+            <!-- HARD DELETE → POST + method-override to DELETE /forms/:id -->
+            <form
+              id="hard-<%= f._id %>"
+              action="/forms/<%= f._id %>?_method=DELETE"
+              method="POST"
+              style="display: none"
+            >
+              <input type="hidden" name="hard" value="1" />
+            </form>
+          </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
     <% } %>
 
+    <!-- external script: allowed by CSP 'self' -->
+    <script src="/js/trash-actions.js"></script>
+
     <%- include('../partials/footer') %>
+    <!-- Hard Delete confirm overlay -->
+    <div id="hard-delete-overlay" class="delete-overlay" style="display: none">
+      <div class="delete-dialog">
+        <div class="delete-dialog-title">
+          This is the point of no return.<br />Proceed with caution.
+        </div>
+        <button id="confirm-hard-delete-btn" class="delete-btn">Delete</button>
+        <button id="cancel-hard-delete-btn" class="cancel-btn">Cancel</button>
+      </div>
+    </div>
   </body>
 </html>

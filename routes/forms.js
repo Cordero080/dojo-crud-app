@@ -143,7 +143,11 @@ function normalizeCategory(c) {
 
 // Optional: keep belt colors consistent (UI expects lowercase tokens).
 function normalizeBeltColor(b) {
-  return String(b || "").trim().toLowerCase() || undefined;
+  return (
+    String(b || "")
+      .trim()
+      .toLowerCase() || undefined
+  );
 }
 
 // Progress chart: labels are KYU 10..1, DAN 1..8
@@ -190,12 +194,13 @@ function getKyuChipMap() {
 // Assemble everything the /forms/new page needs.
 // CHANGED: dropdown now gets MASTER_FORMS + a learned list so the client can hide/disable learned.
 async function getNewPageData(ownerId) {
-  const [/* existingNames */, chart, reqs, learnedNamesLower] = await Promise.all([
-    getExistingAliveNames(ownerId),
-    getChartData(ownerId),
-    Promise.resolve(getRequirements()),
-    getLearnedNamesLower(ownerId), // NEW
-  ]);
+  const [, /* existingNames */ chart, reqs, learnedNamesLower] =
+    await Promise.all([
+      getExistingAliveNames(ownerId),
+      getChartData(ownerId),
+      Promise.resolve(getRequirements()),
+      getLearnedNamesLower(ownerId), // NEW
+    ]);
 
   return {
     // CHANGED: feed the combobox the full syllabus; client filters by rank + learned
@@ -523,7 +528,7 @@ router.post("/forms/:id/restore", requireAuth, async (req, res) => {
   }
 });
 
-// -------- Show (public read) --------
+
 // -------- Show (public read) --------
 router.get("/forms/:id", async (req, res) => {
   try {
@@ -552,6 +557,5 @@ router.get("/forms/:id", async (req, res) => {
     res.status(404).send("Form not found");
   }
 });
-
 
 module.exports = router;

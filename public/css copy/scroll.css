@@ -1,0 +1,96 @@
+/* scroll.css */
+/* Styling for custom combobox with toggle and scrollable dropdown */
+
+/* ==============================
+   Combo container
+   ============================== */
+.combo {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+/* ==============================
+   Text input
+   ============================== */
+.combo input {
+  flex: 1;
+  padding-right: 2rem; /* space for toggle button */
+  font-size: 1rem;
+}
+
+/* ==============================
+   Toggle button (arrow)
+   ============================== */
+.combo-toggle {
+  position: absolute;
+  right: 0;                        /* align flush to the right edge */
+  top: 50%;                        /* center vertically */
+  transform: translateY(-50%);
+  display: flex;                   /* center contents inside */
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 255, 0.6); /* button background color */
+  border: none;
+  font-size: 1.2rem;                /* arrow size */
+  cursor: pointer;
+  color: white;                     /* arrow color */
+  width: 2rem;                      /* button width */
+  height: calc(100% - 2px);         /* match input height (minus border) */
+  border-radius: 0 4px 4px 0;       /* rounded right corners */
+}
+
+.combo-toggle:hover {
+  background: rgba(0, 0, 255, 0.8);
+}
+
+/* ==============================
+   Dropdown list
+   ============================== */
+.combo-list {
+  position: absolute;
+  top: 100%;                        /* directly below the input */
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.9);
+  border: 1px solid #53bafab9;
+  border-radius: 4px;
+  max-height: 200px;                /* limit dropdown height */
+  overflow-y: auto;                 /* scroll when needed */
+  z-index: 1000;
+  list-style: none;
+  padding: 0;
+  margin: 2px 0 0 0;
+}
+
+/* Each option in the list */
+.combo-list li {
+  padding: 6px 10px;
+  cursor: pointer;
+  color: rgba(246, 241, 241, 0.808);
+}
+
+.combo-list li:hover,
+.combo-list li[aria-selected="true"] {
+  background-color: rgba(83, 186, 250, 0.3);
+  color: #fff;
+}
+
+/* Hide list by default (shown via JS) */
+.combo-list[hidden] {
+  display: none;
+}
+
+/* ==============================
+   Chart scroll container
+   ============================== */
+.chart-scroll {
+  width: 100%;
+  overflow-x: auto;                 /* horizontal scroll when needed */
+  -webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
+}
+
+.chart-scroll-inner {
+  min-width: 680px;                 /* slightly wider than canvas */
+}

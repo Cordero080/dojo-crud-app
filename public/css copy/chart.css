@@ -1,0 +1,177 @@
+/* public/css/chart.css
+   Layout + reference panel styles for /forms/new (chart, requirements, belt chips)
+*/
+
+/* ========= Tokens ========= */
+:root{
+  --belt-white:#ffffff;
+  --belt-orange:#ff9f1a;
+  --belt-green:#2ea44f;
+  --belt-purple:#7e4bdc;
+  --belt-brown:#8b5a2b;
+  --belt-black:#111111;
+
+  --panel-bg:rgba(0,0,0,.18);
+  --panel-pad:16px;
+  --gap-lg:32px;
+  --gap-md:18px;
+  --gap-sm:10px;
+
+  --chip-w:84px;
+  --chip-h:12px;
+  --chip-radius:999px;
+
+  --table-font:.95rem;
+}
+
+/* ========= Two-column layout ========= */
+.new-layout{
+  display:grid;
+  grid-template-columns:650px 1fr;
+  gap:0px;
+  align-items:start;
+}
+
+.new-left form{ width:100%; }
+
+.new-right{
+  background:var(--panel-bg);
+  border-radius:12px;
+  padding:var(--panel-pad);
+  backdrop-filter:saturate(120%) blur(2px);
+  display:flex;
+  flex-direction:column;
+  max-height:1001px;
+}
+
+/* Scrollable inner panel (JS can sync height with left column) */
+.ref-scroll{
+  overflow:auto;
+  max-height:920px;            /* safe default; JS can override */
+  padding-right:6px;
+}
+/* Chart wrapper (outer container) */
+.chart-wrap{
+  width:100%;
+  margin:0 0 12px 0;
+  position: relative;
+  height: 220px;              /* fixed chart height for readability */
+}
+
+/* Horizontal scroll container */
+.chart-scroll{
+  width:100%;
+  overflow-x:auto;            /* <-- keep scroll, don't hide it */
+  -webkit-overflow-scrolling: touch; /* smooth on iOS */
+
+  /* Firefox */
+  scrollbar-width:thin;
+  scrollbar-color:rgba(83,186,250,0.6) rgba(0, 0, 0, 0.08);
+}
+
+/* WebKit (Chrome/Edge/Safari) */
+.chart-scroll::-webkit-scrollbar{ height:4px; }
+.chart-scroll::-webkit-scrollbar-thumb{
+  background-color:rgba(83,186,250,0.6);
+  border-radius:3px;
+}
+.chart-scroll::-webkit-scrollbar-track{ background-color:rgba(0,0,0,0.3); }
+
+/* Inner rail that holds the canvas; width is set by JS via canvas.width */
+.chart-scroll-inner{
+  min-width: 0;               /* allow the inner rail to be as wide as canvas */
+}
+
+/* IMPORTANT: for scroll mode, do NOT stretch the canvas to 100% width.
+   Let its intrinsic pixel width control bar thickness & scroll. */
+.chart-canvas{
+  display:block;
+  width:auto !important;      /* <--- key difference for scroll mode */
+  height:100% !important;     /* match the .chart-wrap height */
+}
+
+
+
+/* KYU/DAN tables side-by-side */
+.req-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:var(--gap-md);
+}
+
+/* Tables */
+.req-table{
+  width:100%;
+  border-collapse:separate;
+  border-spacing:0 6px;
+  font-size:var(--table-font);
+}
+.req-table th,
+.req-table td{
+  padding:8px 10px;
+  vertical-align:top;
+}
+.req-list{
+  margin:0;
+  padding-left:18px;
+}
+
+/* Keep chips aligned in the second column */
+.req-table td:nth-child(2){ white-space:nowrap; }
+.req-table td:nth-child(2) .belt-chip{
+  display:inline-block;
+  vertical-align:middle;
+}
+
+/* ========= Belt “chip” ========= */
+.belt-chip{
+  width:var(--chip-w);
+  height:var(--chip-h);
+  border-radius:var(--chip-radius);
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.15);
+}
+
+/* Solids (match kyuChipMap keys) */
+.chip-white{ background:var(--belt-white); }
+.chip-orange{ background:var(--belt-orange); }
+.chip-green{ background:var(--belt-green); }
+.chip-purple{ background:var(--belt-purple); }
+.chip-brown{ background:var(--belt-brown); }
+.chip-black{ background:var(--belt-black); }
+
+/* Gradients (for in-between KYU) */
+.chip-white-orange{ background:linear-gradient(90deg,var(--belt-white), var(--belt-orange)); }
+.chip-orange-green{ background:linear-gradient(90deg,var(--belt-orange),var(--belt-green)); }
+.chip-green-purple{ background:linear-gradient(90deg,var(--belt-green), var(--belt-purple)); }
+.chip-purple-brown{ background:linear-gradient(90deg,var(--belt-purple),var(--belt-brown)); }
+.chip-brown-black{  background:linear-gradient(90deg,var(--belt-brown), var(--belt-black)); }
+
+/* Optional standalone chip list */
+.belt-chip-panel{ margin-top:16px; }
+.belt-chip-list{ list-style:none; margin:0; padding:0; display:grid; gap:8px; }
+.belt-chip-row{ display:flex; align-items:center; gap:var(--gap-sm); }
+.rank-label{ width:72px; text-align:right; font-weight:600; opacity:.9; }
+
+/* ========= Responsive ========= */
+.new-right, .ref-scroll, .chart-wrap{ min-width:0; }  /* prevent flex/grid overflow */
+
+@media (max-width:1080px){
+  .new-layout{ grid-template-columns:420px 1fr; gap:24px; }
+}
+@media (max-width:900px){
+  .new-layout{ grid-template-columns:1fr; gap:20px; }
+  .req-grid{ grid-template-columns:1fr; }
+  .ref-scroll{ max-height:none; } /* allow taller right panel on small screens */
+}
+
+/* ========= Scrollbar styling for the right panel (unchanged) ========= */
+.ref-scroll::-webkit-scrollbar { width:6px; }
+.ref-scroll::-webkit-scrollbar-track { background:transparent; }
+.ref-scroll::-webkit-scrollbar-thumb {
+  background-color:rgba(207, 187, 7, 0.4);
+  border-radius:10px;
+}
+.ref-scroll::-webkit-scrollbar-thumb:hover {
+  background-color:rgba(255,255,255,0.6);
+}
+.ref-scroll{ scrollbar-width:thin; scrollbar-color:rgba(255,255,255,0.4) transparent; }
