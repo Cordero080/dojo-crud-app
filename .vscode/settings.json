@@ -31,7 +31,7 @@
       "toolbar.activeBackground": "#80CBC426",
       "button.background": "#80CBC4",
       "button.hoverBackground": "#80CBC4cc",
-      "extensionButton.separator": "#80CBC433",
+      "extensionButton.separator": "#0adec833",
       "extensionButton.background": "#80CBC414",
       "extensionButton.foreground": "#80CBC4",
       "extensionButton.hoverBackground": "#80CBC433",
@@ -80,6 +80,6 @@
     },
     "statusBarItem.remoteForeground": "#FF6F61",
     "statusBar.debuggingBackground": "#FF6F61",
-    "terminal.foreground": "#7b3ad1"
+    "terminal.foreground": "#6604a8"
   }
 }

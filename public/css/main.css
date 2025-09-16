@@ -466,7 +466,9 @@ button[type="submit"]:hover {
   }
 }
 /* =====================
-   FONT & RESET
+  FONT & RESET
+  - Font-face declarations
+  - Universal box-sizing and resets
 ====================== */
 
 * {
@@ -486,7 +488,9 @@ body {
 }
 
 /* =====================
-   LAYOUT & PAGE CONTAINERS
+  LAYOUT & PAGE CONTAINERS
+  - Home, show, new, edit, index containers
+  - Flex, margin, padding, backgrounds
 ====================== */
 .home, .page-show, .page-new, .page-edit, .page-index-2 {
   border-radius: 12px;
@@ -533,7 +537,8 @@ body > .page-edit {
 }
 
 /* =====================
-   TYPOGRAPHY
+  TYPOGRAPHY
+  - Headings, logo, text styles
 ====================== */
 h1, .h1-new, .goju-ryu-logo {
   font-family: 'Formation Sans Regular', Arial, sans-serif;
@@ -574,7 +579,9 @@ a:hover {
 .error { color: red; margin-bottom: 10px; }
 
 /* =====================
-   FORMS & INPUTS
+  FORMS & INPUTS
+  - Form, label, input, select, textarea
+  - Edit/New form input styles
 ====================== */
 form {
   max-width: 620px;
@@ -622,10 +629,11 @@ textarea {
   /* other styles */
 }
 /* =====================
-   BUTTONS
-  /* =====================
-     EDIT FORM INPUTS (Modern, High-Tech)
-  ====================== */
+  BUTTONS
+  - General button styles
+  - Action buttons, Save/View, combo-toggle
+  - Edit/New form input buttons
+====================== */
   .page-edit input,
   .page-edit textarea,
   .page-edit select {
@@ -780,7 +788,8 @@ button:hover { background-color: #005f99; }
 }
 
 /* =====================
-   NAVIGATION & LOGOUT
+  NAVIGATION & LOGOUT
+  - Nav bar, nav links, logout button
 ====================== */
 .nav {
   position: absolute;
@@ -848,7 +857,8 @@ form:has(> button.logout-btn) {
 .linklike:hover { filter: brightness(1.5); color: #00eaff; transform: none !important; }
 
 /* =====================
-   SIGNUP/SIGNIN PAGE
+  SIGNUP/SIGNIN PAGE
+  - Signup/signin containers, forms, labels, inputs
 ====================== */
 .page-auth .container {
   display: flex;
@@ -886,7 +896,8 @@ form:has(> button.logout-btn) {
 }
 
 /* =====================
-   UTILITY & ANIMATION
+  UTILITY & ANIMATION
+  - Logo, keyframes, utility classes
 ====================== */
 .logo {
   display: block;
@@ -904,7 +915,8 @@ form:has(> button.logout-btn) {
 .option { color: black; }
 
 /* =====================
-   PAGE-SPECIFIC STYLES
+  PAGE-SPECIFIC STYLES
+  - Description block, show page, edit page, etc.
 ====================== */
 .description-block {
   background: linear-gradient(120deg, #e0f7fa 0%, #f3e5f5 100%);
@@ -950,7 +962,8 @@ form:has(> button.logout-btn) {
 .page-show .delete-center form { margin: 0; }
 
 /* =====================
-   OVERLAYS & DIALOGS
+  OVERLAYS & DIALOGS
+  - Delete overlay, dialog, cancel/delete buttons
 ====================== */
 .delete-overlay {
   display: none;
@@ -1014,7 +1027,8 @@ form:has(> button.logout-btn) {
 }
 
 /* =====================
-   MEDIA QUERIES
+  MEDIA QUERIES
+  - Responsive adjustments for containers, forms, nav, etc.
 ====================== */
 #name { max-height: 240px; overflow-y: auto; }
 @media (max-width: 600px) {
