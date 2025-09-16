@@ -173,7 +173,7 @@ router.get("/forms/new", requireAuth, async (req, res) => {
 // Middleware: requireAuth, express.urlencoded (body parser), methodOverride
 router.post("/forms", requireAuth, async (req, res, next) => {
   const ownerId = req.session.user?._id;
-
+ // re-render form page when errors occur, peresvers user input so user doesnt have retype
   const renderNew = async ({ error = null, errors = {}, formData = req.body, status = 400 } = {}) => {
     const data = await getNewPageData(ownerId);
     return res.status(status).render("new", {
@@ -182,15 +182,15 @@ router.post("/forms", requireAuth, async (req, res, next) => {
     });
   };
 
-  try {
+  try { //pulls all for feilds out of req.body with default values
     const { name = "", rankType, rankNumber, beltColor = "", category = "Kata", 
             description = "", referenceUrl = "", learned } = req.body;
-
+// Building the document
     const doc = {
-      owner: ownerId,
+      owner: ownerId, //security attached to login
       name: name.trim(),
       rankType,
-      rankNumber: Number(rankNumber),
+      rankNumber: Number(rankNumber), //converty string to #
       beltColor: normalizeBeltColor(beltColor),
       category: normalizeCategory(category),
       description: String(description ?? ""),
@@ -201,7 +201,7 @@ router.post("/forms", requireAuth, async (req, res, next) => {
     if (!Number.isFinite(doc.rankNumber)) {
       return renderNew({ errors: { rankNumber: "Rank number must be a valid number" } });
     }
-
+// DUPLICATE prevention
     const exists = await Form.exists({
       owner: ownerId, name: doc.name, rankType: doc.rankType, 
       rankNumber: doc.rankNumber, deletedAt: null,
@@ -209,7 +209,7 @@ router.post("/forms", requireAuth, async (req, res, next) => {
     if (exists) {
       return renderNew({ error: "That form already exists for this rank." });
     }
-
+  // SUCCESS PATH
     await Form.create(doc);
     res.redirect("/forms");
   } catch (err) {
@@ -225,7 +225,7 @@ router.get("/forms", async (req, res) => {
   try {
     if (!req.session?.user) {
       return res.render("forms/index2", { title: "All Forms", forms: [] });
-    }
+    }  // owner scoped: only alive froms (soft delete) only this susers forms
     const forms = await Form.find({ deletedAt: null, owner: req.session.user._id })
       .sort({ rankType: 1, rankNumber: 1, name: 1 });
     res.render("forms/index2", { title: "All Forms", forms });

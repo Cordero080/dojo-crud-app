@@ -4,7 +4,7 @@ require("dotenv").config(); // 1. Load environment variables from .env file firs
 const express = require("express");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
-const methodOverride = require("method-override");
+const methodOverride = require("method-override");//enable PUT and DELETE
 const helmet = require("helmet");
 const compression = require("compression");
 const path = require("path"); 
@@ -55,7 +55,7 @@ app.use(session({ // 18. Enable sessions with MongoDB storage
   cookie: {
     httpOnly: true, // Prevent JavaScript access to cookie
     sameSite: "lax", // CSRF protection
-    secure: isProd, // HTTPS only in production
+    secure: isProd, // HTTPS only in production prevents cross script attacks
     maxAge: 1000 * 60 * 60 * 24, // 1 day expiration
   },
 }));

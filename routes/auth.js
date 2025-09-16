@@ -26,7 +26,7 @@ router.post("/signup", async (req, res) => {
         error: "Email already in use.",
       });
     }
-    // a passwordHash is a hashed version of the password that is safe to store in the database. A hashed password is a password that has been converted into a fixed-length, irreversible string using a cryptographic algorithm to securely store and protect it from unauthorized access.
+    //  A hashed password is a password that has been converted into a fixed-length, irreversible string using a cryptographic algorithm to securely store and protect it from unauthorized access.
     const passwordHash = await bcrypt.hash(password, 12);
     // bcrypt is a password-hashing function that securely converts plain-text passwords into hashed strings using a slow, salted(unique random string) algorithm to protect against brute-force attacks.
     const user = await User.create({
