@@ -9,14 +9,14 @@
 
 .nav-arrow {
   position: fixed;
-  top: 14%;
+  top: 50%;
   transform: translateY(-50%);
   z-index: 1000;
-  width: 50px; height: 50px; line-height: 30px;
+  width: 60px; height: 50px; line-height: 30px;
   text-align: center; border-radius: 999px;
   background: linear-gradient(135deg, var(--bg1), var(--bg2));
   color: var(--fg); text-decoration: none;
-  font-size: 40px; font-weight: 700;
+  font-size: 50px; font-weight: 700;
   border: 2px solid rgba(7, 124, 187, 0.516);
   backdrop-filter: blur(10px) saturate(140%);
   -webkit-backdrop-filter: blur(10px) saturate(140%);
@@ -27,8 +27,8 @@
   transition: transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease, opacity .18s ease;
   opacity: .95;
 }
-.nav-prev { left: 17px; }
-.nav-next { right: 17px; }
+.nav-prev { left: 30px; }
+.nav-next { right: 30px; }
 
 .nav-arrow::before {
   content: '';

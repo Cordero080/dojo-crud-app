@@ -1,46 +1,36 @@
-<!-- views/forms/edit.ejs -->
-<!-- Purpose: Edit an existing form (PUT via ?_method=PUT). 
-     Notes:
-       - prevId/nextId are optional (only show arrows when provided).
-       - Use typeof-guards so missing locals never 500 the page.
--->
-
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <%- include('../partials/head') %>
-  </head>
-  <body class="page-edit">
+<head>
+  <%- include('../partials/head') %>
+</head>
+<body class="page-edit">
+  <!-- Global navigation bar -->
+  <%- include('../partials/nav') %>
 
-    <!-- Global navigation bar -->
-    <%- include('../partials/nav') %>
+  <!-- Form Navigation Arrows - using your existing CSS -->
+  <% if (typeof prevId !== 'undefined' && prevId) { %>
+    <a class="nav-arrow nav-prev" 
+       href="/forms/<%= prevId %>/edit" 
+       aria-label="Previous form" 
+       title="Previous form">&lsaquo;</a>
+  <% } %>
 
-    <!-- ===== Prev/Next arrows for stepping through your forms =====
-         EJS guard pattern: check the variable exists *and* has a truthy value.
-         If the route didn’t pass prevId/nextId, these blocks render nothing. -->
-    <% if (typeof prevId !== 'undefined' && prevId) { %>
-      <a class="nav-arrow nav-prev"
-         href="/forms/<%= prevId %>/edit"
-         aria-label="Previous form"
-         title="Previous form">&lsaquo;</a>
-    <% } %>
+  <% if (typeof nextId !== 'undefined' && nextId) { %>
+    <a class="nav-arrow nav-next" 
+       href="/forms/<%= nextId %>/edit" 
+       aria-label="Next form" 
+       title="Next form">&rsaquo;</a>
+  <% } %>
 
-    <% if (typeof nextId !== 'undefined' && nextId) { %>
-      <a class="nav-arrow nav-next"
-         href="/forms/<%= nextId %>/edit"
-         aria-label="Next form"
-         title="Next form">&rsaquo;</a>
-    <% } %>
-
-    <!-- Page title -->
+  <div class="container">
     <h1><%= title %></h1>
 
-    <!-- Top-level error banner (route-level error string) -->
+    <!-- Error banner -->
     <% if (typeof error !== 'undefined' && error) { %>
       <p class="error"><%= error %></p>
     <% } %>
 
-    <!-- ===== Safety guard: if "form" wasn’t provided, show a friendly message ===== -->
+    <!-- Form guard -->
     <% if (!form) { %>
       <p class="error">Form not found.</p>
       <%- include('../partials/footer') %>
@@ -48,23 +38,13 @@
     </html>
     <% } else { %>
 
-    <!-- ===== Main edit form ===== -->
+    <!-- Main edit form -->
     <div class="edit-form-center">
-      <!-- Method Override: HTML forms only support GET/POST; ?_method=PUT makes Express treat this as PUT -->
       <form action="/forms/<%= form._id %>?_method=PUT" method="POST">
         
-        <!-- Label + input values are filled with existing form data.
-             Per-field errors are shown right under each control. -->
-
-        <!-- Name -->
+        <!-- Form Name -->
         <label for="name">Form Name:</label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          value="<%= form.name %>"
-          required
-        />
+        <input type="text" id="name" name="name" value="<%= form.name %>" required />
         <% if (errors && errors.name) { %>
           <small class="error"><%= errors.name %></small>
         <% } %>
@@ -81,35 +61,23 @@
 
         <!-- Rank Number -->
         <label for="rankNumber">Rank Number:</label>
-        <input
-          type="number"
-          id="rankNumber"
-          name="rankNumber"
-          min="1"
-          value="<%= form.rankNumber %>"
-          required
-        />
+        <input type="number" id="rankNumber" name="rankNumber" min="1" value="<%= form.rankNumber %>" required />
         <% if (errors && errors.rankNumber) { %>
           <small class="error"><%= errors.rankNumber %></small>
         <% } %>
 
         <!-- Belt Color -->
         <label for="beltColor">Belt Color:</label>
-        <input
-          type="text"
-          id="beltColor"
-          name="beltColor"
-          value="<%= form.beltColor || '' %>"
-        />
+        <input type="text" id="beltColor" name="beltColor" value="<%= form.beltColor || '' %>" />
 
         <!-- Category -->
         <label for="category">Category:</label>
         <select id="category" name="category">
-          <option value="Kata"   <%= form.category === 'Kata'   ? 'selected' : '' %>>Kata</option>
+          <option value="Kata" <%= form.category === 'Kata' ? 'selected' : '' %>>Kata</option>
           <option value="Bunkai" <%= form.category === 'Bunkai' ? 'selected' : '' %>>Bunkai</option>
           <option value="Kumite" <%= form.category === 'Kumite' ? 'selected' : '' %>>Kumite</option>
           <option value="Weapon" <%= form.category === 'Weapon' ? 'selected' : '' %>>Weapon</option>
-          <option value="Other"  <%= form.category === 'Other'  ? 'selected' : '' %>>Other</option>
+          <option value="Other" <%= form.category === 'Other' ? 'selected' : '' %>>Other</option>
         </select>
         <% if (errors && errors.category) { %>
           <small class="error"><%= errors.category %></small>
@@ -121,35 +89,32 @@
 
         <!-- Reference URL -->
         <label for="referenceUrl">Reference URL:</label>
-        <input
-          type="url"
-          id="referenceUrl"
-          name="referenceUrl"
-          value="<%= form.referenceUrl || '' %>"
-        />
+        <input type="url" id="referenceUrl" name="referenceUrl" value="<%= form.referenceUrl || '' %>" />
         <% if (errors && errors.referenceUrl) { %>
           <small class="error"><%= errors.referenceUrl %></small>
         <% } %>
 
-        <!-- Learned -->
+        <!-- Learned checkbox -->
         <label style="display:inline-flex;align-items:center;gap:8px;">
           <input type="checkbox" name="learned" <%= form.learned ? 'checked' : '' %> />
           <span>Learned</span>
         </label>
 
-        <!-- Your View Form button (unchanged) -->
+        <!-- View Form button -->
         <p>
           <a href="/forms/<%= form._id %>" class="view-form">
             <button type="button" class="create-form-btn">View Form</button>
           </a>
         </p>
 
-        <!-- Submit -->
+        <!-- Submit button -->
         <button class="create-form-btn" type="submit">Save Changes</button>
       </form>
     </div>
 
-    <%- include('../partials/footer') %>
-  </body>
+    <% } %>
+  </div>
+
+  <%- include('../partials/footer') %>
+</body>
 </html>
-<% } %>
