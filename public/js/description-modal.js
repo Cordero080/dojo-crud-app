@@ -9,16 +9,77 @@ document.addEventListener("DOMContentLoaded", function () {
   const saveBtn = modalContent && modalContent.querySelector("button.save-btn");
   const cancelBtn =
     modalContent && modalContent.querySelector("button.cancel-btn");
-  // Scramble text effect for all buttons
-  function scrambleText(element, original, duration = 600) {
-    const chars =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=<>?";
+  // Scramble text effect for Save and Cancel buttons only, using their own letters and upside-down Unicode
+  function toUpsideDown(str) {
+    // Basic upside-down mapping for Latin letters
+    const map = {
+      a: "ɐ",
+      b: "q",
+      c: "ɔ",
+      d: "p",
+      e: "ǝ",
+      f: "ɟ",
+      g: "ƃ",
+      h: "ɥ",
+      i: "ᴉ",
+      j: "ɾ",
+      k: "ʞ",
+      l: "ʃ",
+      m: "ɯ",
+      n: "u",
+      o: "o",
+      p: "d",
+      q: "b",
+      r: "ɹ",
+      s: "s",
+      t: "ʇ",
+      u: "n",
+      v: "ʌ",
+      w: "ʍ",
+      x: "x",
+      y: "ʎ",
+      z: "z",
+      A: "∀",
+      B: "𐐒",
+      C: "Ɔ",
+      D: "◖",
+      E: "Ǝ",
+      F: "Ⅎ",
+      G: "פ",
+      H: "H",
+      I: "I",
+      J: "ſ",
+      K: "ʞ",
+      L: "˥",
+      M: "W",
+      N: "N",
+      O: "O",
+      P: "Ԁ",
+      Q: "Ό",
+      R: "ᴚ",
+      S: "S",
+      T: "⊥",
+      U: "∩",
+      V: "Λ",
+      W: "M",
+      X: "X",
+      Y: "⅄",
+      Z: "Z",
+    };
+    return str
+      .split("")
+      .map((c) => map[c] || c)
+      .reverse()
+      .join("");
+  }
+  function scrambleOwnLetters(element, original, duration = 600) {
+    const chars = original.replace(/[^a-zA-Z]/g, "").split("");
     let frame = 0;
     const scramble = () => {
-      let scrambled = "";
-      for (let i = 0; i < original.length; i++) {
-        scrambled += chars[Math.floor(Math.random() * chars.length)];
-      }
+      let scrambled = chars
+        .map(() => chars[Math.floor(Math.random() * chars.length)])
+        .join("");
+      scrambled = toUpsideDown(scrambled);
       element.textContent = scrambled;
       frame++;
       if (frame < 12) {
@@ -29,13 +90,24 @@ document.addEventListener("DOMContentLoaded", function () {
     };
     scramble();
   }
-  document.querySelectorAll("button").forEach((btn) => {
-    const original = btn.textContent;
-    btn.classList.add("scramble");
-    btn.addEventListener("mouseenter", function () {
-      scrambleText(btn, original);
+  if (saveBtn) {
+    const originalSave = saveBtn.textContent;
+    saveBtn.addEventListener("mouseenter", function () {
+      scrambleOwnLetters(saveBtn, originalSave);
     });
-  });
+    saveBtn.addEventListener("mouseleave", function () {
+      saveBtn.textContent = originalSave;
+    });
+  }
+  if (cancelBtn) {
+    const originalCancel = cancelBtn.textContent;
+    cancelBtn.addEventListener("mouseenter", function () {
+      scrambleOwnLetters(cancelBtn, originalCancel);
+    });
+    cancelBtn.addEventListener("mouseleave", function () {
+      cancelBtn.textContent = originalCancel;
+    });
+  }
   if (
     descBox &&
     modal &&

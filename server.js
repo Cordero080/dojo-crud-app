@@ -24,7 +24,7 @@ app.set("views", path.join(__dirname, "views")); // 6. Set template directory lo
 app.locals.owner = "Pablo C."; // 7. Available in all EJS templates as <%= owner %>
 app.locals.startYear = 2024;
 app.locals.year = new Date().getFullYear();
-app.locals.cssVersion = "2.9"; // 8. Cache buster - increment to force CSS reload
+app.locals.cssVersion = "2.10"; // 8. Cache buster - increment to force CSS reload
 
 // SECURITY & PERFORMANCE
 app.disable("x-powered-by"); // 9. Remove "X-Powered-By: Express" header for security
@@ -40,6 +40,17 @@ app.use(
     etag: true,
   })
 );
+
+// Serve Chart.js from node_modules at /js/vendor (fixes 404/MIME errors)
+app.use(
+  "/js/vendor",
+  express.static(path.join(__dirname, "node_modules", "chart.js", "dist"), {
+    maxAge: isProd ? "1d" : 0,
+    immutable: false,
+    etag: true,
+  })
+);
+
 app.use(express.urlencoded({ extended: true })); // 13. Parse form data into req.body
 app.use(express.json()); // 14. Parse JSON requests into req.body
 app.use(methodOverride("_method")); // 15. Allow PUT/DELETE via ?_method= parameter

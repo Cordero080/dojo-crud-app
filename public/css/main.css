@@ -1,3 +1,11 @@
+@font-face {
+  font-family: "Formation Sans";
+  src: url("/fonts/FormationSans-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Bulletproof tiny futuristic checkbox for 'learned' */
 .futuristic-checkbox {
   appearance: none !important;
@@ -592,8 +600,8 @@ body > .page-edit {
   width: 90%;
 }
 .page-index-2 {
-  margin-top: 10vh;
-  margin: 32px auto;
+  margin-top: 2vh;
+  margin: 8px auto;
   padding: 32px 24px 40px 24px;
   max-width: 1000px;
   line-height: 1;
@@ -1223,14 +1231,6 @@ form:has(> button.logout-btn) {
   margin-top: 1.5rem;
 }
 
-@font-face {
-  font-family: 'Formation Sans Regular';
-  src: url('./Fonts/Formation Sans Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
 /* Two-toned gradient for all browser scrollbars */
 ::-webkit-scrollbar {
   width: 10px;
@@ -1431,9 +1431,9 @@ button:hover { background-color: #005f99; }
 
 /* index page spacing */
 .page-index-2 {
-  margin-top: 10vh;
-  margin: 3% auto;
-  padding: 7rem 24px 40px 24px;
+  margin-top: 0;
+  margin: 0 auto;
+  padding: 0 24px 40px 24px;
   max-width: 1200px;
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0,0,0,0.07);
