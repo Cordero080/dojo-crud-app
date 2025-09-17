@@ -242,19 +242,28 @@ counts = filtered.map(([, c]) => c);
             ],
           },
           options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
-            scales: {
-              x: {
-                title: { display: true, text: "Rank (KYU/DAN)" },
-                ticks: { autoSkip: false, maxRotation: 0, minRotation: 0 }, // show all labels
-              },
-              y: {
-                beginAtZero: true,
-                suggestedMax, // ✅ keep this
-                ticks: { stepSize: 1, precision: 0 },
-                title: { display: true, text: "Count" },
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: { display: false },
+    danStripes: {
+      // optional fine-tuning; remove or tweak as you like
+      stripeWidth: 5,
+      stripeGap: 4,
+      inset: 6,
+      heightRatio: 0.8
+    }
+  },
+  scales: {
+    x: {
+      title: { display: true, text: "Rank (KYU/DAN)" },
+      ticks: { autoSkip: false, maxRotation: 0, minRotation: 0 }
+    },
+    y: {
+      beginAtZero: true,
+      suggestedMax: suggestedMax, // keep this headroom
+      ticks: { stepSize: 1, precision: 0 },
+      title: { display: true, text: "Count" }
               },
             },
           },

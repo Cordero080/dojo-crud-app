@@ -104,7 +104,7 @@
 
           <!-- Description -->
           <label for="description">Description:</label>
-          <textarea id="description" name="description"><%= (formData && formData.description) ? formData.description : '' %></textarea>
+          <textarea id="description" name="description" style="min-height:110px;font-size:.9em;"><%= (formData && formData.description) ? formData.description : '' %></textarea>
 
           <!-- Reference URL -->
           <label for="referenceUrl">Reference URL:</label>
@@ -200,28 +200,19 @@
     <%- include('partials/footer') %>
 
     <!-- Scripts (load once, at the end) -->
+    <!-- Chart.js is loaded in partials/head.ejs from /js/vendor/chart.min.js -->
     <script src="/js/main.js"></script>
 
-    <!-- Before combobox boots: remove learned names from its data-source, and show the Yoda note if nothing remains -->
-    <script>
-      (function () {
-        var root = document.querySelector('.combo');
-        if (!root) return;
-        try {
-          var src = JSON.parse(root.dataset.source || "[]");
-          var learned = new Set(JSON.parse(root.dataset.learned || "[]"));
-          var filtered = src.filter(function(n){ return !learned.has(String(n).toLowerCase()); });
-          root.dataset.source = JSON.stringify(filtered);
-          if (filtered.length === 0) {
-            var note = document.getElementById('combo-empty-note');
-            if (note) note.style.display = 'block';
-          }
-        } catch (e) {
-          console.warn('Combobox prefilter failed:', e);
-        }
-      })();
-    </script>
-
+    <!-- Prefilter runs BEFORE combobox boots (CSP-safe, no inline) -->
+    <script src="/js/combo-prefilter.js"></script>
     <script src="/js/scroll-combo.js"></script>
+
+    <!-- Registers DAN stripes + builds the chart (module) -->
+    <script type="module" src="/js/beltColors.js"></script>
+
+    <!-- Now build the chart (module executes after beltColors) -->
+<script type="module" src="/js/main.js"></script>
   </body>
+</html>
+ody>
 </html>
