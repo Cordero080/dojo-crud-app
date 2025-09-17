@@ -1,43 +1,106 @@
-.page-edit input[type='checkbox'] {
+/* Bulletproof tiny futuristic checkbox for 'learned' */
+.futuristic-checkbox {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  width: 12px !important;
+  height: 50px !important;
+  min-width: 12px !important;
+  min-height: 50px !important;
+  max-width: 12px !important;
+  max-height: 50px !important;
+  border-radius: 30px !important;
+  border: 3px solid #0cb6e5 !important;
+  background: rgba(255,255,255,0.08) !important;
+  box-shadow: 0 2px 8px #0cb6e57a, 0 0 0 2px #0cb6e5a0 inset !important;
+  transition: border 0.2s, box-shadow 0.2s, background 0.3s !important;
+  position: relative !important;
+  cursor: pointer !important;
+  outline: none !important;
+  vertical-align: middle !important;
   display: inline-block !important;
-  min-width: 10px !important;
-  min-height: 0px !important;
-  max-width: 10px !important;
-  max-height: 34px !important;
+}
+.futuristic-checkbox:hover {
+  border-color: #53bafab9 !important;
+  background: rgba(12,182,229,0.18) !important;
+  box-shadow: 0 4px 16px #0cb6e544 !important;
+}
+.futuristic-checkbox:checked {
+  background: linear-gradient(135deg, #53bafab9 60%, #0cb6e5ac 100%) !important;
+  border-color: #53bafab9 !important;
+}
+.futuristic-checkbox:checked::after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 3px;
+  top: 1px;
+  width: 4px;
+  height: 7px;
+  border-right: 2px solid #ffffffa6;
+  border-bottom: 2px solid #fff;
+  transform: rotate(35deg);
+  box-shadow: 0 0 8px #0cb6e5a0, 0 0 2px #53bafa8e;
+}
+/* Modern Futuristic Checkbox for 'learned' in edit page */
+.futuristic-checkbox {
   appearance: none;
   -webkit-appearance: none;
-  border-radius: 70px !important;
+  width: 7px !important;
+  height: 18px;
+  border-radius: 8px;
   border: 2px solid #0cb6e5;
-  background: linear-gradient(135deg, #23223a 60%, #0cb6e5 100%);
-  box-shadow: 0 2px 8px #0cb6e544, 0 1px 0 #1c0432 inset;
+  background: rgba(255, 255, 255, 0.915);
+  backdrop-filter: blur(8px) saturate(180%) brightness(1.18);
+  box-shadow: 0 2px 8px #0cb6e544, 0 0 0 2px #0cb6e5a0 inset;
   transition: border 0.2s, box-shadow 0.2s, background 0.3s;
   position: relative;
   cursor: pointer;
   outline: none;
 }
-.page-edit input[type='checkbox']:hover {
-  border-color: #53bafab9;
-  background: linear-gradient(135deg, #0cb6e5 60%, #23223a 100%);
+.futuristic-checkbox:hover {
+  border-color: #53bafacf;
+  background: rgba(12,182,229,0.18);
   box-shadow: 0 4px 16px #0cb6e544;
 }
-.page-edit input[type='checkbox']:checked {
-  background: linear-gradient(135deg, #53bafab9 60%, #0cb6e5 100%);
+.futuristic-checkbox:checked {
+  background: linear-gradient(135deg, #53bafab9 60%, #0cb6e5c4 100%);
   border-color: #53bafab9;
 }
-.page-edit input[type='checkbox']:checked::after {
+.futuristic-checkbox:checked::after {
   content: '';
   display: block;
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 2.5px;
-  height: 10px;
-  transform: translate(-50%, -50%) rotate(45deg);
-  border: solid #fff;
-  border-width: 0 3px 3px 0;
-  box-shadow: 0 0 4px #0cb6e5cc;
+  width: 7px;
+  height: 12px;
+  border-right: 3px solid #fff;
+  border-bottom: 3px solid #fff;
+  transform: translate(-50%, -50%) rotate(35deg);
+  box-shadow: 0 0 8px #0cb6e5a0, 0 0 2px #53bafab9;
 }
-
+/* FINAL OVERRIDE: Force modal textarea to be resizable in both directions */
+.desc-modal-content #desc-modal-textarea {
+  resize: both !important;
+  width: 100% !important;
+  min-height: 220px !important;
+  box-sizing: border-box !important;
+}
+/* Force modal textarea to be resizable in both directions, regardless of other rules */
+.desc-modal-content #desc-modal-textarea {
+  resize: both !important;
+}
+/* Ensure modal textarea is resizable with double arrows */
+#desc-modal-textarea {
+  resize: both !important;
+  width: 100% !important;
+  min-height: 220px !important;
+  box-sizing: border-box;
+}
+/* =====================
+   DESCRIPTION MODAL (Futuristic Popup)
+   - Used for large textarea editing in new.ejs
+====================== */
 
 
 #rankType, #rankType option {
@@ -1268,7 +1331,7 @@ a:hover {
   background: #fff;
   border-radius: 60px;
   box-shadow: 0 2px 80px rgba(10, 35, 88, 0.25);
-  display: flex;
+    /* Allow #desc-modal-textarea to override resize */
   flex-direction: column;
   align-items: center;
   text-align: center;
@@ -1521,7 +1584,7 @@ button:hover { background-color: #005f99; }
 }
 /* Center the delete button in show page */
 .page-show .delete-center {
-  display: flex;
+    /* Allow #desc-modal-textarea to override resize */
   justify-content: center;
   margin-top: 18px;
 }
@@ -1719,7 +1782,7 @@ button:hover { background-color: #005f99; }
     max-width: 98vw;
     padding: 8px;
     font-size: 1.1rem;
-  }
+    /* Allow #desc-modal-textarea to override resize */
   .page-index-2 table,
   .page-show table {
     font-size: 0.95rem;

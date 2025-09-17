@@ -5,6 +5,7 @@
     <%- include('partials/head') %>
     <link rel="stylesheet" href="/css/chart.css">
     <link rel="stylesheet" href="/css/scroll.css"><!-- combobox + chart scroll styles -->
+  <link rel="stylesheet" href="/css/description.css">
   </head>
 
   <%- include('partials/nav') %>
@@ -122,6 +123,15 @@
       </section>
 
       <!-- RIGHT: Reference (chart + requirements) -->
+    <!-- Futuristic Modal for Description (outside form for activation) -->
+    <div class="desc-modal" id="descModal">
+      <div class="desc-modal-content">
+  <label for="desc-modal-textarea">Edit Description</label>
+  <textarea id="desc-modal-textarea" rows="10"></textarea>
+        <button type="button" class="save-btn" id="saveDescModal">Save</button>
+        <button type="button" class="cancel-btn" id="cancelDescModal">Cancel</button>
+      </div>
+    </div>
       <section class="new-right">
         <h2 style="text-align:center;">Rank Progression Reference</h2>
         <div id="ref-scroll" class="ref-scroll">
@@ -212,6 +222,8 @@
 
     <!-- Now build the chart (module executes after beltColors) -->
 <script type="module" src="/js/main.js"></script>
+    <!-- Modal logic for description textarea -->
+    <script src="/js/description-modal.js"></script>
   </body>
 </html>
 ody>

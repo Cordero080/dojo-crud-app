@@ -1,120 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <%- include('../partials/head') %>
-</head>
-<body class="page-edit">
-  <!-- Global navigation bar -->
-  <%- include('../partials/nav') %>
+  <head>
+    <%- include('../partials/head') %>
+  </head>
+  <body class="page-edit">
+    <%- include('../partials/nav') %>
 
-  <!-- Form Navigation Arrows - using your existing CSS -->
-  <% if (typeof prevId !== 'undefined' && prevId) { %>
-    <a class="nav-arrow nav-prev" 
-       href="/forms/<%= prevId %>/edit" 
-       aria-label="Previous form" 
-       title="Previous form">&lsaquo;</a>
-  <% } %>
+    <% /* Prev/Next only when provided by the route */ %>
+    <% if (typeof prevId !== 'undefined' && prevId) { %>
+      <a id="nav-prev" class="nav-arrow nav-prev"
+         href="/forms/<%= prevId %>/edit"
+         aria-label="Previous form"
+         title="Previous form">&lsaquo;</a>
+    <% } %>
+    <% if (typeof nextId !== 'undefined' && nextId) { %>
+      <a id="nav-next" class="nav-arrow nav-next"
+         href="/forms/<%= nextId %>/edit"
+         aria-label="Next form"
+         title="Next form">&rsaquo;</a>
+    <% } %>
 
-  <% if (typeof nextId !== 'undefined' && nextId) { %>
-    <a class="nav-arrow nav-next" 
-       href="/forms/<%= nextId %>/edit" 
-       aria-label="Next form" 
-       title="Next form">&rsaquo;</a>
-  <% } %>
-
-  <div class="container">
     <h1><%= title %></h1>
 
-    <!-- Error banner -->
     <% if (typeof error !== 'undefined' && error) { %>
       <p class="error"><%= error %></p>
     <% } %>
 
-    <!-- Form guard -->
     <% if (!form) { %>
       <p class="error">Form not found.</p>
       <%- include('../partials/footer') %>
     </body>
-    </html>
+</html>
     <% } else { %>
-
-    <!-- Main edit form -->
     <div class="edit-form-center">
-      <form action="/forms/<%= form._id %>?_method=PUT" method="POST">
-        
-        <!-- Form Name -->
+      <form action="/forms/<%= form._id %>?_method=PUT" method="POST" autocomplete="off">
         <label for="name">Form Name:</label>
-        <input type="text" id="name" name="name" value="<%= form.name %>" required />
-        <% if (errors && errors.name) { %>
-          <small class="error"><%= errors.name %></small>
-        <% } %>
+        <input id="name" name="name" required value="<%= form.name %>"/>
+        <% if (errors && errors.name) { %><small class="error"><%= errors.name %></small><% } %>
 
-        <!-- Rank Type -->
         <label for="rankType">Rank Type:</label>
         <select id="rankType" name="rankType" required>
-          <option value="Kyu" <%= form.rankType === 'Kyu' ? 'selected' : '' %>>Kyu/Level</option>
-          <option value="Dan" <%= form.rankType === 'Dan' ? 'selected' : '' %>>Dan/Degree</option>
+          <option value="Kyu" <%= form.rankType==='Kyu' ? 'selected' : '' %>>Kyu/Level</option>
+          <option value="Dan" <%= form.rankType==='Dan' ? 'selected' : '' %>>Dan/Degree</option>
         </select>
-        <% if (errors && errors.rankType) { %>
-          <small class="error"><%= errors.rankType %></small>
-        <% } %>
+        <% if (errors && errors.rankType) { %><small class="error"><%= errors.rankType %></small><% } %>
 
-        <!-- Rank Number -->
         <label for="rankNumber">Rank Number:</label>
-        <input type="number" id="rankNumber" name="rankNumber" min="1" value="<%= form.rankNumber %>" required />
-        <% if (errors && errors.rankNumber) { %>
-          <small class="error"><%= errors.rankNumber %></small>
-        <% } %>
+        <input id="rankNumber" name="rankNumber" type="number" min="1" required value="<%= form.rankNumber %>"/>
+        <% if (errors && errors.rankNumber) { %><small class="error"><%= errors.rankNumber %></small><% } %>
 
-        <!-- Belt Color -->
         <label for="beltColor">Belt Color:</label>
-        <input type="text" id="beltColor" name="beltColor" value="<%= form.beltColor || '' %>" />
+        <input id="beltColor" name="beltColor" value="<%= form.beltColor || '' %>"/>
 
-        <!-- Category -->
         <label for="category">Category:</label>
         <select id="category" name="category">
-          <option value="Kata" <%= form.category === 'Kata' ? 'selected' : '' %>>Kata</option>
-          <option value="Bunkai" <%= form.category === 'Bunkai' ? 'selected' : '' %>>Bunkai</option>
-          <option value="Kumite" <%= form.category === 'Kumite' ? 'selected' : '' %>>Kumite</option>
-          <option value="Weapon" <%= form.category === 'Weapon' ? 'selected' : '' %>>Weapon</option>
-          <option value="Other" <%= form.category === 'Other' ? 'selected' : '' %>>Other</option>
+          <option value="Kata"   <%= form.category==='Kata'   ? 'selected' : '' %>>Kata</option>
+          <option value="Bunkai" <%= form.category==='Bunkai' ? 'selected' : '' %>>Bunkai</option>
+          <option value="Kumite" <%= form.category==='Kumite' ? 'selected' : '' %>>Kumite</option>
+          <option value="Weapon" <%= form.category==='Weapon' ? 'selected' : '' %>>Weapon</option>
+          <option value="Other"  <%= form.category==='Other'  ? 'selected' : '' %>>Other</option>
         </select>
-        <% if (errors && errors.category) { %>
-          <small class="error"><%= errors.category %></small>
-        <% } %>
+        <% if (errors && errors.category) { %><small class="error"><%= errors.category %></small><% } %>
 
-        <!-- Description -->
-        <label for="description">Description:</label>
+        <label for="description-edit">Description:</label>
         <textarea id="description-edit" name="description"><%= form.description || '' %></textarea>
 
-        <!-- Reference URL -->
         <label for="referenceUrl">Reference URL:</label>
-        <input type="url" id="referenceUrl" name="referenceUrl" value="<%= form.referenceUrl || '' %>" />
-        <% if (errors && errors.referenceUrl) { %>
-          <small class="error"><%= errors.referenceUrl %></small>
-        <% } %>
+        <input id="referenceUrl" name="referenceUrl" type="url" value="<%= form.referenceUrl || '' %>"/>
+        <% if (errors && errors.referenceUrl) { %><small class="error"><%= errors.referenceUrl %></small><% } %>
 
-        <!-- Learned checkbox -->
         <label style="display:inline-flex;align-items:center;gap:8px;">
-          <input type="checkbox" name="learned" <%= form.learned ? 'checked' : '' %> />
+          <input type="checkbox" name="learned" class="futuristic-checkbox" <%= form.learned ? 'checked' : '' %> />
           <span>Learned</span>
         </label>
 
-        <!-- View Form button -->
         <p>
           <a href="/forms/<%= form._id %>" class="view-form">
             <button type="button" class="create-form-btn">View Form</button>
           </a>
         </p>
 
-        <!-- Submit button -->
         <button class="create-form-btn" type="submit">Save Changes</button>
       </form>
     </div>
 
-    <% } %>
-  </div>
-
-  <%- include('../partials/footer') %>
-</body>
+    <%- include('../partials/footer') %>
+  </body>
 </html>
+    <% } %>

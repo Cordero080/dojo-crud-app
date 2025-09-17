@@ -1,0 +1,97 @@
+/* Description Model Styles - description.css */
+.desc-modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0);
+  box-shadow: 0 0 80px 12px #0cb6e544, 0 0 0 2px #0cb6e5a0 inset;
+  backdrop-filter: blur(12px) saturate(180%);
+  align-items: center;
+  justify-content: center;
+}
+.desc-modal-content {
+  margin: auto;
+  max-width: 1100px;
+  width: 98vw;
+  background: linear-gradient(120deg, rgba(35, 34, 58, 0.006) 60%, rgba(12,182,229,0.18) 100%);
+  backdrop-filter: blur(12px) saturate(180%) brightness(1.18);
+  box-shadow: 0 0 80px 12px #0cb6e544, 0 0 0 2px #0cb6e5a0 inset;
+  border-radius: 5px;
+  box-shadow: 0 8px 32px #0cb6e544, 0 0 0 2px #0cb6e5a0 inset;
+  padding: 36px 28px 32px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid rgba(44,182,255,0.18);
+  position: relative;
+}
+.desc-modal-content label {
+  color: #fff;
+  font-size: 1.22em;
+  margin-bottom: 14px;
+  letter-spacing: 1.5px;
+  text-shadow: 0 2px 8px #0cb6e544;
+}
+.desc-modal-content textarea {
+  width: 100%;
+  min-height: 480px;
+  font-size: 1.18em;
+  padding: 1em;
+  border-radius: 10px;
+  border: 1.5px solid #0cb6e5;
+  background: rgba(255,255,255,0.03);
+  color: #fff;
+  box-shadow: 0 2px 8px #0cb6e544, 0 0 0 2px #0cb6e5a0 inset;
+  outline: none;
+  transition: box-shadow 0.2s, border 0.2s;
+  backdrop-filter: blur(12px) saturate(180%) brightness(1.22);
+}
+.desc-modal-content textarea:focus {
+  border-color: #00eaff;
+  box-shadow: 0 4px 16px #0cb6e599, 0 0 0 2px #00eaff inset;
+}
+.desc-modal-content button {
+  margin-top: 18px;
+  padding: 0.7em 2.2em;
+  font-size: 1.1em;
+  border-radius: 8px;
+  background: linear-gradient(90deg,rgba(12,182,229,0.32) 0%,rgba(113,75,190,0.22) 100%);
+  backdrop-filter: blur(4px) brightness(1.18);
+  box-shadow: 0 0 24px 2px #0cb6e544, 0 0 0 2px #0cb6e5a0 inset;
+  color: #fff;
+  border: none;
+  box-shadow: 0 2px 8px #0cb6e544;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.desc-modal-content button:hover {
+  background: linear-gradient(90deg,rgba(113,75,190,0.32) 0%,rgba(12,182,229,0.22) 100%);
+  box-shadow: 0 4px 16px #0cb6e544;
+}
+
+.desc-modal-content button.scramble {
+  position: relative;
+}
+.desc-modal-content button.scramble .scramble-text {
+  display: inline-block;
+  transition: color 0.2s;
+}
+}
+.desc-modal-content .cancel-btn {
+  margin-top: 8px;
+  padding: 0.5em 1.5em;
+  font-size: 1em;
+  border-radius: 8px;
+  
+  color: #0cb6e5;
+  border: 1.5px solid #0cb6e5;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+}
+.desc-modal-content .cancel-btn:hover {
+  background: #0cb6e5;
+  color: #23223a;
+  border: 1.5px solid #714bbe;
+}
