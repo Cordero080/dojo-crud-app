@@ -91,7 +91,6 @@
 }
 
 
-
 /* KYU/DAN tables side-by-side */
 .req-grid{
   display:grid;
@@ -175,3 +174,112 @@
   background-color:rgba(255,255,255,0.6);
 }
 .ref-scroll{ scrollbar-width:thin; scrollbar-color:rgba(255,255,255,0.4) transparent; }
+
+/* ====== DAN gold stripes on black chips ====== */
+:root{
+  /* tweak these if you want */
+  --stripe-w: 5px;              /* stripe width */
+  --stripe-gap: 4px;            /* gap between stripes */
+  --stripe-inset: 6px;          /* padding from right edge */
+  --stripe-h: 80%;              /* stripe height relative to chip */
+  --gold-stripe: linear-gradient(
+    180deg,
+    #7a5c22 0%,
+    #d9b650 35%,
+    #fff1a8 50%,
+    #d9b650 65%,
+    #7a5c22 100%
+  );
+}
+
+.belt-chip { position: relative; overflow: hidden; }
+.belt-chip.chip-black { background: var(--belt-black); }
+
+/* helper shorthands */
+.belt-chip[class*="dan-"]{
+  background-repeat: no-repeat;
+}
+
+/* One layer per stripe (1..8). Positions are from the RIGHT edge */
+.belt-chip.dan-1 {
+  background-image: var(--gold-stripe);
+  background-size: var(--stripe-w) var(--stripe-h);
+  background-position: right var(--stripe-inset) center;
+}
+
+.belt-chip.dan-2 {
+  background-image: var(--gold-stripe), var(--gold-stripe);
+  background-size: var(--stripe-w) var(--stripe-h), var(--stripe-w) var(--stripe-h);
+  background-position:
+    right var(--stripe-inset) center,
+    right calc(var(--stripe-inset) + var(--stripe-w) + var(--stripe-gap)) center;
+}
+
+.belt-chip.dan-3 {
+  background-image: var(--gold-stripe), var(--gold-stripe), var(--gold-stripe);
+  background-size: var(--stripe-w) var(--stripe-h), var(--stripe-w) var(--stripe-h), var(--stripe-w) var(--stripe-h);
+  background-position:
+    right var(--stripe-inset) center,
+    right calc(var(--stripe-inset) + (var(--stripe-w) + var(--stripe-gap)) * 1) center,
+    right calc(var(--stripe-inset) + (var(--stripe-w) + var(--stripe-gap)) * 2) center;
+}
+
+.belt-chip.dan-4 {
+  background-image: var(--gold-stripe), var(--gold-stripe), var(--gold-stripe), var(--gold-stripe);
+  background-size: var(--stripe-w) var(--stripe-h), var(--stripe-w) var(--stripe-h), var(--stripe-w) var(--stripe-h), var(--stripe-w) var(--stripe-h);
+  background-position:
+    right var(--stripe-inset) center,
+    right calc(var(--stripe-inset) + (var(--stripe-w) + var(--stripe-gap)) * 1) center,
+    right calc(var(--stripe-inset) + (var(--stripe-w) + var(--stripe-gap)) * 2) center,
+    right calc(var(--stripe-inset) + (var(--stripe-w) + var(--stripe-gap)) * 3) center;
+}
+
+.belt-chip.dan-5 {
+  background-image: var(--gold-stripe), var(--gold-stripe), var(--gold-stripe), var(--gold-stripe), var(--gold-stripe);
+  background-size: var(--stripe-w) var(--stripe-h), var(--stripe-w) var(--stripe-h), var(--stripe-w) var(--stripe-h), var(--stripe-w) var(--stripe-h), var(--stripe-w) var(--stripe-h);
+  background-position:
+    right var(--stripe-inset) center,
+    right calc(var(--stripe-inset) + (var(--stripe-w) + var(--stripe-gap)) * 1) center,
+    right calc(var(--stripe-inset) + (var(--stripe-w) + var(--stripe-gap)) * 2) center,
+    right calc(var(--stripe-inset) + (var(--stripe-w) + var(--stripe-gap)) * 3) center,
+    right calc(var(--stripe-inset) + (var(--stripe-w) + var(--stripe-gap)) * 4) center;
+}
+
+.belt-chip.dan-6 {
+  background-image: var(--gold-stripe), var(--gold-stripe), var(--gold-stripe), var(--gold-stripe), var(--gold-stripe), var(--gold-stripe);
+  background-size: var(--stripe-w) var(--stripe-h), var(--stripe-w) var(--stripe-h), var(--stripe-w) var(--stripe-h), var(--stripe-w) var(--stripe-h), var(--stripe-w) var(--stripe-h), var(--stripe-w) var(--stripe-h);
+  background-position:
+    right var(--stripe-inset) center,
+    right calc(var(--stripe-inset) + (var(--stripe-w) + var(--stripe-gap)) * 1) center,
+    right calc(var(--stripe-inset) + (var(--stripe-w) + var(--stripe-gap)) * 2) center,
+    right calc(var(--stripe-inset) + (var(--stripe-w) + var(--stripe-gap)) * 3) center,
+    right calc(var(--stripe-inset) + (var(--stripe-w) + var(--stripe-gap)) * 4) center,
+    right calc(var(--stripe-inset) + (var(--stripe-w) + var(--stripe-gap)) * 5) center;
+}
+
+.belt-chip.dan-7 {
+  background-image: var(--gold-stripe), var(--gold-stripe), var(--gold-stripe), var(--gold-stripe), var(--gold-stripe), var(--gold-stripe), var(--gold-stripe);
+  background-size: var(--stripe-w) var(--stripe-h), var(--stripe-w) var(--stripe-h), var(--stripe-w) var(--stripe-h), var(--stripe-w) var(--stripe-h), var(--stripe-w) var(--stripe-h), var(--stripe-w) var(--stripe-h), var(--stripe-w) var(--stripe-h);
+  background-position:
+    right var(--stripe-inset) center,
+    right calc(var(--stripe-inset) + (var(--stripe-w) + var(--stripe-gap)) * 1) center,
+    right calc(var(--stripe-inset) + (var(--stripe-w) + var(--stripe-gap)) * 2) center,
+    right calc(var(--stripe-inset) + (var(--stripe-w) + var(--stripe-gap)) * 3) center,
+    right calc(var(--stripe-inset) + (var(--stripe-w) + var(--stripe-gap)) * 4) center,
+    right calc(var(--stripe-inset) + (var(--stripe-w) + var(--stripe-gap)) * 5) center,
+    right calc(var(--stripe-inset) + (var(--stripe-w) + var(--stripe-gap)) * 6) center;
+}
+
+.belt-chip.dan-8 {
+  background-image: var(--gold-stripe), var(--gold-stripe), var(--gold-stripe), var(--gold-stripe), var(--gold-stripe), var(--gold-stripe), var(--gold-stripe), var(--gold-stripe);
+  background-size: var(--stripe-w) var(--stripe-h), var(--stripe-w) var(--stripe-h), var(--stripe-w) var(--stripe-h), var(--stripe-w) var(--stripe-h), var(--stripe-w) var(--stripe-h), var(--stripe-w) var(--stripe-h), var(--stripe-w) var(--stripe-h), var(--stripe-w) var(--stripe-h);
+  background-position:
+    right var(--stripe-inset) center,
+    right calc(var(--stripe-inset) + (var(--stripe-w) + var(--stripe-gap)) * 1) center,
+    right calc(var(--stripe-inset) + (var(--stripe-w) + var(--stripe-gap)) * 2) center,
+    right calc(var(--stripe-inset) + (var(--stripe-w) + var(--stripe-gap)) * 3) center,
+    right calc(var(--stripe-inset) + (var(--stripe-w) + var(--stripe-gap)) * 4) center,
+    right calc(var(--stripe-inset) + (var(--stripe-w) + var(--stripe-gap)) * 5) center,
+    right calc(var(--stripe-inset) + (var(--stripe-w) + var(--stripe-gap)) * 6) center,
+    right calc(var(--stripe-inset) + (var(--stripe-w) + var(--stripe-gap)) * 7) center;
+}

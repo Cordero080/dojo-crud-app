@@ -9,7 +9,6 @@
 
   <%- include('partials/nav') %>
 
-
   <body class="page-new">
     <h1 class="h1-new"><%= title %></h1>
 
@@ -169,13 +168,17 @@
             <div>
               <h3>Dan Requirements (Forms)</h3>
               <table class="req-table">
-                <thead><tr><th>Degree</th><th>Forms</th></tr></thead>
+                <!-- Belt column shows a black chip with N gold stripes (class: dan-N) -->
+                <thead><tr><th>Degree</th><th>Belt</th><th>Forms</th></tr></thead>
                 <tbody>
                   <% Object.keys(danRequirements || {})
                        .sort((a,b)=>Number(a)-Number(b))
                        .forEach(n => { %>
                     <tr>
                       <td><strong>DAN <%= n %></strong></td>
+                      <td>
+                        <span class="belt-chip <%= (danChipMap || {})[n] || 'chip-black' %> dan-<%= n %>"></span>
+                      </td>
                       <td>
                         <ul class="req-list">
                           <% (danRequirements[n] || []).forEach(item => { %>
@@ -220,6 +223,5 @@
     </script>
 
     <script src="/js/scroll-combo.js"></script>
-    
   </body>
 </html>

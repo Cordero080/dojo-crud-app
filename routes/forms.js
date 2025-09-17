@@ -138,22 +138,26 @@ async function computePrevNext(ownerId, currentId) {
     nextId: idx >= 0 && idx < list.length - 1 ? list[idx + 1]._id : null,
   };
 }
-
 // CREATE FORM: Show new form page
-// Middleware: requireAuth (from server.js sessions + req-scoped locals)
+// Middleware: requireAuth (sessions set in server.js; req-scoped locals)
 router.get("/forms/new", requireAuth, async (req, res) => {
+  const ownerId = req.session.user?._id;
+  // All DAN degrees use a black chip
+  const danChipMap = Object.fromEntries(Array.from({ length: 8 }, (_, i) => [i + 1, "chip-black"]));
+
   try {
-    const data = await getNewPageData(req.session.user._id);
-    res.render("new", {
+    const data = await getNewPageData(ownerId); // should return kyuRequirements, danRequirements, kyuChipMap, chartLabels, etc.
+    return res.render("new", {
       title: "Add New Martial Arts Form",
       error: null,
       errors: {},
       formData: {},
+      danChipMap,         // <-- add DAN chips
       ...data,
     });
   } catch (e) {
     console.error("GET /forms/new error:", e);
-    res.render("new", {
+    return res.status(500).render("new", {
       title: "Add New Martial Arts Form",
       error: "Failed to load reference data.",
       errors: {},
@@ -165,32 +169,54 @@ router.get("/forms/new", requireAuth, async (req, res) => {
       danRequirements: {},
       kyuChipMap: {},
       learnedNamesLower: [],
+      danChipMap,        // <-- still provide chips on error
     });
   }
 });
 
 // CREATE FORM: Process form submission
-// Middleware: requireAuth, express.urlencoded (body parser), methodOverride
+// Middleware: requireAuth, express.urlencoded (body parser), method-override
 router.post("/forms", requireAuth, async (req, res, next) => {
   const ownerId = req.session.user?._id;
- // re-render form page when errors occur, peresvers user input so user doesnt have retype
-  const renderNew = async ({ error = null, errors = {}, formData = req.body, status = 400 } = {}) => {
+
+  // Re-render helper: preserves user input so they don’t have to retype
+  const renderNew = async ({
+    error = null,
+    errors = {},
+    formData = req.body,
+    status = 400,
+  } = {}) => {
     const data = await getNewPageData(ownerId);
+    const danChipMap = Object.fromEntries(Array.from({ length: 8 }, (_, i) => [i + 1, "chip-black"]));
     return res.status(status).render("new", {
       title: "Add New Martial Arts Form",
-      error, errors, formData, ...data,
+      error,
+      errors,
+      formData,
+      danChipMap,       // <-- ensure DAN chips on re-render
+      ...data,
     });
   };
 
-  try { //pulls all for feilds out of req.body with default values
-    const { name = "", rankType, rankNumber, beltColor = "", category = "Kata", 
-            description = "", referenceUrl = "", learned } = req.body;
-// Building the document
+  try {
+    // Pull all fields from req.body with sensible defaults
+    const {
+      name = "",
+      rankType,
+      rankNumber,
+      beltColor = "",
+      category = "Kata",
+      description = "",
+      referenceUrl = "",
+      learned,
+    } = req.body;
+
+    // Build the document
     const doc = {
-      owner: ownerId, //security attached to login
+      owner: ownerId,                       // tie to logged-in user
       name: name.trim(),
       rankType,
-      rankNumber: Number(rankNumber), //converty string to #
+      rankNumber: Number(rankNumber),       // convert string → number
       beltColor: normalizeBeltColor(beltColor),
       category: normalizeCategory(category),
       description: String(description ?? ""),
@@ -198,26 +224,33 @@ router.post("/forms", requireAuth, async (req, res, next) => {
       learned: learned === "on",
     };
 
+    // Basic numeric validation
     if (!Number.isFinite(doc.rankNumber)) {
       return renderNew({ errors: { rankNumber: "Rank number must be a valid number" } });
     }
-// DUPLICATE prevention
+
+    // Duplicate prevention
     const exists = await Form.exists({
-      owner: ownerId, name: doc.name, rankType: doc.rankType, 
-      rankNumber: doc.rankNumber, deletedAt: null,
+      owner: ownerId,
+      name: doc.name,
+      rankType: doc.rankType,
+      rankNumber: doc.rankNumber,
+      deletedAt: null,
     });
     if (exists) {
       return renderNew({ error: "That form already exists for this rank." });
     }
-  // SUCCESS PATH
+
+    // SUCCESS
     await Form.create(doc);
-    res.redirect("/forms");
+    return res.redirect("/forms");
   } catch (err) {
     if (err?.code === 11000) return renderNew({ error: "That form already exists for this rank." });
     if (err?.name === "ValidationError") return renderNew({ errors: formatErrors(err) });
-    next(err);
+    return next(err);
   }
 });
+
 
 // READ FORMS: Show all user's forms
 // Middleware: sessions, req-scoped locals (currentUser available)
