@@ -24,7 +24,7 @@ app.set("views", path.join(__dirname, "views")); // 6. Set template directory lo
 app.locals.owner = "Pablo C."; // 7. Available in all EJS templates as <%= owner %>
 app.locals.startYear = 2024;
 app.locals.year = new Date().getFullYear();
-app.locals.cssVersion = "2.10"; // 8. Cache buster - increment to force CSS reload
+app.locals.cssVersion = "2.11"; // 8. Cache buster - increment to force CSS reload
 
 // SECURITY & PERFORMANCE
 app.disable("x-powered-by"); // 9. Remove "X-Powered-By: Express" header for security
