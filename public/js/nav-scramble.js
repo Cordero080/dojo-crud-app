@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
           clearInterval(scrambleInterval);
           link.textContent = original;
         }
-      }, 35);
+      }, 20); // this contr
     });
     link.addEventListener("mouseleave", () => {
       clearInterval(scrambleInterval);
