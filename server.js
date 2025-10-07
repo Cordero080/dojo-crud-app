@@ -109,7 +109,7 @@ app.use((err, req, res, next) => {
 // SERVER STARTUP
 connectDB() // 25. Connect to MongoDB first
   .then(() => {
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`)); // 26. Start HTTP server
+  app.listen(PORT); // 26. Start HTTP server
   })
   .catch((err) => {
     console.error("Failed to connect to database:", err);

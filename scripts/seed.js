@@ -92,7 +92,7 @@ async function run() {
 
   /* 2) Start clean for THIS user so the seed is repeatable */
   await Form.deleteMany({ owner: user._id });
-  console.log("🗑️  Cleared this user's forms. Seeding full syllabus…");
+    // Removed console.log statement
 
   /* 3) Build the canonical dataset */
   const D = [];
@@ -241,12 +241,7 @@ async function run() {
     deletedAt: null,
   });
 
-  console.log(`✅ Full seed complete for ${DEMO_EMAIL}. Alive: ${aliveCount}`);
-  console.log(
-    `👉 Log in as ${DEMO_EMAIL} / ${DEMO_PASSWORD}${
-      MARK_LEARNED ? " (all marked learned)" : ""
-    }`
-  );
+    // Removed console.log statements
 
   process.exit(0);
 }
