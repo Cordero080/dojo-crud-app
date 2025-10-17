@@ -35,7 +35,7 @@
  */
 
 require("dotenv").config();
-const bcrypt = require("bcryptjs");     // easier to install than native "bcrypt"
+const bcrypt = require("bcryptjs"); // easier to install than native "bcrypt"
 const connectDB = require("../db");
 const Form = require("../models/Form");
 const User = require("../models/User");
@@ -66,15 +66,15 @@ function normalizeCategory(category) {
  */
 function add(owner, rankType, rankNumber, beltColor, category, name) {
   return {
-    owner,                                     // <ObjectId> the demo user's _id
-    name,                                      // "Seipai Kata", etc.
-    rankType,                                  // "Kyu" | "Dan"
-    rankNumber,                                // Number
-    category: normalizeCategory(category),     // enum-safe string
+    owner, // <ObjectId> the demo user's _id
+    name, // "Seipai Kata", etc.
+    rankType, // "Kyu" | "Dan"
+    rankNumber, // Number
+    category: normalizeCategory(category), // enum-safe string
     beltColor: (beltColor || "").toLowerCase() || undefined,
     description: "",
     referenceUrl: undefined,
-    learned: MARK_LEARNED,                     // flip globally via env
+    learned: MARK_LEARNED, // flip globally via env
   };
 }
 
@@ -92,7 +92,7 @@ async function run() {
 
   /* 2) Start clean for THIS user so the seed is repeatable */
   await Form.deleteMany({ owner: user._id });
-    // Removed console.log statement
+  // Removed console.log statement
 
   /* 3) Build the canonical dataset */
   const D = [];
@@ -145,7 +145,14 @@ async function run() {
   // 7th KYU (white)
   D.push(add(user._id, "Kyu", 7, "orange", "Kata", "Geikisai #2 Kata"));
   D.push(
-    add(user._id, "Kyu", 7, "orange", "Bunkai", "Geikisai #2 Bunkai (both sides)")
+    add(
+      user._id,
+      "Kyu",
+      7,
+      "orange",
+      "Bunkai",
+      "Geikisai #2 Bunkai (both sides)"
+    )
   );
   D.push(add(user._id, "Kyu", 7, "orange", "Kiso Kumite", "Kiso Kumite #2"));
 
@@ -155,7 +162,14 @@ async function run() {
     D.push(add(user._id, "Kyu", 6, "green", "Kata", n))
   );
   D.push(
-    add(user._id, "Kyu", 6, "green", "Bunkai", "Geikisai #3 Bunkai (both sides)")
+    add(
+      user._id,
+      "Kyu",
+      6,
+      "green",
+      "Bunkai",
+      "Geikisai #3 Bunkai (both sides)"
+    )
   );
   D.push(add(user._id, "Kyu", 6, "green", "Kiso Kumite", "Kiso Kumite #3"));
 
@@ -179,7 +193,9 @@ async function run() {
   // 2nd KYU (brown)
   D.push(add(user._id, "Kyu", 2, "brown", "Bunkai", "Kakuha Bunkai"));
   D.push(add(user._id, "Kyu", 2, "brown", "Kata", "Seisan Kata"));
-  D.push(add(user._id, "Kyu", 2, "brown", "Weapon", "Bo Kata #1 - Chi Hon NoKun"));
+  D.push(
+    add(user._id, "Kyu", 2, "brown", "Weapon", "Bo Kata #1 - Chi Hon NoKun")
+  );
 
   // 1st KYU (black per legend)
   D.push(add(user._id, "Kyu", 1, "black", "Bunkai", "Seisan Bunkai"));
@@ -198,28 +214,36 @@ async function run() {
 
   // 2nd DAN
   D.push(add(user._id, "Dan", 2, "black", "Kata", "Shisochin Kata"));
-  D.push(add(user._id, "Dan", 2, "black", "Kiso Kumite", "Shisochin Kai Sai Kumite"));
+  D.push(
+    add(user._id, "Dan", 2, "black", "Kiso Kumite", "Shisochin Kai Sai Kumite")
+  );
   ["Sagakawa No Kun", "Tonfa Kata"].forEach((n) =>
     D.push(add(user._id, "Dan", 2, "black", "Weapon", n))
   );
 
   // 3rd DAN
   D.push(add(user._id, "Dan", 3, "black", "Kata", "Sanseiru Kata"));
-  D.push(add(user._id, "Dan", 3, "black", "Kiso Kumite", "Sanseiru Kai Sai Kumite"));
+  D.push(
+    add(user._id, "Dan", 3, "black", "Kiso Kumite", "Sanseiru Kai Sai Kumite")
+  );
   ["Shushi No Kun", "Nunchaku Kata"].forEach((n) =>
     D.push(add(user._id, "Dan", 3, "black", "Weapon", n))
   );
 
   // 4th DAN
   D.push(add(user._id, "Dan", 4, "black", "Kata", "Kururunfa Kata"));
-  D.push(add(user._id, "Dan", 4, "black", "Kiso Kumite", "Kururunfa Kai Sai Kumite"));
+  D.push(
+    add(user._id, "Dan", 4, "black", "Kiso Kumite", "Kururunfa Kai Sai Kumite")
+  );
   ["Tsuken No Kun", "Kama Kata"].forEach((n) =>
     D.push(add(user._id, "Dan", 4, "black", "Weapon", n))
   );
 
   // 5th DAN
   D.push(add(user._id, "Dan", 5, "black", "Kata", "Pichurin Kata"));
-  D.push(add(user._id, "Dan", 5, "black", "Kiso Kumite", "Peichurin Kai Sai Kumite"));
+  D.push(
+    add(user._id, "Dan", 5, "black", "Kiso Kumite", "Peichurin Kai Sai Kumite")
+  );
   D.push(add(user._id, "Dan", 5, "black", "Weapon", "Nunti-Bo Kata"));
 
   // 6th DAN
@@ -229,9 +253,11 @@ async function run() {
   D.push(add(user._id, "Dan", 7, "black", "Kata", "Hakatsuru Kata Dai"));
 
   // 8th DAN
-  ["Kin Gai Ryu Kakaho Kata", "Kin Gai Ryu #1 Kata", "Kin Gai Ryu #2 Kata"].forEach(
-    (n) => D.push(add(user._id, "Dan", 8, "black", "Kata", n))
-  );
+  [
+    "Kin Gai Ryu Kakaho Kata",
+    "Kin Gai Ryu #1 Kata",
+    "Kin Gai Ryu #2 Kata",
+  ].forEach((n) => D.push(add(user._id, "Dan", 8, "black", "Kata", n)));
   D.push(add(user._id, "Dan", 8, "black", "Weapon", "Knife Kata"));
 
   /* 4) Insert and report */
@@ -241,7 +267,7 @@ async function run() {
     deletedAt: null,
   });
 
-    // Removed console.log statements
+  // Removed console.log statements
 
   process.exit(0);
 }
