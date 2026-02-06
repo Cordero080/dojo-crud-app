@@ -139,6 +139,10 @@ select#rank-type, select#rank-type option {
   font-display: swap;
 }
 
+html { 
+  font-size: 62.5%; /* 10px base for easy rem calculations */
+}
+
 html, body { 
   overflow-x: hidden;
 }
@@ -148,6 +152,28 @@ body {
   flex-direction: column;
   justify-content: center;
   min-height: 100vh;
+  font-size: 1.6rem; /* 16px default */
+}
+
+/* Desktop: scale down to match 60% zoom design (60% of 62.5% ≈ 37.5%) */
+@media (min-width: 769px) {
+  html {
+    font-size: 37.5%; /* Scales everything to ~60% */
+  }
+}
+
+/* Tablet: slightly larger */
+@media (max-width: 768px) {
+  html {
+    font-size: 50%;
+  }
+}
+
+/* Mobile: comfortable reading size */
+@media (max-width: 480px) {
+  html {
+    font-size: 56%;
+  }
 }
 
 body {
