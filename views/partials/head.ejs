@@ -1,10 +1,27 @@
 <!-- views/partials/head.ejs -->
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title><%= title || "Dojo App" %></title>
+
+<!-- PWA Manifest -->
+<link rel="manifest" href="/manifest.json" />
+
+<!-- iOS PWA Support -->
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="DOJO" />
+<link rel="apple-touch-icon" href="/images/icons/icon-152x152.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/images/icons/icon-192x192.png" />
+
+<!-- Theme Color -->
+<meta name="theme-color" content="#e94560" />
+<meta name="msapplication-TileColor" content="#1a1a2e" />
 
 <link rel="stylesheet" href="/css/main.css?v=<%= cssVersion %>" />
 <link rel="stylesheet" href="/css/nav-arrows.css?v=<%= cssVersion %>" />
 
 <!-- Self-hosted Chart.js (CSP-safe) -->
 <script src="/js/vendor/chart.min.js"></script>
+
+<!-- Service Worker Registration -->
+<script src="/js/register-sw.js"></script>

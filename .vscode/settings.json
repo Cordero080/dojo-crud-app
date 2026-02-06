@@ -3,28 +3,13 @@
     "sideBar.foreground": "#4851a89e",
     "sideBarTitle.foreground": "#ff50a2",
     "terminal.background": "#29068288",
-    "titleBar.activeForeground": "#13def9",
-    "titleBar.activeBackground": "#051334e6",
-    "titleBar.inactiveForeground": "#e7d4ea",
-    "titleBar.inactiveBackground": "#115eed",
     "statusBar.noFolderForeground": "#F2E9E4",
     "statusBar.noFolderBackground": "#22223B",
     "terminal.integrated.fontFamily": "Orbitron",
     "terminalCursor.foreground": "#d50e7896",
     "terminalCursor.background": "#06f682",
-    "titleBar.border": "#7410d8a6",
-    "activityBar.background": "#07034d40",
     "activityBar.border": "#03093c",
-    "activityBar.foreground": "#d719d1",
-    "activityBar.inactiveForeground": "#c20a8bc5",
     "activityBar.activeBorder": "#9d24f4b6",
-    "activityBar.activeBackground": "#260952ce",
-    "statusBar.border": "#ee0ae7e0",
-    "statusBarItem.hoverBackground": "#0b0011",
-    "statusBarItem.remoteBackground": "#0d96eb",
-    "statusBar.debuggingForeground": "#F2E9E4",
-    "activityBarBadge.foreground": "#F2E9E4",
-    "activityBarBadge.background": "#d261ff",
     "[Tara*]": {
       "statusBar.debuggingBackground": "#80CBC433",
       "statusBar.debuggingForeground": "#80CBC4",
@@ -78,8 +63,6 @@
       "button.foreground": "#000000",
       "statusBarItem.remoteHoverForeground": "#000000"
     },
-    "statusBarItem.remoteForeground": "#FF6F61",
-    "statusBar.debuggingBackground": "#FF6F61",
     "terminal.foreground": "#6604a8"
   }
 }
