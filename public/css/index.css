@@ -1,0 +1,90 @@
+/* =====================================================
+   INDEX.CSS - Index/List page styles (page-index-2)
+   ===================================================== */
+
+#index-body {
+  margin-top: 20vh;
+}
+
+.page-index-2 {
+  margin-top: 2vh;
+  margin: 8px auto;
+  padding: 32px 24px 40px 24px;
+  max-width: 1000px;
+  line-height: 1;
+}
+
+.page-index-2 h1,
+.page-index-2 h2 { margin-bottom: 18px; }
+
+.page-index-2 h1 {
+  color: #ffffffca;
+  filter: brightness(1.2) drop-shadow(0 0 8px #0cb6e592);
+}
+
+.page-index-2 table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 9px;
+  margin-bottom: 24px;
+}
+
+.page-index-2 th, .page-index-2 td {
+  padding: 12px 18px;
+  text-align: left;
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+.page-index-2 tr {
+  background:
+    repeating-linear-gradient(135deg, #23272ab8 0 40px, #181a1b44 40px 10px),
+    linear-gradient(120deg, #0062ff 0%, #ffb300 40%, #8c00ff 70%, #00c3ff 100%);
+  background-blend-mode: multiply;
+  color: #fefeffaa;
+  border-radius: 8px;
+  min-height: 33.2px;
+  transition: transform 0.7s cubic-bezier(.25,1.5,.5,1), box-shadow 0.7s cubic-bezier(.25,1.5,.5,1);
+}
+
+.page-index-2 tr:hover {
+  transform: scale(1.06) translateZ(0) perspective(700px) rotateX(2deg);
+  box-shadow: 0 12px 32px 0 #00c3ff66, 0 2px 24px 0 #8c00ff44, 0 0 0 2px #ffb30044;
+  z-index: 2;
+  filter: brightness(1.18) saturate(1.12);
+}
+
+.page-index-2 tr:hover td, .page-index-2 tr:hover th {
+  color: #fefeff;
+  filter: brightness(1.18) saturate(1.12);
+}
+
+.page-index-2 tr:not(:last-child) { border-bottom: 1px solid #e0e0e0; }
+
+/* Learned row highlight */
+.forms-table tr.is-learned {
+  background-image:
+    linear-gradient(120deg, #00eaff 0%, #8c00ff 40%, #ffb300 70%, #00c3ff 100%),
+    linear-gradient(to bottom, rgba(0, 255, 200, 0.22), rgba(255, 245, 179, 0.22));
+  filter: saturate(1.5) brightness(.08);
+}
+
+.forms-table tr.is-learned td:first-child {
+  border-left: 4px solid #023439;
+}
+
+/* Combo list learned styles */
+.combo-list li.is-learned { opacity: 0.6; }
+.combo-list li .checkmark { margin-right: 6px; font-weight: 600; }
+
+@media (prefers-color-scheme: dark) {
+  .forms-table tr.is-learned {
+    background-image:
+      linear-gradient(640deg, rgba(30, 85, 119, 0.576) 0%, #2d044e 40%, #715105 70%, #24457b 100%),
+      linear-gradient(to bottom, rgba(78, 205, 196, 0.28), rgba(78, 205, 196, 0.18));
+    filter: saturate(1.7) brightness(1.12);
+  }
+  .forms-table tr.is-learned td:first-child {
+    border-left-color: #1b1f57;
+  }
+}

@@ -139,10 +139,6 @@ select#rank-type, select#rank-type option {
   font-display: swap;
 }
 
-html { 
-  font-size: 62.5%; /* 10px base for easy rem calculations */
-}
-
 html, body { 
   overflow-x: hidden;
 }
@@ -152,28 +148,6 @@ body {
   flex-direction: column;
   justify-content: center;
   min-height: 100vh;
-  font-size: 1.6rem; /* 16px default */
-}
-
-/* Desktop: scale down to match 60% zoom design (60% of 62.5% ≈ 37.5%) */
-@media (min-width: 769px) {
-  html {
-    font-size: 37.5%; /* Scales everything to ~60% */
-  }
-}
-
-/* Tablet: slightly larger */
-@media (max-width: 768px) {
-  html {
-    font-size: 50%;
-  }
-}
-
-/* Mobile: comfortable reading size */
-@media (max-width: 480px) {
-  html {
-    font-size: 56%;
-  }
 }
 
 body {
@@ -898,7 +872,7 @@ button:hover { background-color: #005f99; }
   justify-content: center;
   align-items: center;
   gap: 5rem;
-  padding: 18px 0 48px 0;
+  padding: 10px 0 20px 0;
   background: rgba(30, 40, 60, 0.18);
   backdrop-filter: blur(12px) saturate(180%);
   border-bottom: 1.5px solid rgba(44, 182, 255, 0.18);
@@ -940,15 +914,15 @@ button:hover { background-color: #005f99; }
 .logout-bottom {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 10px;
   text-align: center;
 }
 form:has(> button.linklike),
 form:has(> button.logout-btn) {
-  background: none !important;
-  padding: 0 !important;
-  max-width: none !important;
-  box-shadow: none !important;
+  background: none ;
+  padding: 0 ;
+  max-width: none ;
+  box-shadow: none ;
 }
 .linklike { all: unset; color: #0cb6e5; cursor: pointer; padding: 0 6px; }
 .linklike:hover { filter: brightness(1.5); color: #00eaff; transform: none !important; }

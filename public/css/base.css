@@ -1,0 +1,669 @@
+/* =====================================================
+   BASE.CSS - Shared styles across all pages
+   Fonts, Resets, Typography, Forms, Buttons, Scrollbars
+   ===================================================== */
+
+/* =====================
+   FONTS
+====================== */
+@font-face {
+  font-family: "Formation Sans";
+  src: url("/fonts/FormationSans-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Formation Sans Regular';
+  src: url('/fonts/Formation%20Sans%20Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* =====================
+   RESETS
+====================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'Formation Sans Regular', sans-serif;
+  line-height: 1.5;
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #f8f8f8ad;
+  letter-spacing: 1px;
+  background:
+    radial-gradient(ellipse at 120% 90%, rgba(6, 159, 236, 0.18) 80%, transparent 70%),
+    radial-gradient(ellipse at 80% 70%, rgba(3, 196, 255, 0.686) 0%, transparent 70%),
+    linear-gradient(135deg, #030b11 0%, #3a3d40 30%, #1c0432 60%, #0a3c5e 80%, #083f34cb 10%);
+  background-blend-mode: lighten, lighten, normal;
+}
+
+/* =====================
+   SHARED PAGE CONTAINERS
+====================== */
+.home, .page-show, .page-new, .page-edit, .page-index-2 {
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+  background:
+    radial-gradient(ellipse at 120% 90%, rgba(6, 159, 236, 0.18) 80%, transparent 70%),
+    radial-gradient(ellipse at 80% 70%, rgba(3, 196, 255, 0.532) 0%, transparent 70%),
+    linear-gradient(135deg, #030b11 0%, #3a3d40 30%, #1c0432 60%, #0a3c5e 80%, #083f34cb 10%);
+  background-blend-mode: lighten, lighten, normal;
+}
+
+body > .home,
+body > .page-show,
+body > .page-new,
+body > .page-edit,
+body > .page-index-2 {
+  margin-top: 35vh;
+}
+
+/* =====================
+   TYPOGRAPHY
+====================== */
+html {
+  font-size: 75%;
+}
+
+h1, .h1-new, .goju-ryu-logo {
+  font-family: 'Formation Sans Regular', Arial, sans-serif;
+}
+
+h1 {
+  font-size: 2.13rem;
+  margin-bottom: 15px;
+  margin-right: 20px;
+  letter-spacing: 0.12em;
+}
+
+a,
+a:visited,
+a:active,
+a:focus {
+  padding-left: 6px;
+  color: #0cb6e5;
+  text-decoration: none !important;
+  transition: filter 0.2s, transform 0.2s, color 0.2s;
+  display: inline;
+}
+
+a:hover {
+  filter: brightness(1.5);
+  transform: scale(1.08);
+  color: #00eaff;
+  text-decoration: none !important;
+}
+
+.error { color: red; margin-bottom: 10px; }
+
+/* =====================
+   FORMS & INPUTS
+====================== */
+form {
+  max-width: 620px;
+  padding: 15px;
+  border-radius: 6px;
+  font-size: 1.50rem;
+  background:
+    radial-gradient(ellipse at 120% 90%, rgba(6, 159, 236, 0.18) 80%, transparent 70%),
+    radial-gradient(ellipse at 80% 70%, rgba(3, 196, 255, 0.532) 0%, transparent 70%),
+    linear-gradient(135deg, #030b11 0%, #3a3d40 30%, #1c0432 60%, #0a3c5e 80%, #083f34cb 10%);
+  background-blend-mode: lighten, lighten, normal;
+  color: #fefeffaa;
+  letter-spacing: 1.5px;
+  border-radius: 15px;
+}
+
+label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+form label:hover {
+  filter: brightness(1.7);
+  cursor: pointer;
+  color: #fff !important;
+}
+
+input,
+select,
+textarea,
+button {
+  width: 100%;
+  padding: 6px;
+  margin-top: 5px;
+  font-size: 1rem;
+  font-family: 'Formation Sans Regular', Arial, sans-serif;
+  color: rgba(246, 241, 241, 0.808);
+  background-color: rgba(0, 0, 0, 0.578);
+  letter-spacing: 2px;
+  border: 1px solid #53bafab9;
+  border-radius: 4px;
+}
+
+textarea {
+  min-height: 160px;
+  resize: vertical;
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+
+select {
+  min-height: 48px;
+  font-size: 1.15rem;
+}
+
+#description-select {
+  min-height: initial;
+  font-size: 1rem;
+}
+
+#rankType, #rankType option {
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  line-height: 1.6;
+  vertical-align: middle;
+}
+
+select#rank-type, select#rank-type option {
+  padding-top: 2px;
+  padding-bottom: 2px;
+  line-height: 1.4;
+}
+
+#name {
+  background: linear-gradient(120deg, #23272a 0%, #0cb6e565 100%);
+  color: #fefeff;
+  border: 1.5px solid #0cb6e5;
+  border-radius: 8px;
+  font-size: 1.15rem;
+  min-height: 48px;
+  box-shadow: 0 2px 8px #0cb6e544;
+  padding: 0.5em 1.2em;
+  transition: background 0.3s, box-shadow 0.3s, border 0.2s;
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+#name:focus {
+  outline: 2px solid #00eaff;
+  outline-offset: 2px;
+  background: linear-gradient(120deg, #0cb6e5 0%, #23272a 100%);
+}
+
+.form .btn,
+.form button.logout-btn {
+  width: 100%;
+  max-width: 320px;
+  min-width: 120px;
+  margin: 0 auto;
+  display: block;
+}
+
+/* =====================
+   BUTTONS
+====================== */
+button {
+  margin-top: 4px;
+  padding-top: .5px;
+  padding-bottom: 8px;
+  background-color: #007acc4f;
+  color: #ffffffc7;
+  font-family: 'Formation Sans Regular', Arial, sans-serif;
+  border: none;
+  display: flex;
+  font-size: 1.5rem;
+  line-height: normal;
+  align-items: center;
+  height: auto;
+  justify-content: center;
+  cursor: pointer;
+}
+
+button:hover { background-color: #005f99; }
+
+button[type="submit"] {
+  background: linear-gradient(60deg, #0a81d19e 50%, #0cb6e5a9 0%, #066b97b6 100%);
+  color: #ffffffd5;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.4rem;
+  display: flex;
+  width: 550px;
+  margin: auto;
+  align-items: center;
+  align-content: center;
+  margin-bottom: 1rem;
+  font-weight: 400;
+  box-shadow: 0 2px 8px #0cb6e544, 0 1px 0 #8c00ff22 inset;
+  cursor: pointer;
+  transition: transform 0.5s cubic-bezier(.25,1.5,.5,1), box-shadow 0.5s cubic-bezier(.25,1.5,.5,1);
+  will-change: transform, box-shadow;
+}
+
+button[type="submit"]:hover {
+  transform: perspective(600px) translateZ(0px) scaleX(.52) scaleY(1.08);
+  box-shadow: 0 12px 32px #0cb6e5cc, 0 2px 0 #8c00ff66 inset;
+  filter: brightness(1.18) saturate(1.08);
+}
+
+.view-form button {
+  background: linear-gradient(60deg, #0a81d19e 50%, #0cb6e5a9 0%, #066b97b6 100%);
+  color: #ffffffd5;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  margin-bottom: .3rem;
+  font-weight: 400;
+  box-shadow: 0 2px 8px #0cb6e544, 0 1px 0 #8c00ff22 inset;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s, filter 0.3s;
+}
+
+.view-form .create-form-btn {
+  min-width: 350px;
+  padding-left: 1.8em;
+  padding-right: 1.8em;
+}
+
+.action-btn {
+  background: linear-gradient(90deg, #0cb6e5c1 0%, #714bbeb6 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.6em 3.2em;
+  font-size: 1rem;
+  font-weight: 500;
+  box-shadow: 0 2px 8px #0cb6e544, 0 1px 0 #8c00ff22 inset;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s, filter 0.3s;
+  width: 180px;
+  min-width: 180px;
+  max-width: 180px;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.action-btn:hover {
+  transform: scale(1.04) perspective(600px) translateY(-2px);
+  box-shadow: 0 6px 18px #0cb6e599, 0 6px 0 #8c00ff22 inset;
+  filter: brightness(1.08) saturate(1.05);
+}
+
+.action-btn.danger {
+  background: linear-gradient(90deg, #ff5b57 0%, #d7263d 100%);
+  box-shadow: 0 2px 10px rgba(215, 38, 61, 0.35), 0 1px 0 #8c00ff22 inset;
+}
+
+.action-btn.danger:hover {
+  filter: brightness(1.08) saturate(1.05);
+  box-shadow: 0 8px 24px rgba(215, 38, 61, 0.45), 0 6px 0 #8c00ff22 inset;
+}
+
+/* Combo toggle button */
+.combo-toggle {
+  background: #23272a;
+  color: #fefeff;
+  border: 2px solid #0cb6e5;
+  border-radius: 0;
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  box-shadow: 0 2px 8px #0cb6e544;
+  cursor: pointer;
+  transition: none;
+}
+
+.combo-toggle:hover,
+.combo-toggle:focus {
+  background: #0cb6e5;
+  color: #fff;
+  box-shadow: 0 4px 16px #0cb6e544;
+  border-color: #714bbe;
+  transform: none !important;
+}
+
+.combo .combo-toggle {
+  position: static !important;
+  width: 38px !important;
+  height: 38px !important;
+  border-radius: 0 !important;
+  background: #23272a !important;
+  color: #fefeff !important;
+  border: 2px solid #0cb6e5 !important;
+  box-shadow: 0 2px 8px #0cb6e544 !important;
+  font-size: 1.35rem !important;
+  transition: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.combo .combo-toggle:hover,
+.combo .combo-toggle:focus {
+  background: #0cb6e5 !important;
+  color: #fff !important;
+  box-shadow: 0 4px 16px #0cb6e544 !important;
+  border-color: #714bbe !important;
+  transform: none !important;
+}
+
+@supports (clip-path: polygon(0 0)) {
+  button,
+  .signup-link,
+  .signin-link {
+    display: inline-block;
+    box-sizing: border-box;
+    border-radius: 0 !important;
+    --cut: 14px;
+    clip-path: polygon(var(--cut) 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%, 0 var(--cut));
+  }
+}
+
+/* =====================
+   LOGOUT BUTTON
+====================== */
+.logout-btn {
+  font-size: 1rem;
+  padding: 0.5rem 1.2rem;
+  max-width: 112px;
+  background: linear-gradient( #1c043213 20%);
+  color: #4dbffdbd;
+  border: 1.5px solid #0cb6e56a;
+  border-radius: 8px;
+  box-shadow:
+    0 2px 8px rgba(12,182,229,0.18),
+    0 6px 24px rgba(28,4,50,0.18),
+    0 1.5px 0 #1c0432 inset;
+  transition: background 0.2s, box-shadow 0.2s, border 0.2s;
+  cursor: pointer;
+  font-family: 'Formation Sans Regular', Arial, sans-serif;
+  font-weight: 500;
+  width: auto;
+  display: inline-block;
+}
+
+.logout-btn:hover {
+  background: linear-gradient(10deg, #0cb6e5 0%, #1c0432 0%, #0cb6e5a7 100%);
+  box-shadow:
+    0 4px 16px #0cb6e544,
+    0 10px 32px #1c043244,
+    0 2px 0 #0cb6e569 inset;
+  border-bottom: 3px solid #0cb6e5;
+}
+
+.logout-corner {
+  position: absolute;
+  top: 10px;
+  right: 32px;
+  z-index: 1000;
+}
+
+.logout-other {
+  position: static;
+  margin-top: 11px;
+  right: auto;
+  z-index: 1000;
+}
+
+.logout-bottom {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.linklike { all: unset; color: #0cb6e5; cursor: pointer; padding: 0 6px; }
+.linklike:hover { filter: brightness(1.5); color: #00eaff; transform: none !important; }
+
+form:has(> button.linklike),
+form:has(> button.logout-btn) {
+  background: none !important;
+  padding: 0 !important;
+  max-width: none !important;
+  box-shadow: none !important;
+}
+
+/* =====================
+   SCROLLBARS
+====================== */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background: linear-gradient(135deg, #0cb6e5 0%, #1c0432 100%);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #e69f06 0%, #0a3c5e 100%);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: linear-gradient(135deg, #23272a 0%, #3a3d40 100%);
+}
+
+/* =====================
+   UTILITIES
+====================== */
+.option { color: black; }
+.site-footer { margin-top: auto; }
+
+/* =====================
+   MEDIA QUERIES
+====================== */
+
+/* Large Desktop (1200px+) - default styles apply */
+
+/* Desktop (1024px - 1199px) */
+@media (max-width: 1199px) {
+  .home,
+  .page-show,
+  .page-new,
+  .page-edit,
+  .page-index-2 {
+    max-width: 90%;
+  }
+  
+  form {
+    max-width: 90%;
+  }
+}
+
+/* Tablet (768px - 1023px) */
+@media (max-width: 1023px) {
+  body > .home,
+  body > .page-show,
+  body > .page-new,
+  body > .page-edit,
+  body > .page-index-2 {
+    margin-top: 25vh;
+  }
+  
+  .home,
+  .page-show,
+  .page-new,
+  .page-edit,
+  .page-index-2 {
+    margin: 20px auto;
+    padding: 20px 16px;
+    max-width: 95%;
+  }
+  
+  form {
+    max-width: 100%;
+    padding: 12px;
+  }
+  
+  h1 {
+    font-size: 1.8rem;
+  }
+  
+  .h1-new {
+    font-size: 1.4rem;
+  }
+}
+
+/* Mobile (481px - 767px) */
+@media (max-width: 767px) {
+  body > .home,
+  body > .page-show,
+  body > .page-new,
+  body > .page-edit,
+  body > .page-index-2 {
+    margin-top: 80px;
+  }
+  
+  .home,
+  .page-show,
+  .page-new,
+  .page-edit,
+  .page-index-2 {
+    margin: 16px auto;
+    padding: 16px 12px;
+    max-width: 100%;
+    border-radius: 20px;
+  }
+  
+  form {
+    max-width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+  }
+  
+  h1 {
+    font-size: 1.5rem;
+    margin-bottom: 12px;
+  }
+  
+  .h1-new {
+    font-size: 1.2rem;
+    padding-top: 20px;
+    margin-left: 5%;
+  }
+  
+  .page-index-2 table,
+  .page-show table {
+    font-size: 0.9rem;
+    width: 100%;
+    overflow-x: auto;
+    display: block;
+  }
+
+  .page-index-2 th, .page-index-2 td,
+  .page-show th, .page-show td {
+    padding: 8px 10px;
+    font-size: 0.9rem;
+  }
+  
+  input, select, textarea {
+    font-size: 0.95rem;
+    min-height: 38px;
+  }
+  
+  button {
+    font-size: 1rem;
+  }
+  
+  button[type="submit"] {
+    width: 100%;
+    max-width: 100%;
+    font-size: 1rem;
+  }
+  
+  .logout-btn {
+    font-size: 0.85rem;
+    padding: 0.4rem 1rem;
+  }
+}
+
+/* Small Mobile (max-width: 480px) */
+@media (max-width: 480px) {
+  body > .home,
+  body > .page-show,
+  body > .page-new,
+  body > .page-edit,
+  body > .page-index-2 {
+    margin-top: 70px;
+  }
+  
+  .home,
+  .page-show,
+  .page-new,
+  .page-edit,
+  .page-index-2 {
+    margin: 8px;
+    padding: 12px 8px;
+    border-radius: 16px;
+  }
+  
+  form {
+    padding: 8px;
+    font-size: 0.95rem;
+  }
+  
+  h1 {
+    font-size: 1.3rem;
+    padding-top: 12px;
+  }
+  
+  .h1-new {
+    font-size: 1.1rem;
+    padding-top: 16px;
+  }
+  
+  #name { max-height: 160px; }
+  
+  .page-index-2 th, .page-index-2 td,
+  .page-show th, .page-show td {
+    padding: 6px 6px;
+    font-size: 0.85rem;
+  }
+  
+  input, select, textarea {
+    font-size: 0.9rem;
+    min-height: 36px;
+    padding: 0.3em 0.6em;
+  }
+  
+  button {
+    font-size: 0.95rem;
+  }
+  
+  .logout-btn {
+    font-size: 0.8rem;
+    padding: 0.35rem 0.8rem;
+  }
+  
+  .description-block {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 12px;
+    font-size: 1.1em;
+  }
+}

@@ -1,25 +1,25 @@
 <!-- views/partials/nav.ejs -->
 <nav class="nav">
-  <% if (!currentUser) { %>
-  <a href="/auth/login">Log in</a>
-  <a href="/auth/signup">Sign up</a>
-  <% } else { %>
-  <a href="/">Home</a>
-  <a href="/forms">All Forms</a>
-  <a class="btn" href="/forms/new">Create New Form</a>
-  <a href="/forms/trash">Trash</a>
-  <% if (typeof hideLogout === 'undefined' || !hideLogout) { %> <% if (typeof
-  isHome !== 'undefined' && isHome) { %>
-  <div class="logout-corner">
-    <form action="/auth/logout" method="POST" style="display: inline">
-      <button type="submit" class="btn">Logout</button>
-    </form>
+  <button type="button" class="hamburger" id="hamburger-btn" aria-label="Toggle menu" aria-expanded="false">
+    <span class="hamburger-line"></span>
+    <span class="hamburger-line"></span>
+    <span class="hamburger-line"></span>
+  </button>
+  <div class="nav-links" id="nav-links">
+    <% if (!currentUser) { %>
+    <a href="/auth/login">Log in</a>
+    <a href="/auth/signup">Sign up</a>
+    <% } else { %>
+    <a href="/">Home</a>
+    <a href="/forms">All Forms</a>
+    <a class="btn" href="/forms/new">Create New Form</a>
+    <a href="/forms/trash">Trash</a>
+    <% if (typeof hideLogout === 'undefined' || !hideLogout) { %>
+    <div class="logout-corner">
+      <form action="/auth/logout" method="POST" style="display: inline">
+        <button type="submit" class="logout-btn">Logout</button>
+      </form>
+    </div>
+    <% } %> <% } %>
   </div>
-  <% } else { %>
-  <div class="logout-corner logout-other">
-    <form action="/auth/logout" method="POST" style="display: inline">
-      <button type="submit" class="btn">Logout</button>
-    </form>
-  </div>
-  <% } %> <% } %> <% } %>
 </nav>

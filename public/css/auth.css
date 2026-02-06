@@ -1,0 +1,114 @@
+/* =====================================================
+   AUTH.CSS - Login/Signup page styles
+   ===================================================== */
+
+.page-auth .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+}
+
+.signup-title {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.signup-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 400px;
+  background: #0a010150;
+  padding: .7rem 1.5rem;
+  border-radius: 50px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+  color: #222;
+}
+
+.signup-container .form {
+  width: 110%;
+  display: flex;
+  border-radius: 40px;
+  flex-direction: column;
+  gap: 2.2rem;
+}
+
+.signup-container label {
+  font-weight: 500;
+  margin-bottom: 0.2rem;
+}
+
+.signup-container input[type="email"],
+.signup-container input[type="password"] {
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  width: 100%;
+}
+
+.signup-container button[type="submit"] {
+  padding: 0.7rem;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #1c0432 0%, #0cb6e5 60%, #ffb300 100%);
+  background-size: 200% 100%;
+  background-position: 0% 0;
+  color: #fff;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  box-shadow: 0 4px 18px rgba(44, 182, 255, 0.18), 0 1.5px 0 #1c0432 inset;
+  transition: background 0.2s, background-position 0.5s cubic-bezier(.25,1.5,.5,1), transform 0.18s cubic-bezier(.25,1.5,.5,1), box-shadow 0.18s;
+}
+
+.signup-container button[type="submit"]:hover {
+  background-position: 100% 0;
+  transform: scale(1.08) perspective(600px) rotateY(-8deg);
+  box-shadow: 0 8px 32px rgba(44, 182, 255, 0.28), 0 2px 0 #0cb6e5 inset;
+}
+
+.signup-below {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.signup-link,
+.signin-link {
+  margin-top: 4px;
+  padding-top: .5px;
+  padding-bottom: 8px;
+  background-color: #007acc4f;
+  color: #ffffffb3;
+  font-family: 'Formation Sans Regular', Arial, sans-serif;
+  border: none;
+  display: flex;
+  font-size: 1.5rem;
+  line-height: normal;
+  align-items: center;
+  height: auto;
+  justify-content: center;
+  cursor: pointer;
+}
+
+@supports (clip-path: polygon(0 0)) {
+  .signup-container {
+    --cut: 14px;
+    clip-path: polygon(var(--cut) 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%, 0 var(--cut));
+    border-radius: 0 !important;
+  }
+  .signup-container .form {
+    --cut: 14px;
+    clip-path: polygon(var(--cut) 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%, 0 var(--cut));
+    border-radius: 0 !important;
+  }
+  .signup-container input[type="email"],
+  .signup-container input[type="password"] {
+    --cut: 14px;
+    clip-path: polygon(var(--cut) 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%, 0 var(--cut));
+    border-radius: 0 !important;
+  }
+}

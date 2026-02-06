@@ -1,0 +1,102 @@
+/* =====================================================
+   EDIT.CSS - Edit page styles
+   ===================================================== */
+
+.page-edit {
+  margin: 36px auto;
+  max-width: 810px;
+}
+
+body > .page-edit {
+  margin: 36px auto;
+  max-width: 810px !important;
+  width: 90%;
+}
+
+.page-edit h1 {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 100px;
+  color: #ffffffd2;
+  filter: brightness(1.2) drop-shadow(0 0 8px #0cb6e56a);
+}
+
+.page-edit .view-form {
+  display: block;
+  text-align: center;
+  margin: 0 auto 18px auto;
+}
+
+.page-edit .form-id {
+  display: block;
+  text-align: center;
+  margin: 0 auto 12px auto;
+  font-weight: 500;
+}
+
+.page-edit p {
+  text-align: center;
+}
+
+.page-edit p a[href^="/forms/"] {
+  display: inline-block;
+  margin: 0 auto 18px auto;
+}
+
+.page-edit a[href^="/forms/"][href$=""] {
+  display: block;
+  text-align: left;
+  margin: 0 auto 18px auto;
+}
+
+.edit-form-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 280px;
+  padding-bottom: 45px;
+}
+
+.edit-form-center form {
+  max-width: 600px;
+  width: 100%;
+}
+
+.edit-actions-row {
+  display: flex;
+  flex-direction: row;
+  gap: 36px;
+  justify-content: center;
+  margin-top: 18px;
+}
+
+/* Edit page inputs */
+.page-edit input,
+.page-edit textarea,
+.page-edit select {
+  background: linear-gradient(120deg, #23272a 0%, #0cb6e555 100%);
+  color: #fefeffc9;
+  border: 1.5px solid #0cb6e5;
+  border-radius: 8px;
+  font-size: 1.21rem;
+  min-width: 220px;
+  min-height: 48px;
+  height: 48px;
+  box-shadow: 0 2px 8px #0cb6e544;
+  padding: 0.2em 1.2em 0.2em 1.2em;
+  transition: background 0.3s, box-shadow 0.3s, border 0.2s;
+}
+
+.page-edit input:focus,
+.page-edit textarea:focus,
+.page-edit select:focus {
+  outline: 2px solid #00eaff;
+  outline-offset: 2px;
+  background: linear-gradient(120deg, #0cb6e56f 0%, #23272a 100%);
+}
+
+#description-edit {
+  min-height: 200px;
+}

@@ -1,0 +1,139 @@
+/* =====================================================
+   COMPONENTS.CSS - Reusable UI components
+   Checkbox, Delete Dialog, Description Modal
+   ===================================================== */
+
+/* =====================
+   FUTURISTIC CHECKBOX
+====================== */
+.futuristic-checkbox {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  width: 12px !important;
+  height: 50px !important;
+  min-width: 12px !important;
+  min-height: 50px !important;
+  max-width: 12px !important;
+  max-height: 50px !important;
+  border-radius: 30px !important;
+  border: 3px solid #0cb6e5 !important;
+  background: rgba(255,255,255,0.08) !important;
+  box-shadow: 0 2px 8px #0cb6e57a, 0 0 0 2px #0cb6e5a0 inset !important;
+  transition: border 0.2s, box-shadow 0.2s, background 0.3s !important;
+  position: relative !important;
+  cursor: pointer !important;
+  outline: none !important;
+  vertical-align: middle !important;
+  display: inline-block !important;
+}
+
+.futuristic-checkbox:hover {
+  border-color: #53bafab9 !important;
+  background: rgba(12,182,229,0.18) !important;
+  box-shadow: 0 4px 16px #0cb6e544 !important;
+}
+
+.futuristic-checkbox:checked {
+  background: linear-gradient(135deg, #53bafab9 60%, #0cb6e5ac 100%) !important;
+  border-color: #53bafab9 !important;
+}
+
+.futuristic-checkbox:checked::after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 3px;
+  top: 1px;
+  width: 4px;
+  height: 7px;
+  border-right: 2px solid #ffffffa6;
+  border-bottom: 2px solid #fff;
+  transform: rotate(35deg);
+  box-shadow: 0 0 8px #0cb6e5a0, 0 0 2px #53bafa8e;
+}
+
+/* =====================
+   DELETE OVERLAY/DIALOG
+====================== */
+.delete-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(10, 20, 40, 0.72);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-dialog {
+  background: linear-gradient(135deg, #23223a 60%, #ffb300 100%);
+  color: #fff;
+  padding: 2em 2.5em;
+  border-radius: 16px;
+  box-shadow: 0 4px 32px #000a;
+  min-width: 280px;
+  text-align: center;
+  border: 2px solid #00c3ff;
+}
+
+.delete-dialog-title {
+  font-size: 1.25em;
+  margin-bottom: 1.2em;
+  color: #ffb300;
+  letter-spacing: 1px;
+}
+
+.delete-btn {
+  background: linear-gradient(90deg, #ffb300 0%, #d7263d 100%);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5em 1.5em;
+  margin-right: 1em;
+  font-size: 1.5em;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px #0002;
+}
+
+.delete-btn:hover {
+  background: linear-gradient(90deg, #d7263d 0%, #ffb300 100%);
+  box-shadow: 0 4px 16px #d7263d44;
+}
+
+.cancel-btn {
+  background: #23223a;
+  color: #00c3ff;
+  border: 1.5px solid #00c3ff;
+  border-radius: 6px;
+  padding: 0.5em 1.5em;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+}
+
+.cancel-btn:hover {
+  background: #00c3ff;
+  color: #23223a;
+  border: 1.5px solid #ffb300;
+}
+
+/* =====================
+   DESCRIPTION MODAL
+====================== */
+.desc-modal-content #desc-modal-textarea {
+  resize: both !important;
+  width: 100% !important;
+  min-height: 220px !important;
+  box-sizing: border-box !important;
+}
+
+#desc-modal-textarea {
+  resize: both !important;
+  width: 100% !important;
+  min-height: 220px !important;
+  box-sizing: border-box;
+}

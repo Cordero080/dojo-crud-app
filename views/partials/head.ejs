@@ -27,11 +27,24 @@
 <meta name="theme-color" content="#e94560" />
 <meta name="msapplication-TileColor" content="#1a1a2e" />
 
-<link rel="stylesheet" href="/css/main.css?v=<%= cssVersion %>" />
+<!-- CSS Files - Shared styles first, then page-specific -->
+<link rel="stylesheet" href="/css/base.css?v=<%= cssVersion %>" />
+<link rel="stylesheet" href="/css/nav.css?v=<%= cssVersion %>" />
+<link rel="stylesheet" href="/css/components.css?v=<%= cssVersion %>" />
+<link rel="stylesheet" href="/css/home.css?v=<%= cssVersion %>" />
+<link rel="stylesheet" href="/css/auth.css?v=<%= cssVersion %>" />
+<link rel="stylesheet" href="/css/index.css?v=<%= cssVersion %>" />
+<link rel="stylesheet" href="/css/show.css?v=<%= cssVersion %>" />
+<link rel="stylesheet" href="/css/edit.css?v=<%= cssVersion %>" />
+<link rel="stylesheet" href="/css/new.css?v=<%= cssVersion %>" />
+<link rel="stylesheet" href="/css/trash.css?v=<%= cssVersion %>" />
 <link rel="stylesheet" href="/css/nav-arrows.css?v=<%= cssVersion %>" />
 
 <!-- Self-hosted Chart.js (CSP-safe) -->
 <script src="/js/vendor/chart.min.js"></script>
+
+<!-- Hamburger Menu -->
+<script src="/js/hamburger.js"></script>
 
 <!-- Service Worker Registration -->
 <script src="/js/register-sw.js"></script>

@@ -1,0 +1,95 @@
+/* =====================================================
+   HOME.CSS - Home page styles
+   ===================================================== */
+
+.home {
+  margin: 135px auto;
+  padding: 27px 21px 33px 21px;
+  max-width: 525px;
+  min-height: 630px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
+  scrollbar-width: none;
+}
+
+.home::-webkit-scrollbar { display: none; }
+
+.home h1 {
+  font-size: 2.25rem;
+  margin-bottom: 16px;
+}
+
+.home p {
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+}
+
+/* Home page logo */
+.logo {
+  display: block;
+  max-width: 150px;
+  height: auto;
+  transition: transform 3s cubic-bezier(.25,1.5,.5,1), filter 0.3s;
+  animation: logo-outline-glow 3s infinite alternate;
+}
+
+.logo:hover { transform: rotateZ(-180deg) scale(1.14); }
+
+@keyframes logo-outline-glow {
+  0% { filter: drop-shadow(0 0 0px #0004ff) drop-shadow(0 0 0px #00c3ff); }
+  0% { filter: drop-shadow(0 0 8px #0088ffe2) drop-shadow(0 0 1px #00b3ffcf); }
+  100% { filter: drop-shadow(0 0 0px #00fff7) drop-shadow(0 0 0px #ff00ea); }
+}
+
+/* Goju-Ryu Logo Animation */
+.goju-ryu-logo {
+  display: flex;
+  justify-content: center;
+  gap: 0.15em;
+  font-size: 2.3rem;
+  margin-top: 1.3em;
+  position: relative;
+  perspective: 1350px;
+}
+
+.goju-ryu-logo span {
+  background: linear-gradient(90deg, #e2e5e5 0%, #bfc1c2 50%, #e5e4e29b 100%);
+  background-size: 200% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  opacity: 0;
+  transform: translate3d(0,0,0) rotate3d(0,1,0,0deg) scale3d(1,1,1);
+  animation: goju-ryu-orbit 3.5s cubic-bezier(.68,-0.55,.27,1.55) forwards;
+}
+
+.goju-ryu-logo span:nth-child(1) { animation-delay: 0.1s; --orbit-x: -400px; --orbit-y: -220px; --orbit-z: 600px; --orbit-rot: 540deg; --orbit-scale: 0.4; }
+.goju-ryu-logo span:nth-child(2) { animation-delay: 0.3s; --orbit-x: 400px; --orbit-y: -220px; --orbit-z: -600px; --orbit-rot: -540deg; --orbit-scale: 0.4; }
+.goju-ryu-logo span:nth-child(3) { animation-delay: 0.5s; --orbit-x: -350px; --orbit-y: 220px; --orbit-z: -500px; --orbit-rot: 420deg; --orbit-scale: 0.5; }
+.goju-ryu-logo span:nth-child(4) { animation-delay: 0.7s; --orbit-x: 350px; --orbit-y: 220px; --orbit-z: 500px; --orbit-rot: -420deg; --orbit-scale: 0.5; }
+.goju-ryu-logo span:nth-child(5) { animation-delay: 0.9s; --orbit-x: 0px; --orbit-y: -350px; --orbit-z: 700px; --orbit-rot: 360deg; --orbit-scale: 0.3; }
+.goju-ryu-logo span:nth-child(6) { animation-delay: 1.1s; --orbit-x: -500px; --orbit-y: 0px; --orbit-z: -700px; --orbit-rot: 270deg; --orbit-scale: 0.3; }
+.goju-ryu-logo span:nth-child(7) { animation-delay: 1.3s; --orbit-x: 500px; --orbit-y: 0px; --orbit-z: 700px; --orbit-rot: -270deg; --orbit-scale: 0.3; }
+.goju-ryu-logo span:nth-child(8) { animation-delay: 1.5s; --orbit-x: 0px; --orbit-y: 350px; --orbit-z: -600px; --orbit-rot: 0deg; --orbit-scale: 0.4; }
+
+@keyframes goju-ryu-orbit {
+  0% {
+    opacity: 0;
+    transform: translate3d(var(--orbit-x,0), var(--orbit-y,0), var(--orbit-z,0)) rotate3d(0.5,1,0.2, var(--orbit-rot,0)) scale3d(var(--orbit-scale,1), var(--orbit-scale,1), 1);
+  }
+  60% {
+    opacity: 1;
+    transform: translate3d(0,0,0) rotate3d(0.5,1,0.2, 40deg) scale3d(1.1,1.1,1);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0,0,0) rotate3d(0,0,0,0deg) scale3d(1,1,1);
+  }
+}
+
+/* Home page logout button - inherits from base.css */
