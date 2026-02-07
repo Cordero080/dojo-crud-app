@@ -92,4 +92,27 @@
   }
 }
 
-/* Home page logout button - inherits from base.css */
+/* Home page logout button */
+.home .logout-btn {
+  font-size: 1.3rem;
+  padding: 0.7rem 1.6rem;
+  max-width: 150px;
+  background: linear-gradient(135deg, #1c043213 20%, transparent 80%);
+  color: #4dbffdbd;
+  border: 1.5px solid #0cb6e56a;
+  border-radius: 8px;
+  box-shadow:
+    0 2px 8px rgba(12,182,229,0.18),
+    0 6px 24px rgba(28,4,50,0.18),
+    0 1.5px 0 #1c0432 inset;
+  transition: background 0.2s, box-shadow 0.2s, border 0.2s;
+}
+
+.home .logout-btn:hover {
+  background: linear-gradient(10deg, #0cb6e5 0%, #1c0432 0%, #0cb6e5a7 100%);
+  box-shadow:
+    0 4px 16px #0cb6e544,
+    0 10px 32px #1c043244,
+    0 2px 0 #0cb6e569 inset;
+  border-bottom: 3px solid #0cb6e5;
+}
