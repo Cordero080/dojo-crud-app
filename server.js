@@ -38,7 +38,7 @@ app.use(
     maxAge: isProd ? "1d" : 0, // Cache files for 1 day in production
     immutable: false,
     etag: true,
-  })
+  }),
 );
 
 // Serve Chart.js from node_modules at /js/vendor (fixes 404/MIME errors)
@@ -48,7 +48,7 @@ app.use(
     maxAge: isProd ? "1d" : 0,
     immutable: false,
     etag: true,
-  })
+  }),
 );
 
 app.use(express.urlencoded({ extended: true })); // 13. Parse form data into req.body
@@ -75,7 +75,7 @@ app.use(
       secure: isProd, // HTTPS only in production prevents cross script attacks
       maxAge: 1000 * 60 * 60 * 24, // 1 day expiration
     },
-  })
+  }),
 );
 
 // REQUEST-SCOPED LOCALS
@@ -109,7 +109,9 @@ app.use((err, req, res, next) => {
 // SERVER STARTUP
 connectDB() // 25. Connect to MongoDB first
   .then(() => {
-    app.listen(PORT); // 26. Start HTTP server
+    app.listen(PORT, () => {
+      console.log(`🥋 Dojo App running at http://localhost:${PORT}`);
+    }); // 26. Start HTTP server
   })
   .catch((err) => {
     console.error("Failed to connect to database:", err);
